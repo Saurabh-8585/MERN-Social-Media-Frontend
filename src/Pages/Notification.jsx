@@ -1,20 +1,16 @@
 import React from 'react'
 import PostCard from '../Components/Card/PostCard'
-import CreatePost from '../Components/Card/CreatePost'
 
-const HomePage = () => {
+const Notification = () => {
     return (
-        <>
-            <div className="flex justify-center items-center flex-col">
-                <CreatePost/>
+        <div className="flex justify-center items-center flex-col">
                 <PostCard/>
                 <PostCard/>
                 <PostCard/>
                 <PostCard/>
                 <PostCard/>
             </div>
-        </>
     )
 }
 
-export default HomePage
+export default Notification

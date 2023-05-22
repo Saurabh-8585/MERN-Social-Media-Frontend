@@ -3,6 +3,23 @@
     padding: 0;
     box-sizing: border-box;
 }
-.active{
+
+.active {
     color: #9F7AEA;
+}
+
+@media (min-width: 992px) {
+    .active {
+        background-color: #9F7AEA;
+        color: white;
+        padding: 15px 0;
+        border-radius: 100px;
+    }
+
+    .active:hover {
+        color: white;
+    }
+
+   
+
 }

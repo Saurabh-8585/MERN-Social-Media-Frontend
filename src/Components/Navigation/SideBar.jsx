@@ -3,71 +3,82 @@ import { FiHome, FiHash, FiBell, FiMail, FiBookmark, FiUser } from 'react-icons/
 import { NavLink } from 'react-router-dom';
 import Navbar from './Navbar';
 
+const activeStyle = {
+    backgroundColor: "#001e39",
+    borderRadius: "9999px",
+    padding: "0.3rem",
+    width: "100%",
+    // marginBottom:
+    fontWeight: "bold",
+};
+
 const Sidebar = () => {
     return (
         <>
-          <Navbar/>
-            <nav className="fixed bottom-0 left-0 lg:fixed  lg:top-10 lg:bottom-0 lg:w-24 lg:h-full lg:flex lg:flex-col bg-white border-t border-2 w-screen ">
+            <Navbar />
+            <nav className="fixed bottom-0 left-0 lg:fixed  lg:top-10 lg:bottom-0 lg:w-1/4 lg:h-full  lg:flex lg:flex-col bg-white  border-2 w-full">
                 <ul className="flex justify-around py-2 lg:flex-col lg:justify-start lg:items-center lg:h-screen lg:gap-6 ">
-                    <li >
+                    <li className='lg:w-3/4 '>
                         <NavLink
                             exact
                             to="/"
-                            activeClassName="text-purple-500"
-                            className="text-gray-700 hover:text-purple-500 ur-500 flex flex-col md:flex-r items-center justify-center lg:mt-10"
+
+                            className="text-gray-700 hover:text-purple-500 flex  items-center  justify-between   lg:mt-10"
                         >
-                            <FiHome className='lg:text-3xl text-xl' />
-                            <span className="lg:text-md lg:mt-1 text-xs">Home</span>
+                            <span className="lg:text-xl lg:font-semibold text-start lg:mt-1 hidden lg:inline lg:ml-10 ">Home</span>
+                            <FiHome className='lg:text-3xl text-xl lg:mr-10' />
                         </NavLink>
                     </li>
-                    <li>
+                    <li className='lg:w-3/4 '>
                         <NavLink
                             to="/explore"
-                            activeClassName="text-purple-500"
-                            className="text-gray-700 hover:text-purple-500 flex flex-col items-center justify-center"
+                            // style={({ isActive }) => (isActive ? activeStyle : undefined)}
+
+                            className="text-gray-700 hover:text-purple-500 flex  items-center  justify-between  "
                         >
-                            <FiHash className='lg:text-3xl text-xl' />
-                            <span className="lg:text-md lg:mt-1 text-xs">Explore</span>
+                            <span className="lg:text-xl lg:font-semibold text-start lg:mt-1 hidden lg:inline lg:ml-10 ">Explore</span>
+                            <FiHash className='lg:text-3xl text-xl lg:mr-10' />
                         </NavLink>
                     </li>
-                    <li>
+                    <li className='lg:w-3/4 '>
                         <NavLink
                             to="/notifications"
-                            activeClassName="text-purple-500"
-                            className="text-gray-700 hover:text-purple-500 flex flex-col items-center justify-center"
+
+                            className="text-gray-700 hover:text-purple-500 flex  items-center  justify-between  "
                         >
-                            <FiBell className='lg:text-3xl text-xl' />
-                            <span className="lg:text-md lg:mt-1 text-xs">Notifications</span>
+                            <span className="lg:text-xl lg:font-semibold text-start lg:mt-1 hidden lg:inline lg:ml-10">Notifications</span>
+                            <FiBell className='lg:text-3xl text-xl lg:mr-10' />
                         </NavLink>
                     </li>
-                    <li>
+                    <li className='lg:w-3/4 '>
                         <NavLink
                             to="/messages"
-                            activeClassName="text-purple-500"
-                            className="text-gray-700 hover:text-purple-500 flex flex-col items-center justify-center"
+
+                            className="text-gray-700 hover:text-purple-500 flex  items-center  justify-between  "
                         >
-                            <FiMail className='lg:text-3xl text-xl' />
-                            <span className="lg:text-md lg:mt-1 text-xs">Messages</span>
+                            <span className="lg:text-xl lg:font-semibold text-start lg:mt-1 hidden lg:inline lg:ml-10">Messages</span>
+                            <FiMail className='lg:text-3xl text-xl lg:mr-10' />
                         </NavLink>
                     </li>
-                    <li>
+
+                    <li className='lg:w-3/4 '>
                         <NavLink
                             to="/bookmarks"
-                            activeClassName="text-purple-500"
-                            className="text-gray-700 hover:text-purple-500 flex flex-col items-center justify-center"
+
+                            className="text-gray-700 hover:text-purple-500 flex  items-center  w-full  justify-between  "
                         >
-                            <FiBookmark className='lg:text-3xl text-xl' />
-                            <span className="lg:text-md lg:mt-1 text-xs">Bookmarks</span>
+                            <span className="lg:text-xl lg:font-semibold text-start lg:mt-1 hidden lg:inline lg:ml-10 lg:text-left">Bookmarks</span>
+                            <FiBookmark className='lg:text-3xl text-xl lg:mr-10' />
                         </NavLink>
                     </li>
-                    <li>
+                    <li className='lg:w-3/4 '>
                         <NavLink
                             to="/profile"
-                            activeClassName="text-purple-500"
-                            className="text-gray-700 hover:text-purple-500 flex flex-col items-center justify-center"
+
+                            className="text-gray-700 hover:text-purple-500 flex  items-center  justify-between  "
                         >
-                            <FiUser className='lg:text-3xl text-xl' />
-                            <span className="lg:text-md lg:mt-1 text-xs">Profile</span>
+                            <span className="lg:text-xl lg:font-semibold text-start lg:mt-1 hidden lg:inline lg:ml-10">Profile</span>
+                            <FiUser className='lg:text-3xl text-xl lg:mr-10' />
                         </NavLink>
                     </li>
                 </ul>
