@@ -9,6 +9,7 @@ import Bookmark from './Pages/Bookmark';
 import Profile from './Pages/Profile';
 import Login from './Auth/Login';
 import Register from './Auth/Register';
+import ErrorPage from './Pages/ErrorPage';
 function App() {
   return (
 
@@ -16,7 +17,7 @@ function App() {
       <Router>
         <div className="flex">
           <Sidebar />
-          <div className="flex-1 lg:ml-28 mt-20 p-1">
+          <div className="flex-1 lg:ml-28 mt-20">
             <Routes>
               <Route index path="/" element={<HomePage />} />
               <Route path="/explore" element={<Explore />} />
@@ -26,6 +27,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="*  " element={<ErrorPage />} />
             </Routes>
           </div>
         </div>

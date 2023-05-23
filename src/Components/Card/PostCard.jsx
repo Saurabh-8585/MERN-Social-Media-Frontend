@@ -5,13 +5,14 @@ import { FiBookmark } from 'react-icons/fi'
 const PostCard = () => {
     return (
         <>
-            <div className="p-10 flex items-center justify-center">
+            <div className="p-5 flex items-center justify-center">
                 <div className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-800 p-4 rounded-xl border max-w-xl">
                     <div className="flex justify-between">
                         <div className="flex items-center">
                             <img
                                 className="h-11 w-11 rounded-full"
                                 src="https://res.cloudinary.com/dsxjhas6t/image/upload/v1652433208/sapphire/150_x5gbob.jpg"
+                                alt=''
                             />
                             <div className="ml-1.5 text-sm leading-tight">
                                 <span className="text-black dark:text-white font-bold block ">
@@ -31,6 +32,7 @@ const PostCard = () => {
                     <img
                         className="mt-2 rounded-2xl border border-gray-100 dark:border-gray-700"
                         src="https://pbs.twimg.com/media/EpkuplDXEAEjbFc?format=jpg&name=medium"
+                        alt=''
                     />
                     <p className="text-gray-500 dark:text-gray-400 text-base py-1 my-0.5">
                         10:05 AM · Dec 19, 2020

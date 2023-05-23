@@ -3,14 +3,7 @@ import { FiHome, FiHash, FiBell, FiMail, FiBookmark, FiUser } from 'react-icons/
 import { NavLink } from 'react-router-dom';
 import Navbar from './Navbar';
 
-const activeStyle = {
-    backgroundColor: "#001e39",
-    borderRadius: "9999px",
-    padding: "0.3rem",
-    width: "100%",
-    // marginBottom:
-    fontWeight: "bold",
-};
+
 
 const Sidebar = () => {
     return (
