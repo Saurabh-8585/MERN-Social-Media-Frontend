@@ -17,15 +17,17 @@ const Login = () => {
                         <input
                             type="text"
                             placeholder="Email"
-                            className=" bg-gray-100 rounded-lg px-7 md:px-5 py-2 focus:border border-purple-600 focus:outline-none text-black placeholder:text-gray-600 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px]"
+                            autocomplete="email"
+                            className=" bg-white border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-none text-black placeholder:text-gray-600 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px]"
                         />
                     </div>
                     <div className="">
                         <input
                             type="password"
                             placeholder="Password"
-                            className=" bg-gray-100 rounded-lg px-7 py-2 focus:border border-purple-600 focus:outline-none text-black placeholder:text-gray-600 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px]"
-                        />
+                            autocomplete="current-password"
+                            className=" bg-white border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-none text-black placeholder:text-gray-600 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px]"
+                            />  
                     </div>
                     <div className="flex space-x-2 -ml-28 md:-ml-40  lg:-ml-52">
                         <input className="" type="checkbox" id="checkbox" name="checkbox" />
@@ -37,25 +39,40 @@ const Login = () => {
                 </div>
 
                 <div className="text-center mt-7">
-                    <button className="uppercase px-24 md:px-[118px] lg:px-[140px] py-2 rounded-md text-white bg-purple-500 hover:bg-purple-600  font-medium " >
-                        login
+                    <button className="uppercase px-24 md:px-[118px] lg:px-[140px] py-2 rounded-md text-white bg-purple-500 hover:bg-purple-600  font-medium shadow-md hover:shadow-lg" >
+                        Sign In
                     </button>
                 </div>
-                <div className="flex flex-col justify-center items-center mt-5 md:mt-4 space-y-6 md:space-y-8 ">
+                <div className="flex flex-col justify-center items-center mt-5 md:mt-4 space-y-3 md:space-y-3 ">
                     <div className="text-gray-700 font-semibold"> or </div>
-                    <div className="flex gap-4">
-                        <FcGoogle
-                            name="logo-google"
-                            className=" border p-2 text-center m-auto text-5xl rounded-md shadow-sm cursor-pointer hover:shadow-md"
-                        />
-                        <FaFacebookF
-                            className=" border p-2 text-center m-auto text-5xl rounded-md shadow-sm cursor-pointer hover:shadow-md text-blue-900"
+                    <div className="flex gap-4 ">
+                        <button className="px-6 md:px-[45px] lg:px-[70px] py-2 rounded-md text-gray-500 border flex items-center gap-6 hover:shadow-md shadow-sm" >
+                            <span>
+                                <FcGoogle
+                                    name="logo-google"
+                                    className="text-3xl"
+                                />
+                            </span>
+                            <span className='font-semibold'>
+                                Sign in with Google
+                            </span>
+                        </button>
+
+                        {/* <button className=' text-center m-auto  rounded-md shadow-sm cursor-pointer hover:shadow-md  px-24 md:px-[118px] lg:px-[140px] py-2 flex justify-around items-center gap-6'>
+                            <FcGoogle
+                                name="logo-google"
+                                className="text-3xl"
                             />
+                            <span className='text-md text-gray-600 font-bold'>Sign in with Google</span>
+                        </button> */}
+                        {/* <FaFacebookF
+                            className=" border p-2 text-center m-auto text-5xl rounded-md shadow-sm cursor-pointer hover:shadow-md text-blue-900"
+                        /> */}
                     </div>
                 </div>
 
                 <div className="text-center my-6 flex flex-col">
-                    <Link 
+                    <Link
                         to='/forgot-password'
                         className="text-sm font-medium text-gray-600 hover:text-purple-500 m-1"
                     >

@@ -7,19 +7,21 @@ const ErrorPage = () => {
         <>
             <div className="flex items-center justify-center h-screen">
                 <div className="flex-col space-y-4 text-left px-6">
-                    <div className="text-7xl font-bold text-violet-700">404</div>
+                    <div className="text-7xl font-bold text-purple-500">404</div>
                     <div className="text-stone-500 font-medium">
                         Oops, you still haven't found what you lookng for?
                     </div>
                     <div className="flex space-x-4 items-center justify-start">
                         <Link to="/">
-                            <div className="bg-violet-700 px-4 py-1 text-white font-medium border-2 border-gray-400  hover:scale-105 cursor-pointer">
+                            <div className="bg-purple-500 px-4 py-2 text-white font-medium border-2   hover:scale-105 cursor-pointer rounded-lg">
                                 <AiFillHome />
                             </div>
                         </Link>
-                        <div className="text-sm font-medium text-stone-500">
-                            Back to Home Page
-                        </div>
+                        <Link to="/">
+                            <div className="text-sm font-medium text-stone-500 underline text-purple-500">
+                                Back to Home Page
+                            </div>
+                        </Link>
                     </div>
                 </div>
             </div>

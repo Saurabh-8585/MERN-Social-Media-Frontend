@@ -15,66 +15,67 @@ const Register = () => {
             <input
               type="text"
               placeholder="Full Name"
-              className="bg-gray-100 rounded-lg px-5 py-2 focus:border border-purple-600 focus:outline-none text-black placeholder:text-gray-600 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px]"
-            />
+
+              className=" bg-white border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-none text-black placeholder:text-gray-600 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px]"
+              />
           </div>
           <div className="">
             <input
               type="text"
               placeholder="Username"
-              className="bg-gray-100 rounded-lg px-5 py-2 focus:border border-purple-600 focus:outline-none text-black placeholder:text-gray-600 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px]"
-            />
+              className=" bg-white border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-none text-black placeholder:text-gray-600 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px]"
+              />
           </div>
           <div className="">
             <input
               type="text"
+              autocomplete="email"
               placeholder="Email"
-              className="bg-gray-100 rounded-lg px-5 py-2 focus:border border-purple-600 focus:outline-none text-black placeholder:text-gray-600 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px]"
-            />
+              className=" bg-white border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-none text-black placeholder:text-gray-600 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px]"
+              />
           </div>
           <div className="">
             <input
               type="password"
+              
               placeholder="Password"
-              className="bg-gray-100 rounded-lg px-5 py-2 focus:border border-purple-600 focus:outline-none text-black placeholder:text-gray-600 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px]"
-            />
+              className=" bg-white border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-none text-black placeholder:text-gray-600 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px]"
+              />
           </div>
           <div className="">
             <input
               type="password"
               placeholder="Confirm Password"
-              className="bg-gray-100 rounded-lg px-5 py-2 focus:border border-purple-600 focus:outline-none text-black placeholder:text-gray-600 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px]"
-            />
+              className=" bg-white border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-none text-black placeholder:text-gray-600 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px]"
+              />
           </div>
 
           {/* Additional fields can be added here */}
         </div>
 
         <div className="text-center mt-7">
-          <button className="uppercase px-24 md:w-72 lg:w-[340px] py-2 rounded-md text-white bg-purple-500 hover:bg-purple-600 font-medium">
+          <button className="uppercase px-[5.4rem] md:w-72 lg:w-[340px] py-2 rounded-md text-white bg-purple-500 hover:bg-purple-600 font-medium shadow-md hover:shadow-lg">
             Sign Up
           </button>
         </div>
-        <div className="flex flex-col justify-center items-center mt-5 md:mt-4 space-y-6 md:space-y-8">
+        <div className="flex flex-col justify-center items-center mt-5 md:mt-4 space-y-3 md:space-y-3">
           <div className="text-gray-700 font-semibold"> or </div>
           <div className="flex gap-4">
-            <FcGoogle
-              name="logo-google"
-              className="border p-2 text-center m-auto text-5xl rounded-md shadow-sm cursor-pointer hover:shadow-md"
-            />
-            <FaFacebookF
-              className="border p-2 text-center m-auto text-5xl rounded-md shadow-sm cursor-pointer hover:shadow-md text-blue-900"
-            />
+            <button className="px-4 md:px-[45px] lg:px-[70px] py-2 rounded-md text-gray-500 border flex items-center gap-6 hover:shadow-md shadow-sm" >
+              <span>
+                <FcGoogle
+                  name="logo-google"
+                  className="text-3xl"
+                />
+              </span>
+              <span className='font-semibold'>
+                Sign Up with Google
+              </span>
+            </button>
           </div>
         </div>
 
-        <div className="text-center my-6 flex flex-col">
-          <Link
-            to="/forgot-password"
-            className="text-sm font-medium text-gray-600 hover:text-purple-500 m-1"
-          >
-            Forgot Password?
-          </Link>
+        <div className="text-center my-5 flex flex-col">
           <Link
             to="/login"
             className="text-sm font-bold text-gray-500 hover:text-purple-500 m-1"

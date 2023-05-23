@@ -25,9 +25,9 @@ function App() {
               <Route path="/messages" element={<Message />} />
               <Route path="/bookmarks" element={<Bookmark />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="*  " element={<ErrorPage />} />
+              <Route path="/SignIn" element={<Login />} />
+              <Route path="/SignUp" element={<Register />} />
+              <Route path="*" element={<ErrorPage />} />
             </Routes>
           </div>
         </div>
