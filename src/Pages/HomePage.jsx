@@ -1,7 +1,6 @@
 import React from 'react'
 import PostCard from '../Components/Card/PostCard'
-import CreatePost from '../Components/Card/CreatePost'
-import CreateNew from '../Components/Card/CreateNew'
+import CreateNewPost from '../Components/Card/CreateNewPost'
 
 const HomePage = () => {
     return (
@@ -9,7 +8,7 @@ const HomePage = () => {
             <div className="flex justify-center items-center flex-col">
 
                 {/* <CreatePost /> */}
-                <CreateNew />
+                <CreateNewPost />
                 <PostCard />
                 <PostCard />
                 <PostCard />

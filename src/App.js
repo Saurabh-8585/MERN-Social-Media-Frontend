@@ -10,10 +10,15 @@ import Profile from './Pages/Profile';
 import Login from './Auth/Login';
 import Register from './Auth/Register';
 import ErrorPage from './Pages/ErrorPage';
+import { Toaster } from 'react-hot-toast';
 function App() {
   return (
 
     <>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
       <Router>
         <div className="flex">
           <Sidebar />
