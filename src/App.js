@@ -14,30 +14,32 @@ import { Toaster } from 'react-hot-toast';
 function App() {
   return (
 
-    <>
+    <div className=''>
       <Toaster
         position="top-center"
         reverseOrder={false}
       />
       <Router>
-        <div className="flex">
-          <Sidebar />
-          <div className="flex-1 lg:ml-28 mt-20">
-            <Routes>
-              <Route index path="/" element={<HomePage />} />
-              <Route path="/explore" element={<Explore />} />
-              <Route path="/notifications" element={<Notification />} />
-              <Route path="/messages" element={<Message />} />
-              <Route path="/bookmarks" element={<Bookmark />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/SignIn" element={<Login />} />
-              <Route path="/SignUp" element={<Register />} />
-              <Route path="*" element={<ErrorPage />} />
-            </Routes>
-          </div>
+          {/* <Suspense fallback={<LoadingSpinner />}> */}
+        <div className="flex ">
+            <Sidebar />
+            <div className="flex-1 lg:ml-28 mt-20">
+              <Routes>
+                <Route index path="/" element={<HomePage />} />
+                {/* <Route path="/explore" element={<Explore />} /> */}
+                {/* <Route path="/notifications" element={<Notification />} /> */}
+                {/* <Route path="/messages" element={<Message />} /> */}
+                {/* <Route path="/bookmarks" element={<Bookmark />} /> */}
+                {/* <Route path="/profile" element={<Profile />} /> */}
+                <Route path="/SignIn" element={<Login />} />
+                <Route path="/SignUp" element={<Register />} />
+                <Route path="*" element={<ErrorPage />} />
+              </Routes>
+            </div>
         </div>
-      </Router>
-    </>
+      {/* </Suspense> */}
+    </Router >
+    </div>
   );
 }
 
