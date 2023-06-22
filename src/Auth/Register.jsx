@@ -12,7 +12,7 @@ const Register = () => {
   const onSubmit = async (info) => {
     try {
       const data = await signUpUser({ username: info.username, email: info.email, password: info.password }).unwrap();
-      console.log(response);
+      console.log(data);
       if (data.token) {
         toast.success(data.message);
         sessionStorage.setItem('user', data.token)
@@ -22,6 +22,7 @@ const Register = () => {
         toast.error('Something went wrong, try again');
       }
     } catch (error) {
+      console.log(error);
       if (error.status === 409) {
         toast.error('User Already Exists')
       }

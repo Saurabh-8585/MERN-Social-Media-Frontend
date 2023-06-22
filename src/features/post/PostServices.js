@@ -1,45 +1,70 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-
-export const postApi = createApi({
-
-    reducerPath: 'AuthApi',
-
+export const PostApi = createApi({
+    reducerPath: 'PostApi',
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.REACT_APP_POST,
     }),
-
+    tagTypes: ['Posts'],
     endpoints: (builder) => ({
-
-        GetAllPost: builder.query({
+        getAllPosts: builder.query({
             query: () => ({
                 url: '/getposts',
-                method: 'GET'
-            })
+                method: 'GET',
+            }),
+            providesTags: ['Posts'],
         }),
 
-        CreatePost: builder.mutation({
-            query: () => ({
+        createPost: builder.mutation({
+            query: (postData) => {
+                const formData = new FormData();
+                formData.append('content', postData.content);
+                formData.append('file', postData.image);
 
-                url: '/newpost',
-                method: 'POST',
-                body: {},
-                headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem('user')}`,
-                    'Content-Type': 'multipart/form-data',
-                },
-            })
+                return {
+                    url: '/newpost',
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem('user')}`,
+                    },
+                };
+            },
+
+            invalidatesTags: ['Posts']
         }),
 
-        DeletePost: builder.mutation({
+        deletePost: builder.mutation({
             query: (postId) => ({
                 url: `/deletepost/${postId}`,
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem('user')}`,
                 },
-            })
-        })
+            }),
+            invalidatesTags: ['Posts'],
 
+        }),
+
+        editPost: builder.mutation({
+            query: (postData) => {
+                const formData = new FormData();
+                formData.append('content', postData.editedContent);
+                formData.append('file', postData.image);
+                
+                return {
+                    url: `/editpost/${postData._id}`,
+                    method: 'PUT',
+                    body: formData,
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem('user')}`,
+                    },
+                };
+            },
+
+            invalidatesTags: ['Posts']
+        }),
     }),
 });
+
+export const { useGetAllPostsQuery, useCreatePostMutation, useEditPostMutation, useDeletePostMutation, } = PostApi;

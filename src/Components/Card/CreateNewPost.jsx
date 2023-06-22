@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { MdOutlineImage, MdOutlineImageNotSupported } from 'react-icons/md';
-import { useDispatch, useSelector } from 'react-redux';
-import { createNew } from '../../features/post/postSlice';
-
+import { useCreatePostMutation } from '../../features/post/PostServices'
 const CreateNewPost = () => {
 
     const [selectedFile, setSelectedFile] = useState(null);
     const [image, setImage] = useState(null);
     const [content, setContent] = useState('');
-    const dispatch = useDispatch();
+    const [createPost, response] = useCreatePostMutation();
+    const user = sessionStorage.getItem('user');
 
-    const { user } = useSelector((state) => state.auth)
-
-   
     const handleFileSelect = (event) => {
         const file = event.target.files[0];
         const reader = new FileReader();
@@ -32,20 +28,23 @@ const CreateNewPost = () => {
 
         if (user) {
             if (content) {
-                const data = { content, image: selectedFile };
-                console.log({ data });
-                dispatch(createNew(data));
-                setContent('');
-                setImage(null);
+                try {
+                    const data = { content, image: selectedFile };
+                    console.log({ data });
+                    createPost(data);
+                    setContent('');
+                    setImage(null);
+                    toast.success('Posted successfully')
+                } catch (error) {
+                    toast.error('Something went wrong try again');
+                }
             } else {
                 toast.error('Add some text');
             }
-        }
-        else {
-            toast.error('Please login to add post')
+        } else {
+            toast.error('Please login to add a post');
         }
     };
-
 
 
 
@@ -129,7 +128,7 @@ const CreateNewPost = () => {
                     )}
                 </div>
             </div>
-           
+          
         </>
     );
 };

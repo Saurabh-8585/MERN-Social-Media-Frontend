@@ -11,12 +11,13 @@ const Login = () => {
     const onSubmit = async (info) => {
         try {
             const data = await signInUser({ email: info.email, password: info.password }).unwrap();
-            console.log(response);
+            console.log(data);
             if (data.token) {
                 toast.success(data.message);
                 sessionStorage.setItem('user', data.token)
-                // navigate('/')
+                navigate('/')
             }
+
             else {
                 toast.error('Something went wrong, try again');
             }
