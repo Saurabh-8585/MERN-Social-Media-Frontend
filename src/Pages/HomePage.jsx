@@ -3,7 +3,8 @@ import CreateNewPost from '../Components/Card/CreateNewPost'
 import PostLoader from '../Components/Loader/PostLoader'
 import { useGetAllPostsQuery } from '../features/post/PostServices'
 const HomePage = () => {
-  const { data, isError, isLoading } = useGetAllPostsQuery();;
+  const { data, isError, isLoading } = useGetAllPostsQuery();
+  console.log(data);
 
     return (
         <>

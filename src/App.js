@@ -26,11 +26,11 @@ function App() {
             <div className="flex-1 lg:ml-28 mt-20">
               <Routes>
                 <Route index path="/" element={<HomePage />} />
-                {/* <Route path="/explore" element={<Explore />} /> */}
-                {/* <Route path="/notifications" element={<Notification />} /> */}
-                {/* <Route path="/messages" element={<Message />} /> */}
-                {/* <Route path="/bookmarks" element={<Bookmark />} /> */}
-                {/* <Route path="/profile" element={<Profile />} /> */}
+                <Route path="/explore" element={<Explore />} />
+                <Route path="/notifications" element={<Notification />} />
+                <Route path="/messages" element={<Message />} />
+                <Route path="/bookmarks" element={<Bookmark />} />
+                <Route path="/profile" element={<Profile />} />
                 <Route path="/SignIn" element={<Login />} />
                 <Route path="/SignUp" element={<Register />} />
                 <Route path="*" element={<ErrorPage />} />

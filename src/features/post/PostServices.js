@@ -9,7 +9,7 @@ export const PostApi = createApi({
     endpoints: (builder) => ({
         getAllPosts: builder.query({
             query: () => ({
-                url: '/getposts',
+                url: '/posts',
                 method: 'GET',
             }),
             providesTags: ['Posts'],
@@ -22,7 +22,7 @@ export const PostApi = createApi({
                 formData.append('file', postData.image);
 
                 return {
-                    url: '/newpost',
+                    url: '/new',
                     method: 'POST',
                     body: formData,
                     headers: {
@@ -36,7 +36,7 @@ export const PostApi = createApi({
 
         deletePost: builder.mutation({
             query: (postId) => ({
-                url: `/deletepost/${postId}`,
+                url: `/delete/${postId}`,
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem('user')}`,
@@ -53,7 +53,7 @@ export const PostApi = createApi({
                 formData.append('file', postData.image);
                 
                 return {
-                    url: `/editpost/${postData._id}`,
+                    url: `/edit/${postData._id}`,
                     method: 'PUT',
                     body: formData,
                     headers: {

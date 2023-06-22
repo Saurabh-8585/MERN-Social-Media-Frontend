@@ -1,13 +1,13 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { toast } from 'react-hot-toast'
-import { AiOutlineHeart, AiOutlineShareAlt } from 'react-icons/ai'
-import { FaRegCommentAlt } from 'react-icons/fa'
-import { FiBookmark } from 'react-icons/fi'
-import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
+import React, { useMemo, useState } from 'react'
 import jwtDecode from 'jwt-decode';
-import { useDeletePostMutation, useEditPostMutation } from '../../features/post/PostServices'
-import { MdOutlineCancel, MdOutlineSaveAs } from 'react-icons/md'
+import { toast } from 'react-hot-toast'
 import { DayFormatter, TimeFormatter } from '../../utils/DateFormatter'
+import { FaRegCommentAlt, FaRegBookmark } from 'react-icons/fa'
+import { FiBookmark } from 'react-icons/fi'
+import { useDeletePostMutation, useEditPostMutation } from '../../features/post/PostServices'
+import { AiOutlineHeart, AiOutlineShareAlt, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
+import { MdOutlineCancel, MdOutlineSaveAs } from 'react-icons/md'
+import { useAddToBookMarkMutation } from '../../features/bookmark/BookMarkServices';
 
 const PostCard = ({ postData }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -17,6 +17,8 @@ const PostCard = ({ postData }) => {
     const [deletePost] = useDeletePostMutation()
 
     const [editPost] = useEditPostMutation()
+
+    const [addBookMark] = useAddToBookMarkMutation()
 
     const isEdited = postData.createdAt === postData.updatedAt;
 
@@ -38,23 +40,28 @@ const PostCard = ({ postData }) => {
         console.log(1);
         return false;
 
-    }, [user, postData.author._id]);
-   
+    }, [user]);
+
     const handleLike = async () => {
 
     }
 
-    const handleDelete = async (postId) => {
-        if (isCurrentUserAuthor) {
-            try {
-                deletePost(postId)
-                toast.success('Post deleted successfully')
-            } catch (error) {
-
+    const handleDelete = (postId) => {
+        if (user) {
+            if (isCurrentUserAuthor) {
+                try {
+                    deletePost(postId);
+                    toast.success('Post deleted successfully');
+                } catch (error) {
+                    toast.error('Something went wrong try again later');
+                }
+            }
+            else {
+                toast.error('You are not authorized to delete this post');
             }
         }
         else {
-            toast.error('You are not authorized to delete this post');
+            toast.error('Please login to add bookmark');
         }
 
     }
@@ -62,7 +69,7 @@ const PostCard = ({ postData }) => {
         setIsEditing(false);
         setEditedContent(postData.content);
     };
-    const handleEdit = async () => {
+    const handleEdit = () => {
         if (isCurrentUserAuthor) {
             setIsEditing(true);
 
@@ -71,17 +78,35 @@ const PostCard = ({ postData }) => {
         }
     };
     const handleSaveEdit = (postInfo) => {
-        const newData = { ...postInfo, editedContent }
-        console.log(newData);
-        setIsEditing(false);
-        try {
-            editPost(newData)
-            toast.success('Post edited successfully');
-        } catch (error) {
-            console.log(error);
-            toast.error('Something went wrong try again')
+        if (user) {
+
+            const newData = { ...postInfo, editedContent };
+            setIsEditing(false);
+            try {
+                editPost(newData)
+                toast.success('Post edited successfully');
+            } catch (error) {
+                toast.error('Something went wrong try again later');
+            }
+        }
+        else {
+            toast.error('Please login to edit post');
         }
     };
+
+    const handleAddBookMark = (postId) => {
+        if (user) {
+            try {
+                addBookMark(postId);
+            } catch (error) {
+                console.log(error);
+                toast.error('Something went wrong try again later');
+            }
+        }
+        else {
+            toast.error('Please login to add bookmark');
+        }
+    }
 
     return (
         <>
@@ -104,7 +129,6 @@ const PostCard = ({ postData }) => {
                             </div>
                         </div>
                     </div>
-                    {/* {!isEdited && <p className="text-gray-500 dark:text-white block text-md leading-snug mt-1 ml-3">edited</p>} */}
                     {isEditing ? (
                         <textarea
                             className="bg-transparent text-gray-800  text-lg w-full outline-none mt-2"
@@ -144,7 +168,7 @@ const PostCard = ({ postData }) => {
                                     <span className="ml-2">93 </span>
                                 </div>
                                 <div className="flex items-center mr-4 justify-center">
-                                    {<FiBookmark className='text-purple-400 hover:text-purple-300 text-xl cursor-pointer' />}
+                                    {<FaRegBookmark className='text-purple-400 hover:text-purple-300 text-xl cursor-pointer' onClick={() => handleAddBookMark(postData._id)} />}
                                 </div>
                                 <div className="flex items-center mr-6 justify-center">
                                     {<AiOutlineShareAlt className='text-purple-400 hover:text-purple-300 text-xl cursor-pointer' />}
