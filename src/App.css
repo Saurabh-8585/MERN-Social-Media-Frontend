@@ -38,7 +38,7 @@
 
 @media (min-width: 992px) {
     .active {
-        background-color: #9F7AEA;
+        background-color: #8B5CF6;
         color: white;
         padding: 15px 0;
         border-radius: 100px;
@@ -61,14 +61,14 @@
     /* Small screens */
     @media (max-width: 767px) {
         .active {
-            color: #9F7AEA;
+            color: #8B5CF6;
         }
     }
 
     /* Large screens */
     @media (min-width: 768px) {
         .active {
-            color: #9F7AEA;
+            color: #8B5CF6  ;
             /* Additional styles for large screens */
         }
     }

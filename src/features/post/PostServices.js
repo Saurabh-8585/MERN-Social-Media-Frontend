@@ -15,6 +15,15 @@ export const PostApi = createApi({
             providesTags: ['Posts'],
         }),
 
+        getSinglePost: builder.query({
+            query: (id) => ({
+                url: `/post/${id}`,
+                method: 'GET',
+            }),
+        }),
+
+
+
         createPost: builder.mutation({
             query: (postData) => {
                 const formData = new FormData();
@@ -51,7 +60,7 @@ export const PostApi = createApi({
                 const formData = new FormData();
                 formData.append('content', postData.editedContent);
                 formData.append('file', postData.image);
-                
+
                 return {
                     url: `/edit/${postData.PostID}`,
                     method: 'PUT',
@@ -67,4 +76,4 @@ export const PostApi = createApi({
     }),
 });
 
-export const { useGetAllPostsQuery, useCreatePostMutation, useEditPostMutation, useDeletePostMutation, } = PostApi;
+export const { useGetAllPostsQuery, useGetSinglePostQuery, useCreatePostMutation, useEditPostMutation, useDeletePostMutation } = PostApi;

@@ -29,6 +29,7 @@ const CreateNewPost = () => {
             if (content) {
 
                 const data = { content, image: selectedFile };
+                // console.log(selectedFile);
                 const response = await createPost(data);
                 if (response.error) {
                     toast.error(response.error.data.message);
@@ -54,7 +55,7 @@ const CreateNewPost = () => {
     return (
         <>
             <div className="p-5 flex items-center justify-center  w-full">
-                <div className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-800 p-4 rounded-xl border  w-full max-w-xl">
+                <div className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-800 p-4 rounded-xl border w-full max-w-xl shadow-sm hover:shadow-md">
                     <form onSubmit={addPost}>
                         <div className="flex justify-between">
                             <img

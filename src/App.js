@@ -9,6 +9,7 @@ import Bookmark from './Pages/Bookmark';
 import Profile from './Pages/Profile';
 import Login from './Auth/Login';
 import Register from './Auth/Register';
+import SinglePost from './Pages/SinglePost';
 import ErrorPage from './Pages/ErrorPage';
 import { Toaster } from 'react-hot-toast';
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <div className="flex-1 lg:ml-28 mt-20">
               <Routes>
                 <Route index path="/" element={<HomePage />} />
+                <Route path="/post/:id" element={<SinglePost />} />
                 <Route path="/explore" element={<Explore />} />
                 <Route path="/notifications" element={<Notification />} />
                 <Route path="/messages" element={<Message />} />

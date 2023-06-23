@@ -110,12 +110,28 @@ const PostCard = ({ author, content, createdAt, updatedAt, postId, bookmarkID, r
         else {
             toast.error('Please login to add bookmark');
         }
+    };
+
+    const handleSharePost = async (postId) => {
+
+        const data = {
+            text: `${author.username} on snapia shared post about ${content}`,
+            title: 'snapia',
+            url: `http://localhost:3000/post/${postId}`,
+            imageUrl: 'https://img.freepik.com/free-vector/computer-user-human-character-program-windows_1284-63445.jpg?w=740&t=st=1687531407~exp=1687532007~hmac=4fca4b34f720e749446eecb9e436ced9666cb4c83f5f005d43b364a15fd713f8'
+        }
+        if (navigator.canShare && navigator.canShare(data)) {
+            navigator.share(data);
+        }
+        else {
+            toast.error("browser not support")
+        }
     }
 
     return (
         <>
-            <div className="p-5 flex items-center justify-center  w-full">
-                <div className="bg-white dark:bg-gray-800 border-gray-300  p-4 rounded-xl border w-full max-w-xl">
+            <div className="p-5 flex items-center justify-center   w-full">
+                <div className="bg-white dark:bg-gray-800 border-gray-300  p-4 rounded-xl border w-full max-w-xl shadow-sm hover:shadow-md">
                     <div className="flex justify-between">
                         <div className="flex items-center">
                             <img
@@ -166,7 +182,7 @@ const PostCard = ({ author, content, createdAt, updatedAt, postId, bookmarkID, r
                             <div className="flex items-center mr-6 justify-center">
 
                                 <button
-                                    className="bg-white hover:bg-gray-100 font-bold py-2 px-5 md:px-8 rounded-full shadow-md border"
+                                    className="bg-white hover:bg-gray-50 font-bold py-2 px-5 md:px-8 rounded-full shadow-md border"
                                     title='remove'
                                     onClick={() => removeFromBookMark(bookmarkID)}
                                 >
@@ -191,7 +207,7 @@ const PostCard = ({ author, content, createdAt, updatedAt, postId, bookmarkID, r
                                     {<MdOutlineBookmarkAdd className='text-purple-400 hover:text-purple-300 text-2xl cursor-pointer' onClick={() => handleAddBookMark(postId)} />}
                                 </div>
                                 <div className="flex items-center mr-6 justify-center">
-                                    {<AiOutlineShareAlt className='text-purple-400 hover:text-purple-300 text-xl cursor-pointer' />}
+                                    {<AiOutlineShareAlt className='text-purple-400 hover:text-purple-300 text-xl cursor-pointer' onClick={() => handleSharePost(postId)} />}
                                 </div>
 
                             </>}
