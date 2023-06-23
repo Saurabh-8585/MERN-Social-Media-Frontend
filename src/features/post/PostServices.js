@@ -53,7 +53,7 @@ export const PostApi = createApi({
                 formData.append('file', postData.image);
                 
                 return {
-                    url: `/edit/${postData._id}`,
+                    url: `/edit/${postData.PostID}`,
                     method: 'PUT',
                     body: formData,
                     headers: {

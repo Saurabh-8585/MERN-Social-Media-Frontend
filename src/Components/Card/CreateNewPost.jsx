@@ -20,24 +20,25 @@ const CreateNewPost = () => {
             };
         }
         setSelectedFile(file);
-        console.log('Selected file:', file);
     };
 
-    const addPost = (e) => {
+    const addPost = async (e) => {
         e.preventDefault();
 
         if (user) {
             if (content) {
-                try {
-                    const data = { content, image: selectedFile };
-                    console.log({ data });
-                    createPost(data);
-                    setContent('');
-                    setImage(null);
-                    toast.success('Posted successfully')
-                } catch (error) {
-                    toast.error('Something went wrong try again');
+
+                const data = { content, image: selectedFile };
+                const response = await createPost(data);
+                if (response.error) {
+                    toast.error(response.error.data.message);
                 }
+                else {
+                    toast.success(response.data.message);
+                }
+                setContent('');
+                setImage(null);
+
             } else {
                 toast.error('Add some text');
             }
@@ -128,7 +129,7 @@ const CreateNewPost = () => {
                     )}
                 </div>
             </div>
-          
+
         </>
     );
 };

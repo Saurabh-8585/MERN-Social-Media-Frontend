@@ -2,17 +2,17 @@ import React, { useMemo, useState } from 'react'
 import jwtDecode from 'jwt-decode';
 import { toast } from 'react-hot-toast'
 import { DayFormatter, TimeFormatter } from '../../utils/DateFormatter'
-import { FaRegCommentAlt, FaRegBookmark } from 'react-icons/fa'
-import { FiBookmark } from 'react-icons/fi'
 import { useDeletePostMutation, useEditPostMutation } from '../../features/post/PostServices'
-import { AiOutlineHeart, AiOutlineShareAlt, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
-import { MdOutlineCancel, MdOutlineSaveAs } from 'react-icons/md'
 import { useAddToBookMarkMutation } from '../../features/bookmark/BookMarkServices';
+import { FaRegCommentAlt } from 'react-icons/fa'
+import { AiOutlineHeart, AiOutlineShareAlt, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
+import { MdOutlineCancel, MdOutlineSaveAs, MdOutlineBookmarkAdd, MdBookmarkRemove } from 'react-icons/md'
 
-const PostCard = ({ postData }) => {
+const PostCard = ({ author, content, createdAt, updatedAt, postId, bookmarkID, removeFromBookMark }) => {
+
     const [isEditing, setIsEditing] = useState(false);
 
-    const [editedContent, setEditedContent] = useState(postData.content);
+    const [editedContent, setEditedContent] = useState(content);
 
     const [deletePost] = useDeletePostMutation()
 
@@ -20,13 +20,13 @@ const PostCard = ({ postData }) => {
 
     const [addBookMark] = useAddToBookMarkMutation()
 
-    const isEdited = postData.createdAt === postData.updatedAt;
+    const isEdited = createdAt === updatedAt;
 
-    let postDay = DayFormatter(postData.createdAt)
-    let postTime = TimeFormatter(postData.createdAt)
+    let postDay = DayFormatter(createdAt)
+    let postTime = TimeFormatter(createdAt)
 
-    let EditedPostDay = DayFormatter(postData.updatedAt)
-    let EditedPostTime = TimeFormatter(postData.updatedAt)
+    let EditedPostDay = DayFormatter(updatedAt)
+    let EditedPostTime = TimeFormatter(updatedAt)
 
     const user = sessionStorage.getItem('user')
 
@@ -35,7 +35,7 @@ const PostCard = ({ postData }) => {
     const isCurrentUserAuthor = useMemo(() => {
         if (user) {
             const decodedToken = jwtDecode(user);
-            return decodedToken.userId === postData.author._id;
+            return decodedToken.userId === author._id;
         }
         console.log(1);
         return false;
@@ -46,14 +46,15 @@ const PostCard = ({ postData }) => {
 
     }
 
-    const handleDelete = (postId) => {
+    const handleDelete = async (postId) => {
         if (user) {
             if (isCurrentUserAuthor) {
-                try {
-                    deletePost(postId);
-                    toast.success('Post deleted successfully');
-                } catch (error) {
-                    toast.error('Something went wrong try again later');
+                const response = await deletePost(postId);
+                if (response.error) {
+                    toast.error(response.error.data.message);
+                }
+                else {
+                    toast.success(response.data.message);
                 }
             }
             else {
@@ -67,7 +68,7 @@ const PostCard = ({ postData }) => {
     }
     const handleCancelEdit = () => {
         setIsEditing(false);
-        setEditedContent(postData.content);
+        setEditedContent(content);
     };
     const handleEdit = () => {
         if (isCurrentUserAuthor) {
@@ -77,30 +78,33 @@ const PostCard = ({ postData }) => {
             toast.error('You are not authorized to edit this post');
         }
     };
-    const handleSaveEdit = (postInfo) => {
+    const handleSaveEdit = async (PostID) => {
         if (user) {
-
-            const newData = { ...postInfo, editedContent };
+            const newData = { PostID, editedContent };
             setIsEditing(false);
-            try {
-                editPost(newData)
-                toast.success('Post edited successfully');
-            } catch (error) {
-                toast.error('Something went wrong try again later');
+
+            const response = await editPost(newData)
+            if (response.error) {
+                toast.error(response.error.data.message);
             }
+            else {
+                toast.success(response.data.message);
+            }
+
         }
         else {
             toast.error('Please login to edit post');
         }
     };
 
-    const handleAddBookMark = (postId) => {
+    const handleAddBookMark = async (postId) => {
         if (user) {
-            try {
-                addBookMark(postId);
-            } catch (error) {
-                console.log(error);
-                toast.error('Something went wrong try again later');
+            const response = await addBookMark(postId);
+            if (response.error) {
+                toast.error(response.error.data.message);
+            }
+            else {
+                toast.success(response.data.message);
             }
         }
         else {
@@ -121,10 +125,10 @@ const PostCard = ({ postData }) => {
                             />
                             <div className="ml-1.5 text-sm leading-tight">
                                 <span className="text-black dark:text-white font-bold block ">
-                                    {postData.author.username}
+                                    {author.username}
                                 </span>
                                 <span className="text-gray-500 dark:text-gray-400 font-normal block">
-                                    @{postData.author.username}
+                                    @{author.username}
                                 </span>
                             </div>
                         </div>
@@ -139,15 +143,15 @@ const PostCard = ({ postData }) => {
                             autoFocus
                         />
                     ) : (
-                        <p className="text-black dark:text-white block text-lg leading-snug mt-2 ml-3">{postData.content}</p>
+                        <p className="text-black dark:text-white block text-lg leading-snug mt-2 ml-3">{content}</p>
                     )}
 
-                    {postData.postImage?.url && <img
+                    {/* {postImage?.url && <img
                         className="mt-2 rounded-2xl border border-gray-100 dark:border-gray-700"
-                        src={postData.postImage?.url}
+                        src={postImage?.url}
                         alt='Post_Photo'
                     />
-                    }
+                    } */}
 
                     <p className="text-gray-500 dark:text-gray-400 text-base py-1 my-0.5">
                         {postDay} {postTime}
@@ -157,7 +161,23 @@ const PostCard = ({ postData }) => {
                     </p>}
                     <div className="border-gray-200 dark:border-gray-600 border border-b-0 my-1" />
                     <div className="text-gray-500 dark:text-gray-400 flex mt-3 justify-center items-center gap-2">
-                        {!isEditing &&
+                        {
+                            (removeFromBookMark && bookmarkID) &&
+                            <div className="flex items-center mr-6 justify-center">
+
+                                <button
+                                    className="bg-white hover:bg-gray-100 font-bold py-2 px-5 md:px-8 rounded-full shadow-md border"
+                                    title='remove'
+                                    onClick={() => removeFromBookMark(bookmarkID)}
+                                >
+                                    <MdBookmarkRemove className='text-red-500 hover:text-red-300 text-xl cursor-pointer' />
+                                </button>
+
+                            </div>
+                        }
+
+                        {(!removeFromBookMark && !bookmarkID) &&
+                            !isEditing &&
                             <>
                                 <div className="flex items-center mr-4">
                                     {<AiOutlineHeart className='text-purple-400  hover:text-red-500 text-xl cursor-pointer' onClick={handleLike} />}
@@ -168,20 +188,21 @@ const PostCard = ({ postData }) => {
                                     <span className="ml-2">93 </span>
                                 </div>
                                 <div className="flex items-center mr-4 justify-center">
-                                    {<FaRegBookmark className='text-purple-400 hover:text-purple-300 text-xl cursor-pointer' onClick={() => handleAddBookMark(postData._id)} />}
+                                    {<MdOutlineBookmarkAdd className='text-purple-400 hover:text-purple-300 text-2xl cursor-pointer' onClick={() => handleAddBookMark(postId)} />}
                                 </div>
                                 <div className="flex items-center mr-6 justify-center">
                                     {<AiOutlineShareAlt className='text-purple-400 hover:text-purple-300 text-xl cursor-pointer' />}
                                 </div>
+
                             </>}
-                        {(isCurrentUserAuthor && user) && (
+                        {(!removeFromBookMark && !bookmarkID) && (isCurrentUserAuthor && user) && (
                             <>
                                 {isEditing ? (
                                     <>
                                         <div className="flex items-center mr-6 justify-center">
                                             <MdOutlineSaveAs
                                                 className="text-purple-400 hover:text-purple-300 font-bold text-2xl cursor-pointer"
-                                                onClick={() => handleSaveEdit(postData)}
+                                                onClick={() => handleSaveEdit(postId)}
                                             />
 
                                         </div>
@@ -204,16 +225,17 @@ const PostCard = ({ postData }) => {
                                         <div className="flex items-center mr-6 justify-center">
                                             <AiOutlineDelete
                                                 className="text-purple-400 hover:text-red-500 text-xl cursor-pointer hover:"
-                                                onClick={() => handleDelete(postData._id)}
+                                                onClick={() => handleDelete(postId)}
                                             />
                                         </div>
+
                                     </>
                                 )}
                             </>
                         )}
                     </div>
                 </div>
-            </div>
+            </div >
 
         </>
     )
