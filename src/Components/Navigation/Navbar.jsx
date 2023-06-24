@@ -1,15 +1,15 @@
 import React from 'react'
-import { AiOutlineLogout, AiOutlineLogin } from 'react-icons/ai'
+import { AiOutlineLogin } from 'react-icons/ai'
 import { FiLogOut } from 'react-icons/fi'
-import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { logout } from '../../features/auth/authSlice'
 import { toast } from 'react-hot-toast'
 const Navbar = () => {
     const isLogin = sessionStorage.getItem('user');
+    const navigate = useNavigate()
     const handleSignOut = () => {
-        toast.success('Sign out successfully')
         sessionStorage.removeItem('user')
+        toast.success('Sign out successfully')
+        navigate('/')
     }
     return (
         <>

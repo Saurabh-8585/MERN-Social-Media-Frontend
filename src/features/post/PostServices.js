@@ -52,6 +52,7 @@ export const PostApi = createApi({
                 },
             }),
             invalidatesTags: ['Posts'],
+            
 
         }),
 

@@ -7,7 +7,7 @@ const CreateNewPost = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [image, setImage] = useState(null);
     const [content, setContent] = useState('');
-    const [createPost, response] = useCreatePostMutation();
+    const [createPost, { isLoading }] = useCreatePostMutation();
     const user = sessionStorage.getItem('user');
 
     const handleFileSelect = (event) => {
@@ -29,13 +29,16 @@ const CreateNewPost = () => {
             if (content) {
 
                 const data = { content, image: selectedFile };
-                // console.log(selectedFile);
-                const response = await createPost(data);
-                if (response.error) {
-                    toast.error(response.error.data.message);
+                const post = await createPost(data);
+                if (isLoading) {
+                    toast.loading('Posting...');
+                }
+
+                if (post.error) {
+                    toast.error(post.error.data.message);
                 }
                 else {
-                    toast.success(response.data.message);
+                    toast.success(post.data.message);
                 }
                 setContent('');
                 setImage(null);
@@ -123,7 +126,7 @@ const CreateNewPost = () => {
                     </form>
                     {image && (
                         <img
-                            className="mt-2 rounded-2xl border border-gray-100 dark:border-gray-700"
+                            className="mt-2 rounded-2xl border border-gray-100 dark:border-gray-700 flex m-auto"
                             src={image}
                             alt="user_image"
                         />

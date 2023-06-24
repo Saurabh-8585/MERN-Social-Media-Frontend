@@ -50,6 +50,7 @@ const Bookmark = () => {
             key={bookmarks._id}
             author={bookmarks.post.author}
             content={bookmarks.post.content}
+            postImage={bookmarks.post.postImage}
             createdAt={bookmarks.post.createdAt}
             updatedAt={bookmarks.post.updatedAt}
             postId={bookmarks.post._id}

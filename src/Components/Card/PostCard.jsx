@@ -8,13 +8,13 @@ import { FaRegCommentAlt } from 'react-icons/fa'
 import { AiOutlineHeart, AiOutlineShareAlt, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
 import { MdOutlineCancel, MdOutlineSaveAs, MdOutlineBookmarkAdd, MdBookmarkRemove } from 'react-icons/md'
 
-const PostCard = ({ author, content, createdAt, updatedAt, postId, bookmarkID, removeFromBookMark }) => {
+const PostCard = ({ author, content, createdAt, updatedAt, postId, bookmarkID, removeFromBookMark, postImage }) => {
 
     const [isEditing, setIsEditing] = useState(false);
 
     const [editedContent, setEditedContent] = useState(content);
 
-    const [deletePost] = useDeletePostMutation()
+    const [deletePost, responseInfo] = useDeletePostMutation()
 
     const [editPost] = useEditPostMutation()
 
@@ -31,7 +31,6 @@ const PostCard = ({ author, content, createdAt, updatedAt, postId, bookmarkID, r
     const user = sessionStorage.getItem('user')
 
 
-
     const isCurrentUserAuthor = useMemo(() => {
         if (user) {
             const decodedToken = jwtDecode(user);
@@ -46,15 +45,20 @@ const PostCard = ({ author, content, createdAt, updatedAt, postId, bookmarkID, r
 
     }
 
+
+
     const handleDelete = async (postId) => {
         if (user) {
             if (isCurrentUserAuthor) {
+
                 const response = await deletePost(postId);
+                toast.dismiss()
                 if (response.error) {
                     toast.error(response.error.data.message);
                 }
                 else {
-                    toast.success(response.data.message);
+                    // toast.success(response.data.message);
+                    console.log(1);
                 }
             }
             else {
@@ -158,16 +162,20 @@ const PostCard = ({ author, content, createdAt, updatedAt, postId, bookmarkID, r
                             onChange={(e) => setEditedContent(e.target.value)}
                             autoFocus
                         />
+
+
                     ) : (
                         <p className="text-black dark:text-white block text-lg leading-snug mt-2 ml-3">{content}</p>
                     )}
 
-                    {/* {postImage?.url && <img
-                        className="mt-2 rounded-2xl border border-gray-100 dark:border-gray-700"
-                        src={postImage?.url}
-                        alt='Post_Photo'
-                    />
-                    } */}
+                    {postImage?.url &&
+
+                        <img
+                            className="mt-2 rounded-2xl border border-gray-100 dark:border-gray-700 flex m-auto"
+                            src={postImage?.url}
+                            alt='Post_Photo'
+                        />
+                    }
 
                     <p className="text-gray-500 dark:text-gray-400 text-base py-1 my-0.5">
                         {postDay} {postTime}
