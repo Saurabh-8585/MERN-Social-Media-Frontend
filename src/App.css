@@ -56,7 +56,7 @@
     /* body {
         background-color: #0d0d0d;
       } */
-      
+
 
     /* Small screens */
     @media (max-width: 767px) {
@@ -68,7 +68,7 @@
     /* Large screens */
     @media (min-width: 768px) {
         .active {
-            color: #8B5CF6  ;
+            color: #8B5CF6;
             /* Additional styles for large screens */
         }
     }
@@ -87,3 +87,25 @@
     }
 }
 
+/* Add this CSS to your global CSS file or component */
+/* Customize the scrollbar based on your preferences */
+
+/* For WebKit-based browsers */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #8B5CF6;
+    border-radius: 4px;
+}
+
+/* For Firefox */
+::-moz-scrollbar {
+    width: 8px;
+}
+
+::-moz-scrollbar-thumb {
+    background-color: #8B5CF6;
+    border-radius: 4px;
+}

@@ -1,75 +1,61 @@
-import React, { useMemo, useState } from 'react'
-import jwtDecode from 'jwt-decode';
+import React, { useEffect, useMemo, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { DayFormatter, TimeFormatter } from '../../utils/DateFormatter'
-import { useDeletePostMutation, useEditPostMutation } from '../../features/post/PostServices'
+import { useDeletePostMutation, useDislikePostMutation, useEditPostMutation, useLikePostMutation } from '../../features/post/PostServices'
 import { useAddToBookMarkMutation } from '../../features/bookmark/BookMarkServices';
 import { FaRegCommentAlt } from 'react-icons/fa'
 import { AiOutlineHeart, AiOutlineShareAlt, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
 import { MdOutlineCancel, MdOutlineSaveAs, MdOutlineBookmarkAdd, MdBookmarkRemove } from 'react-icons/md'
+import { FcLike } from 'react-icons/fc'
+import getCurrentUser from '../../utils/CurrentUser';
+import LikeByModal from '../Modal/LikeByModal';
 
-const PostCard = ({ author, content, createdAt, updatedAt, postId, bookmarkID, removeFromBookMark, postImage }) => {
+const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBookMark, postImage, likes }) => {
 
     const [isEditing, setIsEditing] = useState(false);
 
     const [editedContent, setEditedContent] = useState(content);
+    const [showModal, setShowModal] = useState(false);
 
-    const [deletePost, responseInfo] = useDeletePostMutation()
+    const handleLikeClick = () => {
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
+    const [deletePost] = useDeletePostMutation()
 
     const [editPost] = useEditPostMutation()
 
     const [addBookMark] = useAddToBookMarkMutation()
 
-    const isEdited = createdAt === updatedAt;
+    const [likePost] = useLikePostMutation();
+    const [dislike] = useDislikePostMutation();
+
+
 
     let postDay = DayFormatter(createdAt)
     let postTime = TimeFormatter(createdAt)
-
-    let EditedPostDay = DayFormatter(updatedAt)
-    let EditedPostTime = TimeFormatter(updatedAt)
 
     const user = sessionStorage.getItem('user')
 
 
     const isCurrentUserAuthor = useMemo(() => {
         if (user) {
-            const decodedToken = jwtDecode(user);
-            return decodedToken.userId === author._id;
+            const decodedToken = getCurrentUser(user);
+            return decodedToken === author._id;
         }
         console.log(1);
         return false;
 
     }, [user]);
 
-    const handleLike = async () => {
-
-    }
 
 
 
-    const handleDelete = async (postId) => {
-        if (user) {
-            if (isCurrentUserAuthor) {
 
-                const response = await deletePost(postId);
-                toast.dismiss()
-                if (response.error) {
-                    toast.error(response.error.data.message);
-                }
-                else {
-                    // toast.success(response.data.message);
-                    console.log(1);
-                }
-            }
-            else {
-                toast.error('You are not authorized to delete this post');
-            }
-        }
-        else {
-            toast.error('Please login to add bookmark');
-        }
-
-    }
     const handleCancelEdit = () => {
         setIsEditing(false);
         setEditedContent(content);
@@ -82,6 +68,31 @@ const PostCard = ({ author, content, createdAt, updatedAt, postId, bookmarkID, r
             toast.error('You are not authorized to edit this post');
         }
     };
+
+
+
+
+    const handleDelete = async (PostID) => {
+        if (user) {
+            if (isCurrentUserAuthor) {
+
+                const response = await deletePost(PostID);
+                if (response.error) {
+                    toast.error(response.error.data.message);
+                }
+                else {
+                    toast.success(response.data.message);
+                }
+            }
+            else {
+                toast.error('You are not authorized to delete this post');
+            }
+        }
+        else {
+            toast.error('Please login to add bookmark');
+        }
+
+    }
     const handleSaveEdit = async (PostID) => {
         if (user) {
             const newData = { PostID, editedContent };
@@ -101,9 +112,9 @@ const PostCard = ({ author, content, createdAt, updatedAt, postId, bookmarkID, r
         }
     };
 
-    const handleAddBookMark = async (postId) => {
+    const handleAddBookMark = async (PostID) => {
         if (user) {
-            const response = await addBookMark(postId);
+            const response = await addBookMark(PostID);
             if (response.error) {
                 toast.error(response.error.data.message);
             }
@@ -116,12 +127,12 @@ const PostCard = ({ author, content, createdAt, updatedAt, postId, bookmarkID, r
         }
     };
 
-    const handleSharePost = async (postId) => {
+    const handleSharePost = async (PostID) => {
 
         const data = {
             text: `${author.username} on snapia shared post about ${content}`,
             title: 'snapia',
-            url: `http://localhost:3000/post/${postId}`,
+            url: `http://localhost:3000/post/${PostID}`,
             imageUrl: 'https://img.freepik.com/free-vector/computer-user-human-character-program-windows_1284-63445.jpg?w=740&t=st=1687531407~exp=1687532007~hmac=4fca4b34f720e749446eecb9e436ced9666cb4c83f5f005d43b364a15fd713f8'
         }
         if (navigator.canShare && navigator.canShare(data)) {
@@ -132,6 +143,149 @@ const PostCard = ({ author, content, createdAt, updatedAt, postId, bookmarkID, r
         }
     }
 
+    const handleLike = async (PostID) => {
+        if (user) {
+            const likePostResponse = await likePost(PostID)
+            if (likePostResponse.error) {
+                toast.error(likePostResponse.error);
+            }
+        }
+        else {
+            toast.error('Please login to like post');
+        }
+
+    }
+    const handleRemoveLike = async (PostID) => {
+        if (user) {
+
+            const likePostResponse = await dislike(PostID)
+            if (likePostResponse.error) {
+                toast.error(likePostResponse.error);
+            }
+        }
+        else {
+            toast.error('Please login to like post');
+        }
+
+    }
+
+    const dummyArray = [
+        {
+            id: 1,
+            username: 'john_doe',
+            profileImage: 'https://example.com/profile1.jpg',
+        },
+        {
+            id: 2,
+            username: 'jane_smith',
+            profileImage: 'https://example.com/profile2.jpg',
+        },
+        {
+            id: 3,
+            username: 'mike_jackson',
+            profileImage: 'https://example.com/profile3.jpg',
+        },
+        {
+            id: 4,
+            username: 'emma_watson',
+            profileImage: 'https://example.com/profile4.jpg',
+        },
+        {
+            id: 5,
+            username: 'alexander_king',
+            profileImage: 'https://example.com/profile5.jpg',
+        },
+        {
+            id: 6,
+            username: 'sophia_harris',
+            profileImage: 'https://example.com/profile6.jpg',
+        },
+        {
+            id: 7,
+            username: 'william_smith',
+            profileImage: 'https://example.com/profile7.jpg',
+        },
+        {
+            id: 8,
+            username: 'olivia_brown',
+            profileImage: 'https://example.com/profile8.jpg',
+        },
+        {
+            id: 9,
+            username: 'james_johnson',
+            profileImage: 'https://example.com/profile9.jpg',
+        },
+        {
+            id: 10,
+            username: 'amelia_clark',
+            profileImage: 'https://example.com/profile10.jpg',
+        },
+        {
+            id: 11,
+            username: 'ethan_martin',
+            profileImage: 'https://example.com/profile11.jpg',
+        },
+        {
+            id: 12,
+            username: 'ava_taylor',
+            profileImage: 'https://example.com/profile12.jpg',
+        },
+        {
+            id: 13,
+            username: 'michael_wilson',
+            profileImage: 'https://example.com/profile13.jpg',
+        },
+        {
+            id: 14,
+            username: 'charlotte_lewis',
+            profileImage: 'https://example.com/profile14.jpg',
+        },
+        {
+            id: 15,
+            username: 'benjamin_hall',
+            profileImage: 'https://example.com/profile15.jpg',
+        },
+        {
+            id: 16,
+            username: 'mia_baker',
+            profileImage: 'https://example.com/profile16.jpg',
+        },
+        {
+            id: 17,
+            username: 'logan_adams',
+            profileImage: 'https://example.com/profile17.jpg',
+        },
+        {
+            id: 18,
+            username: 'lily_garcia',
+            profileImage: 'https://example.com/profile18.jpg',
+        },
+        {
+            id: 19,
+            username: 'samuel_hill',
+            profileImage: 'https://example.com/profile19.jpg',
+        },
+        {
+            id: 20,
+            username: 'emily_morris',
+            profileImage: 'https://example.com/profile20.jpg',
+        },
+    ];
+
+    const isLikedPost = useMemo(() => {
+        if (user) {
+            const decodedToken = getCurrentUser(user);
+
+            const findUser = likes.filter(likedUsers => likedUsers._id === decodedToken)
+            if (findUser.length < 1) {
+                return false
+            }
+            return true
+
+        }
+
+        return false;
+    }, [user, handleLike, handleRemoveLike]);
     return (
         <>
             <div className="p-5 flex items-center justify-center   w-full">
@@ -180,9 +334,7 @@ const PostCard = ({ author, content, createdAt, updatedAt, postId, bookmarkID, r
                     <p className="text-gray-500 dark:text-gray-400 text-base py-1 my-0.5">
                         {postDay} {postTime}
                     </p>
-                    {!isEdited && <p className="text-gray-500 dark:text-gray-400 text-base py-1 my-0.5">
-                        Modified on   {EditedPostDay} {EditedPostTime}
-                    </p>}
+
                     <div className="border-gray-200 dark:border-gray-600 border border-b-0 my-1" />
                     <div className="text-gray-500 dark:text-gray-400 flex mt-3 justify-center items-center gap-2">
                         {
@@ -204,8 +356,17 @@ const PostCard = ({ author, content, createdAt, updatedAt, postId, bookmarkID, r
                             !isEditing &&
                             <>
                                 <div className="flex items-center mr-4">
-                                    {<AiOutlineHeart className='text-purple-400  hover:text-red-500 text-xl cursor-pointer' onClick={handleLike} />}
-                                    <span className="ml-2">615</span>
+                                    {isLikedPost ?
+                                        <FcLike className='text-purple-400  hover:text-red-500 text-xl cursor-pointer'
+                                            onClick={() => handleRemoveLike(postId)}
+                                        />
+                                        :
+                                        <AiOutlineHeart className='text-purple-400  hover:text-red-500 text-xl cursor-pointer'
+                                            onClick={() => handleLike(postId)} />
+                                    }
+
+
+                                    <span className="ml-2" onClick={handleLikeClick}>{likes.length} likes</span>
                                 </div>
                                 <div className="flex items-center mr-4 ">
                                     {<FaRegCommentAlt className='text-purple-400 hover:text-purple-300 text-xl cursor-pointer' />}
@@ -259,6 +420,9 @@ const PostCard = ({ author, content, createdAt, updatedAt, postId, bookmarkID, r
                         )}
                     </div>
                 </div>
+                {showModal && (
+                    <LikeByModal users={dummyArray} onClose={handleCloseModal} />
+                )}
             </div >
 
         </>

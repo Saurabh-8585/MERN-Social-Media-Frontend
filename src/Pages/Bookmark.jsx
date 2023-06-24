@@ -52,7 +52,6 @@ const Bookmark = () => {
             content={bookmarks.post.content}
             postImage={bookmarks.post.postImage}
             createdAt={bookmarks.post.createdAt}
-            updatedAt={bookmarks.post.updatedAt}
             postId={bookmarks.post._id}
             bookmarkID={bookmarks._id}
             removeFromBookMark={removeFromBookmark}

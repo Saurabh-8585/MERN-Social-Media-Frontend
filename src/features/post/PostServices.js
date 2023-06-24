@@ -22,8 +22,6 @@ export const PostApi = createApi({
             }),
         }),
 
-
-
         createPost: builder.mutation({
             query: (postData) => {
                 const formData = new FormData();
@@ -52,7 +50,7 @@ export const PostApi = createApi({
                 },
             }),
             invalidatesTags: ['Posts'],
-            
+
 
         }),
 
@@ -74,7 +72,31 @@ export const PostApi = createApi({
 
             invalidatesTags: ['Posts']
         }),
+
+        likePost: builder.mutation({
+            query: (id) => ({
+                url: '/like',
+                method: 'POST',
+                body: { id },
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('user')}`,
+                },
+            }),
+            invalidatesTags: ['Posts']
+        }),
+
+        dislikePost: builder.mutation({
+            query: (id) => ({
+                url: `/dislike/${id}`,
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('user')}`,
+                },
+            }),
+            invalidatesTags: ['Posts']
+        })
+
     }),
 });
 
-export const { useGetAllPostsQuery, useGetSinglePostQuery, useCreatePostMutation, useEditPostMutation, useDeletePostMutation } = PostApi;
+export const { useGetAllPostsQuery, useGetSinglePostQuery, useCreatePostMutation, useEditPostMutation, useDeletePostMutation, useLikePostMutation, useDislikePostMutation } = PostApi;

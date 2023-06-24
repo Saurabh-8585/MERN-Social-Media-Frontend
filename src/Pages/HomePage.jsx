@@ -4,7 +4,7 @@ import PostLoader from '../Components/Loader/PostLoader'
 import { useGetAllPostsQuery } from '../features/post/PostServices'
 const HomePage = () => {
     const { data, isLoading } = useGetAllPostsQuery();
-    console.log(data);
+    // console.log(data);
 
     return (
         <>
@@ -19,8 +19,9 @@ const HomePage = () => {
                         updatedAt={postData.updatedAt}
                         postId={postData._id}
                         postImage={postData.postImage}
+                        likes={postData.likes}
                     />)}
-                
+
 
             </div>
         </>
