@@ -19,15 +19,15 @@ const LikeByModal = ({ users, onClose }) => {
                 <div className="bg-white w-80 px-4 pb-4 rounded-lg h-1/2 lg:h-5/6 overflow-y-scroll">
                     <div className="flex items-center justify-between bg-white fixed w-72 h-20 border-b border-gray-400">
                         <h2 className="text-lg font-bold">Liked By</h2>
-                        <div className="">
+                        <div className="bg-red-600 rounded-xl font-semibold hover:bg-red-400">
                             <IoCloseSharp
-                                className="text-red-600 cursor-pointer"
+                                className="text-white cursor-pointer"
                                 size={24}
                                 onClick={closeModal}
                             />
                         </div>
                     </div>
-                    <div className="flex flex-col gap-3 mt-20">
+                    <div className="flex flex-col gap-3 mt-24">
                         {users.map((user) => (
                             <div
                                 key={user.id}
@@ -42,12 +42,7 @@ const LikeByModal = ({ users, onClose }) => {
                             </div>
                         ))}
                     </div>
-                    <button
-                        className="mt-4 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:outline-none"
-                        onClick={closeModal}
-                    >
-                        Close
-                    </button>
+                    
                 </div>
             </div>
         </>

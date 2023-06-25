@@ -19,8 +19,10 @@ const SinglePost = () => {
                     author={newData.post.author}
                     content={newData.post.content}
                     createdAt={newData.post.createdAt}
+                    likes={newData.post.likes}
                     updatedAt={newData.post.updatedAt}
                     postId={newData.post._id}
+
                 />
             }
         </div>

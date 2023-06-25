@@ -27,7 +27,7 @@ const CreateNewPost = () => {
 
         if (user) {
             if (content) {
-
+                // console.log(selectedFile);
                 const data = { content, image: selectedFile };
                 const post = await createPost(data);
                 if (isLoading) {

@@ -20,6 +20,7 @@ export const PostApi = createApi({
                 url: `/post/${id}`,
                 method: 'GET',
             }),
+            // providesTags: ['Posts'],
         }),
 
         createPost: builder.mutation({

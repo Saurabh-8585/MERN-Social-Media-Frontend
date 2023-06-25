@@ -6,8 +6,8 @@ import HomePage from '../Pages/HomePage'
 import Explore from '../Pages/Explore'
 import Login from '../Auth/Login'
 import Register from '../Auth/Register'
-import Sidebar from '../Components/Navigation/SideBar'
 import LoadingSpinner from '../Components/Loader/LoadingSpinner'
+import Sidebar from '../Navigation/SideBar'
 const LazyNotification = lazy(() => import('../Pages/Notification'));
 const LazyMessage = lazy(() => import('../Pages/Message'));
 const LazyBookmark = lazy(() => import('../Pages/Bookmark'));
@@ -30,7 +30,7 @@ const AppRoutes = () => {
                             <Route path="/explore" element={<Explore />} />
 
                             {/* lazy loaded components */}
-                            
+
                             <Route path="/post/:id" element={
                                 <Suspense fallback={<LoadingSpinner />}>
                                     <SinglePost />

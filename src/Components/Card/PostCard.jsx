@@ -34,6 +34,8 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
     const [likePost] = useLikePostMutation();
     const [dislike] = useDislikePostMutation();
 
+    console.log({likes});
+
 
 
     let postDay = DayFormatter(createdAt)
@@ -169,108 +171,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
 
     }
 
-    const dummyArray = [
-        {
-            id: 1,
-            username: 'john_doe',
-            profileImage: 'https://example.com/profile1.jpg',
-        },
-        {
-            id: 2,
-            username: 'jane_smith',
-            profileImage: 'https://example.com/profile2.jpg',
-        },
-        {
-            id: 3,
-            username: 'mike_jackson',
-            profileImage: 'https://example.com/profile3.jpg',
-        },
-        {
-            id: 4,
-            username: 'emma_watson',
-            profileImage: 'https://example.com/profile4.jpg',
-        },
-        {
-            id: 5,
-            username: 'alexander_king',
-            profileImage: 'https://example.com/profile5.jpg',
-        },
-        {
-            id: 6,
-            username: 'sophia_harris',
-            profileImage: 'https://example.com/profile6.jpg',
-        },
-        {
-            id: 7,
-            username: 'william_smith',
-            profileImage: 'https://example.com/profile7.jpg',
-        },
-        {
-            id: 8,
-            username: 'olivia_brown',
-            profileImage: 'https://example.com/profile8.jpg',
-        },
-        {
-            id: 9,
-            username: 'james_johnson',
-            profileImage: 'https://example.com/profile9.jpg',
-        },
-        {
-            id: 10,
-            username: 'amelia_clark',
-            profileImage: 'https://example.com/profile10.jpg',
-        },
-        {
-            id: 11,
-            username: 'ethan_martin',
-            profileImage: 'https://example.com/profile11.jpg',
-        },
-        {
-            id: 12,
-            username: 'ava_taylor',
-            profileImage: 'https://example.com/profile12.jpg',
-        },
-        {
-            id: 13,
-            username: 'michael_wilson',
-            profileImage: 'https://example.com/profile13.jpg',
-        },
-        {
-            id: 14,
-            username: 'charlotte_lewis',
-            profileImage: 'https://example.com/profile14.jpg',
-        },
-        {
-            id: 15,
-            username: 'benjamin_hall',
-            profileImage: 'https://example.com/profile15.jpg',
-        },
-        {
-            id: 16,
-            username: 'mia_baker',
-            profileImage: 'https://example.com/profile16.jpg',
-        },
-        {
-            id: 17,
-            username: 'logan_adams',
-            profileImage: 'https://example.com/profile17.jpg',
-        },
-        {
-            id: 18,
-            username: 'lily_garcia',
-            profileImage: 'https://example.com/profile18.jpg',
-        },
-        {
-            id: 19,
-            username: 'samuel_hill',
-            profileImage: 'https://example.com/profile19.jpg',
-        },
-        {
-            id: 20,
-            username: 'emily_morris',
-            profileImage: 'https://example.com/profile20.jpg',
-        },
-    ];
+ 
 
     const isLikedPost = useMemo(() => {
         if (user) {
@@ -285,7 +186,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
         }
 
         return false;
-    }, [user, handleLike, handleRemoveLike]);
+    }, [handleLike, handleRemoveLike]);
     return (
         <>
             <div className="p-5 flex items-center justify-center   w-full">
@@ -327,6 +228,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                         <img
                             className="mt-2 rounded-2xl border border-gray-100 dark:border-gray-700 flex m-auto"
                             src={postImage?.url}
+                            // src="https://res.cloudinary.com/dsxjhas6t/image/upload/v1652433208/sapphire/150_x5gbob.jpg"
                             alt='Post_Photo'
                         />
                     }
@@ -355,22 +257,22 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                         {(!removeFromBookMark && !bookmarkID) &&
                             !isEditing &&
                             <>
-                                <div className="flex items-center mr-4">
+                                <div className="flex items-center mr-4 cursor-pointer">
                                     {isLikedPost ?
-                                        <FcLike className='text-purple-400  hover:text-red-500 text-xl cursor-pointer'
+                                        <FcLike className='text-purple-400  hover:text-red-500 text-xl'
                                             onClick={() => handleRemoveLike(postId)}
                                         />
                                         :
-                                        <AiOutlineHeart className='text-purple-400  hover:text-red-500 text-xl cursor-pointer'
+                                        <AiOutlineHeart className='text-purple-400  hover:text-red-500 text-xl'
                                             onClick={() => handleLike(postId)} />
                                     }
 
 
-                                    <span className="ml-2" onClick={handleLikeClick}>{likes.length} likes</span>
+                                    <span className="ml-2 font-medium" onClick={handleLikeClick}>{likes.length} </span>
                                 </div>
-                                <div className="flex items-center mr-4 ">
-                                    {<FaRegCommentAlt className='text-purple-400 hover:text-purple-300 text-xl cursor-pointer' />}
-                                    <span className="ml-2">93 </span>
+                                <div className="flex items-center mr-4 cursor-pointer">
+                                    {<FaRegCommentAlt className='text-purple-400 hover:text-purple-300 text-xl ' />}
+                                    <span className="ml-2 font-medium">93 </span>
                                 </div>
                                 <div className="flex items-center mr-4 justify-center">
                                     {<MdOutlineBookmarkAdd className='text-purple-400 hover:text-purple-300 text-2xl cursor-pointer' onClick={() => handleAddBookMark(postId)} />}
@@ -421,7 +323,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                     </div>
                 </div>
                 {showModal && (
-                    <LikeByModal users={dummyArray} onClose={handleCloseModal} />
+                    <LikeByModal users={likes} onClose={handleCloseModal} />
                 )}
             </div >
 
