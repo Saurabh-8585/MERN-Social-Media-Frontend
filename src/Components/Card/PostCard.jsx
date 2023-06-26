@@ -1,48 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { DayFormatter, TimeFormatter } from '../../utils/DateFormatter'
-import { useDeletePostMutation, useDislikePostMutation, useEditPostMutation, useLikePostMutation } from '../../features/post/PostServices'
-import { useAddToBookMarkMutation } from '../../features/bookmark/BookMarkServices';
+import { useEditPostMutation } from '../../features/post/PostServices'
 import { FaRegCommentAlt } from 'react-icons/fa'
-import { AiOutlineHeart, AiOutlineShareAlt, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
+import { AiOutlineHeart, AiFillHeart,AiOutlineShareAlt, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
 import { MdOutlineCancel, MdOutlineSaveAs, MdOutlineBookmarkAdd, MdBookmarkRemove } from 'react-icons/md'
 import { FcLike } from 'react-icons/fc'
 import getCurrentUser from '../../utils/CurrentUser';
 import LikeByModal from '../Modal/LikeByModal';
+import useHandlePostActions from '../../hooks/useHandlePostActions';
 
 const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBookMark, postImage, likes }) => {
 
-    const [isEditing, setIsEditing] = useState(false);
-
-    const [editedContent, setEditedContent] = useState(content);
-    const [showModal, setShowModal] = useState(false);
-
-    const handleLikeClick = () => {
-        setShowModal(true);
-    };
-
-    const handleCloseModal = () => {
-        setShowModal(false);
-    };
-
-    const [deletePost] = useDeletePostMutation()
-
-    const [editPost] = useEditPostMutation()
-
-    const [addBookMark] = useAddToBookMarkMutation()
-
-    const [likePost] = useLikePostMutation();
-    const [dislike] = useDislikePostMutation();
-
-    console.log({likes});
-
-
-
-    let postDay = DayFormatter(createdAt)
-    let postTime = TimeFormatter(createdAt)
-
-    const user = sessionStorage.getItem('user')
-
+    const user = sessionStorage.getItem('user');
 
     const isCurrentUserAuthor = useMemo(() => {
         if (user) {
@@ -54,14 +24,25 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
 
     }, [user]);
 
+    const { handleLike, handleRemoveLike, handleDelete, handleAddBookMark } = useHandlePostActions({ user ,isCurrentUserAuthor})
+
+    const [isEditing, setIsEditing] = useState(false);
+
+    const [editedContent, setEditedContent] = useState(content);
+
+    const [showModal, setShowModal] = useState(false);
 
 
+    const [editPost] = useEditPostMutation();
 
+    let postDay = DayFormatter(createdAt);
+    let postTime = TimeFormatter(createdAt);
 
     const handleCancelEdit = () => {
         setIsEditing(false);
         setEditedContent(content);
     };
+
     const handleEdit = () => {
         if (isCurrentUserAuthor) {
             setIsEditing(true);
@@ -71,30 +52,6 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
         }
     };
 
-
-
-
-    const handleDelete = async (PostID) => {
-        if (user) {
-            if (isCurrentUserAuthor) {
-
-                const response = await deletePost(PostID);
-                if (response.error) {
-                    toast.error(response.error.data.message);
-                }
-                else {
-                    toast.success(response.data.message);
-                }
-            }
-            else {
-                toast.error('You are not authorized to delete this post');
-            }
-        }
-        else {
-            toast.error('Please login to add bookmark');
-        }
-
-    }
     const handleSaveEdit = async (PostID) => {
         if (user) {
             const newData = { PostID, editedContent };
@@ -114,21 +71,6 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
         }
     };
 
-    const handleAddBookMark = async (PostID) => {
-        if (user) {
-            const response = await addBookMark(PostID);
-            if (response.error) {
-                toast.error(response.error.data.message);
-            }
-            else {
-                toast.success(response.data.message);
-            }
-        }
-        else {
-            toast.error('Please login to add bookmark');
-        }
-    };
-
     const handleSharePost = async (PostID) => {
 
         const data = {
@@ -145,33 +87,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
         }
     }
 
-    const handleLike = async (PostID) => {
-        if (user) {
-            const likePostResponse = await likePost(PostID)
-            if (likePostResponse.error) {
-                toast.error(likePostResponse.error);
-            }
-        }
-        else {
-            toast.error('Please login to like post');
-        }
 
-    }
-    const handleRemoveLike = async (PostID) => {
-        if (user) {
-
-            const likePostResponse = await dislike(PostID)
-            if (likePostResponse.error) {
-                toast.error(likePostResponse.error);
-            }
-        }
-        else {
-            toast.error('Please login to like post');
-        }
-
-    }
-
- 
 
     const isLikedPost = useMemo(() => {
         if (user) {
@@ -259,7 +175,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                             <>
                                 <div className="flex items-center mr-4 cursor-pointer">
                                     {isLikedPost ?
-                                        <FcLike className='text-purple-400  hover:text-red-500 text-xl'
+                                    <AiFillHeart className=' text-red-600 hover:text-red-500 text-xl'
                                             onClick={() => handleRemoveLike(postId)}
                                         />
                                         :
@@ -268,7 +184,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                                     }
 
 
-                                    <span className="ml-2 font-medium" onClick={handleLikeClick}>{likes.length} </span>
+                                    <span className="ml-2 font-medium" onClick={() => setShowModal(true)}>{likes.length} </span>
                                 </div>
                                 <div className="flex items-center mr-4 cursor-pointer">
                                     {<FaRegCommentAlt className='text-purple-400 hover:text-purple-300 text-xl ' />}
@@ -323,7 +239,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                     </div>
                 </div>
                 {showModal && (
-                    <LikeByModal users={likes} onClose={handleCloseModal} />
+                    <LikeByModal users={likes} onClose={() => setShowModal(false)} />
                 )}
             </div >
 

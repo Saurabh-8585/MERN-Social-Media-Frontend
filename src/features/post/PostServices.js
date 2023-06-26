@@ -20,7 +20,7 @@ export const PostApi = createApi({
                 url: `/post/${id}`,
                 method: 'GET',
             }),
-            // providesTags: ['Posts'],
+            providesTags: ['Posts'],
         }),
 
         createPost: builder.mutation({
@@ -38,9 +38,10 @@ export const PostApi = createApi({
                     },
                 };
             },
-
-            invalidatesTags: ['Posts']
+            invalidatesTags: ['Posts'],
+            transformResponse: (response) => response.data,
         }),
+
 
         deletePost: builder.mutation({
             query: (postId) => ({

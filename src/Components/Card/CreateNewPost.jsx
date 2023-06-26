@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { MdOutlineImage, MdOutlineImageNotSupported } from 'react-icons/md';
 import { useCreatePostMutation } from '../../features/post/PostServices'
+import LoadingSpinner from '../Loader/LoadingSpinner';
 const CreateNewPost = () => {
 
     const [selectedFile, setSelectedFile] = useState(null);
     const [image, setImage] = useState(null);
     const [content, setContent] = useState('');
-    const [createPost, { isLoading }] = useCreatePostMutation();
+    const [createPost, { isLoading, isError, error, isSuccess }] = useCreatePostMutation();
+
+
+
     const user = sessionStorage.getItem('user');
 
     const handleFileSelect = (event) => {
@@ -22,34 +26,38 @@ const CreateNewPost = () => {
         setSelectedFile(file);
     };
 
+
     const addPost = async (e) => {
         e.preventDefault();
 
-        if (user) {
-            if (content) {
-                // console.log(selectedFile);
-                const data = { content, image: selectedFile };
-                const post = await createPost(data);
-                if (isLoading) {
-                    toast.loading('Posting...');
-                }
+        if (!user) {
+            return toast.error('Please login to add a post');
+        }
 
-                if (post.error) {
-                    toast.error(post.error.data.message);
-                }
-                else {
-                    toast.success(post.data.message);
-                }
-                setContent('');
-                setImage(null);
+        if (!content) {
+            return toast.error('Add some text');
+        }
 
-            } else {
-                toast.error('Add some text');
-            }
-        } else {
-            toast.error('Please login to add a post');
+        try {
+            const data = { content, image: selectedFile };
+
+            const promise = createPost(data);
+            toast.promise(promise, {
+                loading: 'Posting...',
+                success: 'Posted',
+                error: 'Failed to create post',
+            });
+
+            const response = await promise;
+            setContent('');
+            setImage(null);
+        } catch (error) {
+            console.log(error);
+            toast.error('Failed to create post');
         }
     };
+
+
 
 
 
