@@ -2,12 +2,10 @@ import PostCard from '../Components/Card/PostCard'
 import CreateNewPost from '../Components/Card/CreateNewPost'
 import PostLoader from '../Components/Loader/PostLoader'
 import { useGetAllPostsQuery } from '../features/post/PostServices'
-import axios from 'axios'
-import { useEffect } from 'react'
+
 
 const HomePage = () => {
     const { data, isLoading } = useGetAllPostsQuery();
-    // console.log(data);
 
 
     return (
@@ -24,6 +22,7 @@ const HomePage = () => {
                         postId={postData._id}
                         postImage={postData.postImage}
                         likes={postData.likes}
+                        comments={postData.comments}
                     />)}
 
 

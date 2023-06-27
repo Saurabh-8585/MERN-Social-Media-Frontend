@@ -48,7 +48,7 @@ const CreateNewPost = () => {
                 error: 'Failed to create post',
             });
 
-            const response = await promise;
+            await promise;
             setContent('');
             setImage(null);
         } catch (error) {
@@ -70,7 +70,7 @@ const CreateNewPost = () => {
                     <form onSubmit={addPost}>
                         <div className="flex justify-between">
                             <img
-                                className="h-11 w-11 rounded-full"
+                                className="h-11 w-11 rounded-full border"
                                 src="https://res.cloudinary.com/dsxjhas6t/image/upload/v1652433208/sapphire/150_x5gbob.jpg"
                                 alt=""
                             />

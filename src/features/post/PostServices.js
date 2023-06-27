@@ -5,7 +5,7 @@ export const PostApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.REACT_APP_POST,
     }),
-    tagTypes: ['Posts'],
+    tagTypes: ['Posts', 'SinglePost', 'Comments'],
     endpoints: (builder) => ({
         getAllPosts: builder.query({
             query: () => ({
@@ -20,14 +20,14 @@ export const PostApi = createApi({
                 url: `/post/${id}`,
                 method: 'GET',
             }),
-            providesTags: ['Posts'],
+            providesTags: ['SinglePost',]
         }),
 
         createPost: builder.mutation({
-            query: (postData) => {
+            query: ({ content, image }) => {
                 const formData = new FormData();
-                formData.append('content', postData.content);
-                formData.append('file', postData.image);
+                formData.append('content', content);
+                formData.append('file', image);
 
                 return {
                     url: '/new',
@@ -39,7 +39,6 @@ export const PostApi = createApi({
                 };
             },
             invalidatesTags: ['Posts'],
-            transformResponse: (response) => response.data,
         }),
 
 
@@ -52,25 +51,17 @@ export const PostApi = createApi({
                 },
             }),
             invalidatesTags: ['Posts'],
-
-
         }),
 
         editPost: builder.mutation({
-            query: (postData) => {
-                const formData = new FormData();
-                formData.append('content', postData.editedContent);
-                formData.append('file', postData.image);
-
-                return {
-                    url: `/edit/${postData.PostID}`,
-                    method: 'PUT',
-                    body: formData,
-                    headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem('user')}`,
-                    },
-                };
-            },
+            query: ({ PostID, editedContent }) => ({
+                url: `/edit/${PostID}`,
+                method: 'PUT',
+                body: { content: editedContent },
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('user')}`,
+                },
+            }),
 
             invalidatesTags: ['Posts']
         }),
@@ -96,9 +87,45 @@ export const PostApi = createApi({
                 },
             }),
             invalidatesTags: ['Posts']
-        })
+        }),
 
+        addComment: builder.mutation({
+            query: ({ id, content }) => ({
+                url: `/comment/${id}`,
+                method: 'POST',
+                body: { content },
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('user')}`,
+                },
+            }
+            ),
+            invalidatesTags: ['SinglePost']
+        }),
+
+        deleteComment: builder.mutation({
+            query: (postId, commentID ) => (
+                {
+                url: `/comment/${postId}/${commentID}`,
+                method: 'DELETE',
+
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('user')}`,
+                },
+            }
+            ),
+            invalidatesTags: ['SinglePost']
+        })
     }),
 });
 
-export const { useGetAllPostsQuery, useGetSinglePostQuery, useCreatePostMutation, useEditPostMutation, useDeletePostMutation, useLikePostMutation, useDislikePostMutation } = PostApi;
+export const {
+    useGetAllPostsQuery,
+    useGetSinglePostQuery,
+    useCreatePostMutation,
+    useEditPostMutation,
+    useDeletePostMutation,
+    useLikePostMutation,
+    useDislikePostMutation,
+    useAddCommentMutation,
+    useDeleteCommentMutation
+} = PostApi;

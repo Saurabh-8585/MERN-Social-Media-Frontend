@@ -1,25 +1,16 @@
 import React from 'react'
 import PostCard from '../Components/Card/PostCard'
 import PostLoader from '../Components/Loader/PostLoader'
-import { useGetAllBookMarksQuery, useRemoveFromBookMarkMutation } from '../features/bookmark/BookMarkServices'
-import { toast } from 'react-hot-toast'
+import { useGetAllBookMarksQuery } from '../features/bookmark/BookMarkServices'
 import { BsBookmarkPlus } from 'react-icons/bs'
 import { NavLink } from 'react-router-dom'
+import useHandlePostActions from '../hooks/useHandlePostActions'
 const Bookmark = () => {
   const { data, isLoading, } = useGetAllBookMarksQuery()
-  const [removeBookMark] = useRemoveFromBookMarkMutation()
+ 
+  const { removeFromBookmark } = useHandlePostActions({})
 
 
-
-  const removeFromBookmark = async (bookmarkId) => {
-    const response = await removeBookMark(bookmarkId);
-    if (response.error) {
-      toast.error(response.error.data.message);
-    }
-    else {
-      toast.success(response.data.message);
-    }
-  }
 
   return (
 

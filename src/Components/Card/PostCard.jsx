@@ -1,19 +1,19 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { toast } from 'react-hot-toast'
-import { DayFormatter, TimeFormatter } from '../../utils/DateFormatter'
+import { getTimeAgo } from '../../utils/DateFormatter'
 import { useEditPostMutation } from '../../features/post/PostServices'
 import { FaRegCommentAlt } from 'react-icons/fa'
-import { AiOutlineHeart, AiFillHeart,AiOutlineShareAlt, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
+import { AiOutlineHeart, AiFillHeart, AiOutlineShareAlt, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
 import { MdOutlineCancel, MdOutlineSaveAs, MdOutlineBookmarkAdd, MdBookmarkRemove } from 'react-icons/md'
-import { FcLike } from 'react-icons/fc'
 import getCurrentUser from '../../utils/CurrentUser';
 import LikeByModal from '../Modal/LikeByModal';
 import useHandlePostActions from '../../hooks/useHandlePostActions';
+import { useNavigate } from 'react-router-dom'
 
-const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBookMark, postImage, likes }) => {
+const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBookMark, postImage, likes, comments }) => {
 
     const user = sessionStorage.getItem('user');
-
+    const navigate = useNavigate()
     const isCurrentUserAuthor = useMemo(() => {
         if (user) {
             const decodedToken = getCurrentUser(user);
@@ -24,7 +24,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
 
     }, [user]);
 
-    const { handleLike, handleRemoveLike, handleDelete, handleAddBookMark } = useHandlePostActions({ user ,isCurrentUserAuthor})
+    const { handleLike, handleRemoveLike, handleDelete, handleAddBookMark } = useHandlePostActions({ isCurrentUserAuthor })
 
     const [isEditing, setIsEditing] = useState(false);
 
@@ -34,9 +34,6 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
 
 
     const [editPost] = useEditPostMutation();
-
-    let postDay = DayFormatter(createdAt);
-    let postTime = TimeFormatter(createdAt);
 
     const handleCancelEdit = () => {
         setIsEditing(false);
@@ -88,7 +85,6 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
     }
 
 
-
     const isLikedPost = useMemo(() => {
         if (user) {
             const decodedToken = getCurrentUser(user);
@@ -110,7 +106,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                     <div className="flex justify-between">
                         <div className="flex items-center">
                             <img
-                                className="h-11 w-11 rounded-full"
+                                className="h-11 w-11 rounded-full border"
                                 src="https://res.cloudinary.com/dsxjhas6t/image/upload/v1652433208/sapphire/150_x5gbob.jpg"
                                 alt=''
                             />
@@ -136,7 +132,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
 
 
                     ) : (
-                        <p className="text-black dark:text-white block text-lg leading-snug mt-2 ml-3">{content}</p>
+                        <p className="text-black dark:text-white block text-lg leading-snug mt-2">{content}</p>
                     )}
 
                     {postImage?.url &&
@@ -150,7 +146,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                     }
 
                     <p className="text-gray-500 dark:text-gray-400 text-base py-1 my-0.5">
-                        {postDay} {postTime}
+                        Posted {getTimeAgo(createdAt)}
                     </p>
 
                     <div className="border-gray-200 dark:border-gray-600 border border-b-0 my-1" />
@@ -175,7 +171,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                             <>
                                 <div className="flex items-center mr-4 cursor-pointer">
                                     {isLikedPost ?
-                                    <AiFillHeart className=' text-red-600 hover:text-red-500 text-xl'
+                                        <AiFillHeart className=' text-red-600 hover:text-red-500 text-xl'
                                             onClick={() => handleRemoveLike(postId)}
                                         />
                                         :
@@ -187,8 +183,8 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                                     <span className="ml-2 font-medium" onClick={() => setShowModal(true)}>{likes.length} </span>
                                 </div>
                                 <div className="flex items-center mr-4 cursor-pointer">
-                                    {<FaRegCommentAlt className='text-purple-400 hover:text-purple-300 text-xl ' />}
-                                    <span className="ml-2 font-medium">93 </span>
+                                    {<FaRegCommentAlt className='text-purple-400 hover:text-purple-300 text-xl ' onClick={() => navigate(`/post/${postId}`)} />}
+                                    <span className="ml-2 font-medium">{comments.length} </span>
                                 </div>
                                 <div className="flex items-center mr-4 justify-center">
                                     {<MdOutlineBookmarkAdd className='text-purple-400 hover:text-purple-300 text-2xl cursor-pointer' onClick={() => handleAddBookMark(postId)} />}

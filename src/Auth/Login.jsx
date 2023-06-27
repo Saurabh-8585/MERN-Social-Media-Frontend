@@ -6,7 +6,7 @@ import { useUserSignInMutation } from '../features/auth/AuthServices';
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
-    const [signInUser, response] = useUserSignInMutation()
+    const [signInUser] = useUserSignInMutation()
 
     const onSubmit = async (info) => {
         try {
