@@ -35,8 +35,9 @@ const useHandleCommentActions = () => {
     }
     const handleDeleteComment = async (postId, commentId) => {
         console.log({ postId, commentId },2);
+        let data={postId,commentId}
         if (user) {
-            let response = deleteComment(postId, commentId);
+            let response = deleteComment(data);
             toast.promise(response, {
                 loading: 'Deleting...',
                 success: 'Deleted',

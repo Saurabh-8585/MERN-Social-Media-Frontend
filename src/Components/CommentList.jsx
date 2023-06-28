@@ -2,16 +2,36 @@ import { getTimeAgo } from "../utils/DateFormatter";
 import { AiOutlineEdit, AiOutlineDelete, AiOutlineSave, AiOutlineHeart, AiFillAlert } from 'react-icons/ai'
 import { MdOutlineCancel } from 'react-icons/md'
 import useHandleCommentActions from "../hooks/useHandleCommentActions";
+import { useDeleteCommentMutation, useLikeCommentMutation } from "../features/post/PostServices";
+import { useMemo, useState } from "react";
+import getCurrentUser from "../utils/CurrentUser";
+import LikeByModal from "./Modal/LikeByModal";
 
-const CommentList = ({ comments, postId }) => {
+const CommentList = ({ comments, postId, commentLikes }) => {
     const sortedComments = [...comments].sort((a, b) => {
         const createdAtA = new Date(a.createdAt);
         const createdAtB = new Date(b.createdAt);
         return createdAtB - createdAtA;
     });
+    const [showModal, setShowModal] = useState(false);
+    const [handleDeleteComment] = useDeleteCommentMutation();
+    const [likeComment] = useLikeCommentMutation();
+    console.log({ commentLikes });
+    const removeComment = async (commentId) => {
+        console.log('Post ID:', postId);
+        console.log('Comment ID:', commentId);
+        let data = { postId, commentId }
+        const response = await handleDeleteComment(data);
+        console.log('Response:', response.data);
+    };
 
-    const { handleDeleteComment } = useHandleCommentActions()
-
+    const handleLikeComment = async (commentId) => {
+        console.log('Post ID:', postId);
+        console.log('Comment ID:', commentId);
+        let data = { postId, commentId }
+        const response = await likeComment(data);
+        console.log('Response:', response.data);
+    }
 
     return (
         <div className='mt-5 p-5 flex justify-center flex-col m-auto w-full items-center'>
@@ -36,7 +56,11 @@ const CommentList = ({ comments, postId }) => {
                         <div className="flex items-center mr-4 justify-center">
                             <AiOutlineHeart
                                 className="text-purple-400 text-xl cursor-pointer hover:text-red-500"
+                                onClick={() => handleLikeComment(comment._id)}
                             />
+                            <span className="ml-2 font-medium cursor-pointer"
+                                onClick={() => setShowModal(true)}
+                            >{comment.commentLikes.length} </span>
                         </div>
                         <div className="flex items-center mr-4 justify-center">
                             <AiOutlineEdit
@@ -46,13 +70,16 @@ const CommentList = ({ comments, postId }) => {
                         <div className="flex items-center mr-4 justify-center">
                             <AiOutlineDelete
                                 className="text-purple-400  text-xl cursor-pointer hover:text-red-500"
-                                onClick={() => handleDeleteComment(postId, comment._id)}
+                                onClick={() => removeComment(comment._id)}
                             />
                         </div>
                     </div>
                 </div>
 
             ))}
+            {showModal && (
+                commentLikes.map(data => <LikeByModal users={data.commentLikes} onClose={() => setShowModal(false)} />)
+            )}
         </div>
     );
 };

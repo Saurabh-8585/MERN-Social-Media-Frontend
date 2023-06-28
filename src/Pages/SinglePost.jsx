@@ -9,14 +9,16 @@ const SinglePost = () => {
     const { id } = useParams()
     const { data, isLoading } = useGetSinglePostQuery(id)
     const newData = { ...data }
+    console.log({ newData });
 
+    const user = sessionStorage.getItem('user')
     return (
         <div className="flex justify-center items-center flex-col mt-10">
             {isLoading ?
 
                 <PostLoader /> :
                 <>
-                    {data.length < 1 && <h1>No Post found</h1>}
+                    {newData.length < 1 && <h1>No Post found</h1>}
                     <PostCard
                         key={newData.post._id}
                         author={newData.post.author}
@@ -30,7 +32,12 @@ const SinglePost = () => {
                     />
 
                     <AddComment postId={id} />
-                    <CommentList comments={newData.post.comments} postId={newData.post._id} />
+
+                    <CommentList
+                        comments={newData.post.comments}
+                        postId={newData.post._id}
+                        user={user}
+                        commentLikes={newData.post.comments} />
                 </>
             }
 

@@ -50,7 +50,7 @@ export const PostApi = createApi({
                     Authorization: `Bearer ${sessionStorage.getItem('user')}`,
                 },
             }),
-            invalidatesTags: ['Posts'],
+            invalidatesTags: ['Posts', 'SinglePost']
         }),
 
         editPost: builder.mutation({
@@ -63,7 +63,7 @@ export const PostApi = createApi({
                 },
             }),
 
-            invalidatesTags: ['Posts']
+            invalidatesTags: ['Posts', 'SinglePost']
         }),
 
         likePost: builder.mutation({
@@ -75,7 +75,7 @@ export const PostApi = createApi({
                     Authorization: `Bearer ${sessionStorage.getItem('user')}`,
                 },
             }),
-            invalidatesTags: ['Posts']
+            invalidatesTags: ['Posts','SinglePost']
         }),
 
         dislikePost: builder.mutation({
@@ -86,7 +86,7 @@ export const PostApi = createApi({
                     Authorization: `Bearer ${sessionStorage.getItem('user')}`,
                 },
             }),
-            invalidatesTags: ['Posts']
+            invalidatesTags: ['Posts', 'SinglePost']
         }),
 
         addComment: builder.mutation({
@@ -96,26 +96,38 @@ export const PostApi = createApi({
                 body: { content },
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem('user')}`,
-                },
-            }
-            ),
+                }
+            }),
             invalidatesTags: ['SinglePost']
         }),
 
         deleteComment: builder.mutation({
-            query: (postId, commentID ) => (
-                {
-                url: `/comment/${postId}/${commentID}`,
+            query: ({ postId, commentId }) => ({
+                url: `/comment/delete/${postId}/${commentId}`,
                 method: 'DELETE',
+                // body: { commentId },
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('user')}`,
+                }
+            }),
+            invalidatesTags: ['SinglePost']
+        }),
 
+        likeComment: builder.mutation({
+            query: ({ postId, commentId }) => ({
+                url: '/like/comment',
+                method: 'POST',
+                body: { postId, commentId },
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem('user')}`,
                 },
-            }
-            ),
+            }),
             invalidatesTags: ['SinglePost']
-        })
+        }),
+
+
     }),
+
 });
 
 export const {
@@ -127,5 +139,7 @@ export const {
     useLikePostMutation,
     useDislikePostMutation,
     useAddCommentMutation,
-    useDeleteCommentMutation
+    useDeleteCommentMutation,
+    useLikeCommentMutation
+
 } = PostApi;
