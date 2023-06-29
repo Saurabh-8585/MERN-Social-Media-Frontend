@@ -50,7 +50,7 @@ export const PostApi = createApi({
                     Authorization: `Bearer ${sessionStorage.getItem('user')}`,
                 },
             }),
-            invalidatesTags: ['Posts', 'SinglePost']
+            invalidatesTags: ['SinglePost', 'Posts',]
         }),
 
         editPost: builder.mutation({

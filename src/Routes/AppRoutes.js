@@ -71,13 +71,13 @@ const AppRoutes = () => {
                             />
 
                             <Route
-                                path="/profile"
+                                path="/profile/:id"
                                 element={
-                                    <ProtectedRoute>
+                                    // <ProtectedRoute>
                                         <Suspense fallback={<LoadingSpinner />}>
                                             <LazyProfile />
                                         </Suspense>
-                                    </ProtectedRoute>
+                                    // </ProtectedRoute>
                                 }
                             />
 

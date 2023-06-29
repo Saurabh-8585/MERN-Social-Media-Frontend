@@ -8,7 +8,7 @@ import { MdOutlineCancel, MdOutlineSaveAs, MdOutlineBookmarkAdd, MdBookmarkRemov
 import getCurrentUser from '../../utils/CurrentUser';
 import LikeByModal from '../Modal/LikeByModal';
 import useHandlePostActions from '../../hooks/useHandlePostActions';
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBookMark, postImage, likes, comments }) => {
 
@@ -104,7 +104,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
             <div className="p-5 flex items-center justify-center   w-full">
                 <div className="bg-white dark:bg-gray-800 border-gray-300  p-4 rounded-xl border w-full max-w-xl shadow-sm hover:shadow-md">
                     <div className="flex justify-between">
-                        <div className="flex items-center">
+                        <Link to={`profile/${author._id}`} className="flex items-center">
                             <img
                                 className="h-11 w-11 rounded-full border"
                                 src="https://res.cloudinary.com/dsxjhas6t/image/upload/v1652433208/sapphire/150_x5gbob.jpg"
@@ -118,7 +118,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                                     @{author.username}
                                 </span>
                             </div>
-                        </div>
+                        </Link>
                     </div>
                     {isEditing ? (
                         <textarea

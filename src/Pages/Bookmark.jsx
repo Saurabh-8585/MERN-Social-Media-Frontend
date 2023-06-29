@@ -10,7 +10,7 @@ const Bookmark = () => {
  
   const { removeFromBookmark } = useHandlePostActions({})
 
-
+console.log({data});
 
   return (
 

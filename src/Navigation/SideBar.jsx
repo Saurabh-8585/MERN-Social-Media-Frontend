@@ -2,8 +2,12 @@ import React from 'react';
 import { FiHome, FiHash, FiBell, FiMail, FiBookmark, FiUser } from 'react-icons/fi';
 import { NavLink } from 'react-router-dom';
 import Navbar from './Navbar';
+import getCurrentUser from '../utils/CurrentUser';
 
 const Sidebar = () => {
+    const user = sessionStorage.getItem('user')
+    const profileId = user && getCurrentUser(user)
+
     return (
         <>
             <Navbar />
@@ -61,8 +65,9 @@ const Sidebar = () => {
                         </NavLink>
                     </li>
                     <li className='lg:w-3/4'>
+
                         <NavLink
-                            to="/profile"
+                            to={`/profile/${profileId}`}
                             className="text-gray-700 hover:text-purple-500 flex items-center justify-between"
                             activeClassName="active"
                         >

@@ -18,16 +18,14 @@ const CommentList = ({ comments, postId, commentLikes }) => {
     const [likeComment] = useLikeCommentMutation();
     console.log({ commentLikes });
     const removeComment = async (commentId) => {
-        console.log('Post ID:', postId);
-        console.log('Comment ID:', commentId);
+       
         let data = { postId, commentId }
         const response = await handleDeleteComment(data);
         console.log('Response:', response.data);
     };
 
     const handleLikeComment = async (commentId) => {
-        console.log('Post ID:', postId);
-        console.log('Comment ID:', commentId);
+       
         let data = { postId, commentId }
         const response = await likeComment(data);
         console.log('Response:', response.data);
