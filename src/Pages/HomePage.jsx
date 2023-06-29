@@ -6,7 +6,7 @@ import { useGetAllPostsQuery } from '../features/post/PostServices'
 
 const HomePage = () => {
     const { data, isLoading } = useGetAllPostsQuery();
-
+    console.log(data);
 
     return (
         <>

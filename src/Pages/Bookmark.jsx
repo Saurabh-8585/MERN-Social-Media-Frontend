@@ -7,10 +7,10 @@ import { NavLink } from 'react-router-dom'
 import useHandlePostActions from '../hooks/useHandlePostActions'
 const Bookmark = () => {
   const { data, isLoading, } = useGetAllBookMarksQuery()
- 
-  const { removeFromBookmark } = useHandlePostActions({})
 
-console.log({data});
+  const { removeFromBookmark } = useHandlePostActions()
+
+  console.log({ data });
 
   return (
 

@@ -17,10 +17,19 @@ export const PostApi = createApi({
 
         getSinglePost: builder.query({
             query: (id) => ({
-                url: `/post/${id}`,
+                url: `/user/${id}`,
                 method: 'GET',
             }),
             providesTags: ['SinglePost',]
+        }),
+
+
+        getSingleUserPosts: builder.query({
+            query: (id) => ({
+                url: `/post/${id}`,
+                method: 'GET',
+            }),
+            providesTags: ['Posts',]
         }),
 
         createPost: builder.mutation({
@@ -75,7 +84,7 @@ export const PostApi = createApi({
                     Authorization: `Bearer ${sessionStorage.getItem('user')}`,
                 },
             }),
-            invalidatesTags: ['Posts','SinglePost']
+            invalidatesTags: ['Posts', 'SinglePost']
         }),
 
         dislikePost: builder.mutation({
@@ -133,6 +142,7 @@ export const PostApi = createApi({
 export const {
     useGetAllPostsQuery,
     useGetSinglePostQuery,
+    useGetSingleUserPostsQuery,
     useCreatePostMutation,
     useEditPostMutation,
     useDeletePostMutation,

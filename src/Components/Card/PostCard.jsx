@@ -238,7 +238,6 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                     <LikeByModal users={likes} onClose={() => setShowModal(false)} />
                 )}
             </div >
-
         </>
     )
 }

@@ -1,31 +1,24 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const UserApi = createApi({
     reducerPath: 'UserApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5000/api/user',
+        baseUrl: process.env.REACT_APP_USER,
     }),
-    tagTypes: ['User'],
-
+    tagTypes: ['BookMarks'],
     endpoints: (builder) => ({
-        getUserInfo: builder.query({
-            query: (id) => `/profile/${id}`,
-            providesTags: ['User'],
-        }),
-
-        followUser: builder.mutation({
+        getProfile: builder.query({
             query: (id) => ({
-                url: `follow/${id}`,
-                method: 'PUT',
-
+                url: `/${id}`,
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('user')}`,
+                },
             }),
-            invalidatesTags: ['User'],
-        })
-
+            providesTags: ['BookMarks'],
+        }),
 
     })
 })
 
-const { useGetUserInfoQuery, useFollowUserMutation } = UserApi;
-
-export { useGetUserInfoQuery, useFollowUserMutation };
+export const { useGetProfileQuery} = UserApi
