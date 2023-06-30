@@ -9,7 +9,7 @@ const SinglePost = () => {
     const { id } = useParams()
     const { data, isLoading } = useGetSinglePostQuery(id)
     const newData = { ...data }
-    console.log({ data });
+   
 
     const user = sessionStorage.getItem('user')
     return (

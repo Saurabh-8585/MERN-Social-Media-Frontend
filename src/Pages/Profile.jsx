@@ -6,6 +6,7 @@ import ProfileLoader from '../Components/Loader/ProfileLoader'
 import ProfileCard from '../Components/Card/ProfileCard';
 import PostCard from '../Components/Card/PostCard';
 import { useGetSingleUserPostsQuery } from '../features/post/PostServices';
+import TabsRender from '../Components/Tabs/UserTab';
 const Profile = () => {
 
   const { id } = useParams()
@@ -22,41 +23,32 @@ const Profile = () => {
 
   return (
 
-
-    isLoading ?
-      <>
-        <ProfileLoader />
-        <PostLoader />
-      </>
-      :
-      <>
-        <ProfileCard userInfo={userInfo} totalPosts={userPosts?.post?.length} />
-
-
-        <div className='flex justify-center items-center px-5'>
-          <div className="flex items-center max-w-xl w-full">
-            <hr className="flex-grow border border-gray-300" />
-            <span className="mx-4 text-gray-500 font-medium">Posts</span>
-            <hr className="flex-grow border border-gray-300" />
-          </div>
-        </div>
-
-        {
-          userPosts?.post?.map(postData =>
-            <PostCard
-              key={postData._id}
-              author={postData.author}
-              content={postData.content}
-              createdAt={postData.createdAt}
-              updatedAt={postData.updatedAt}
-              postId={postData._id}
-              postImage={postData.postImage}
-              likes={postData.likes}
-              comments={postData.comments}
-            />)
-        }
-      </>
-
+    <div className="flex justify-center items-center flex-col">
+      {isLoading ?
+        <>
+          <ProfileLoader />
+          <PostLoader />
+        </>
+        :
+        <>
+          <ProfileCard userInfo={userInfo} totalPosts={userPosts?.post?.length} />
+          {
+            userPosts?.post?.map(postData =>
+              <PostCard
+                key={postData._id}
+                author={postData.author}
+                content={postData.content}
+                createdAt={postData.createdAt}
+                updatedAt={postData.updatedAt}
+                postId={postData._id}
+                postImage={postData.postImage}
+                likes={postData.likes}
+                comments={postData.comments}
+              />)
+          }
+          <TabsRender />
+        </>}
+    </div>
 
 
 
@@ -64,3 +56,13 @@ const Profile = () => {
 }
 
 export default Profile
+
+
+
+// < div className = 'flex justify-center items-center px-5' >
+//   <div className="flex items-center max-w-xl w-full">
+//     <hr className="flex-grow border border-gray-300" />
+//     <span className="mx-4 text-gray-500 font-medium">Posts</span>
+//     <hr className="flex-grow border border-gray-300" />
+//   </div>
+//         </ >

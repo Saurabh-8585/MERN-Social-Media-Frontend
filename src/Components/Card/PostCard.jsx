@@ -235,7 +235,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                     </div>
                 </div>
                 {showModal && (
-                    <LikeByModal users={likes} onClose={() => setShowModal(false)} />
+                    <LikeByModal users={likes} onClose={() => setShowModal(false)} text='Liked by' />
                 )}
             </div >
         </>

@@ -1,16 +1,15 @@
-import React, { useMemo } from 'react'
-import { format } from 'date-fns';
+import React, { useMemo, useState } from 'react'
 import { AiFillEdit, AiOutlineUserDelete, AiOutlineUserAdd } from 'react-icons/ai'
 import getCurrentUser from '../../utils/CurrentUser';
 import { useFollowUserMutation, useUnFollowUserMutation } from '../../features/user/UserServices';
-import Modal from '../Modal/ModalComp';
+import { profileDate } from '../../utils/DateFormatter';
+import { toast } from 'react-hot-toast';
+import LikeByModal from '../Modal/LikeByModal';
 const ProfileCard = ({ userInfo, totalPosts }) => {
 
-    const accountCreationDate = userInfo?.createdAt ? new Date(userInfo.createdAt) : null;
-    const formattedCreationDate = accountCreationDate
-        ? format(accountCreationDate, 'MMMM d, yyyy')
-        : 'N/A';
-
+    const [showFollowingModal, setShowFollowingModal] = useState(false);
+    const [showFollowerModal, setShowFollowerModal] = useState(false);
+    const formattedCreationDate = profileDate(userInfo?.createdAt);
     const userProfileImage = "https://res.cloudinary.com/dsxjhas6t/image/upload/v1652433208/sapphire/150_x5gbob.jpg";
 
     const user = getCurrentUser(sessionStorage.getItem('user'))
@@ -18,12 +17,21 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
     const [followUser,] = useFollowUserMutation()
     const [unFollowUser, { isError, isLoading, data, }] = useUnFollowUserMutation()
     const follow = (userID) => {
-        const a = followUser(userID)
+        if (user) {
+            const a = followUser(userID);
+        }
+        else {
+            toast.error('Please login')
+        }
     }
     const unfollow = (userID) => {
-        const a = unFollowUser(userID)
-
-        console.log({ isError, isLoading, data, });
+        if (user) {
+            const a = unFollowUser(userID)
+            console.log({ isError, isLoading, data, });
+        }
+        else {
+            toast.error('Please login')
+        }
 
     }
 
@@ -34,7 +42,6 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
         return false;
     }, [userInfo, user]);
 
-    console.log(isFollowing);
 
     return (
         <>
@@ -85,11 +92,11 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                     </div>
                     <div className="border-gray-200 dark:border-gray-600 border border-b-0 my-4" />
                     <div className="text-gray-500 dark:text-gray-400 flex mt-3 justify-center gap-4">
-                        <div className="flex items-center cursor-pointer">
+                        <div className="flex items-center cursor-pointer" onClick={() => setShowFollowerModal(true)}>
                             <span className="font-medium">{userInfo?.followers.length}</span>
                             <span className="ml-1">Followers</span>
                         </div>
-                        <div className="flex items-center cursor-pointer">
+                        <div className="flex items-center cursor-pointer" onClick={() => setShowFollowingModal(true)}>
                             <span className="font-medium">{userInfo?.following.length}</span>
                             <span className="ml-1">Following</span>
                         </div>
@@ -103,7 +110,12 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                     </div>
                 </div>
             </div>
-            <Modal></Modal>
+            {showFollowingModal && (
+                <LikeByModal users={userInfo.following} onClose={() => setShowFollowingModal(false)}  text='Following'/>
+            )}
+            {showFollowerModal && (
+                <LikeByModal users={userInfo.followers} onClose={() => setShowFollowerModal(false)} text='Followers' />
+            )}
         </>
 
     )

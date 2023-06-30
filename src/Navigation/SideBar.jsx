@@ -6,7 +6,7 @@ import getCurrentUser from '../utils/CurrentUser';
 
 const Sidebar = () => {
     const user = sessionStorage.getItem('user')
-    const profileId = user && getCurrentUser(user)
+    const profileId = getCurrentUser(user)
 
     return (
         <>
