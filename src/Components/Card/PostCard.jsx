@@ -101,10 +101,10 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
     }, [handleLike, handleRemoveLike]);
     return (
         <>
-            <div className="p-5 flex items-center justify-center   w-full">
+            <div className="p-5 flex items-center justify-center  w-full">
                 <div className="bg-white dark:bg-gray-800 border-gray-300  p-4 rounded-xl border w-full max-w-xl shadow-sm hover:shadow-md">
                     <div className="flex justify-between">
-                        <Link to={`profile/${author._id}`} className="flex items-center">
+                        <Link to={`/profile/${author._id}`} className="flex items-center">
                             <img
                                 className="h-11 w-11 rounded-full border"
                                 src="https://res.cloudinary.com/dsxjhas6t/image/upload/v1652433208/sapphire/150_x5gbob.jpg"

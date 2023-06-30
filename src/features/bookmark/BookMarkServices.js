@@ -5,7 +5,7 @@ export const BookMarkApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.REACT_APP_BOOKMARK,
     }),
-    tagTypes: ['BookMarks'],
+    tagTypes: ['User'],
     endpoints: (builder) => ({
         getAllBookMarks: builder.query({
             query: () => ({

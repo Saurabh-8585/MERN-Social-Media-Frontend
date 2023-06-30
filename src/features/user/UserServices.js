@@ -5,7 +5,8 @@ export const UserApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.REACT_APP_USER,
     }),
-    tagTypes: ['BookMarks'],
+    tagTypes: ['User'],
+    
     endpoints: (builder) => ({
         getProfile: builder.query({
             query: (id) => ({
@@ -15,10 +16,33 @@ export const UserApi = createApi({
                     Authorization: `Bearer ${sessionStorage.getItem('user')}`,
                 },
             }),
-            providesTags: ['BookMarks'],
+            providesTags: ['User'],
         }),
+
+        followUser: builder.mutation({
+            query: (id) => ({
+                url: `/follow/${id}`,
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('user')}`,
+                },
+            }),
+            invalidatesTags: ['User']
+        }),
+
+        unFollowUser: builder.mutation({
+            query: (id) => ({
+                url: `/unfollow/${id}`,
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('user')}`,
+                },
+            }),
+            invalidatesTags: ['User']
+        }),
+
 
     })
 })
 
-export const { useGetProfileQuery} = UserApi
+export const { useGetProfileQuery, useFollowUserMutation, useUnFollowUserMutation } = UserApi

@@ -17,7 +17,7 @@ export const PostApi = createApi({
 
         getSinglePost: builder.query({
             query: (id) => ({
-                url: `/user/${id}`,
+                url: `/post/${id}`,
                 method: 'GET',
             }),
             providesTags: ['SinglePost',]
@@ -26,7 +26,7 @@ export const PostApi = createApi({
 
         getSingleUserPosts: builder.query({
             query: (id) => ({
-                url: `/post/${id}`,
+                url: `/user/${id}`,
                 method: 'GET',
             }),
             providesTags: ['Posts',]

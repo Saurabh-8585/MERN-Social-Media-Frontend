@@ -1,57 +1,109 @@
-import React from 'react'
-import { getTimeAgo } from '../../utils/DateFormatter';
-
+import React, { useMemo } from 'react'
+import { format } from 'date-fns';
+import { AiFillEdit, AiOutlineUserDelete, AiOutlineUserAdd } from 'react-icons/ai'
+import getCurrentUser from '../../utils/CurrentUser';
+import { useFollowUserMutation, useUnFollowUserMutation } from '../../features/user/UserServices';
+import Modal from '../Modal/ModalComp';
 const ProfileCard = ({ userInfo, totalPosts }) => {
+
+    const accountCreationDate = userInfo?.createdAt ? new Date(userInfo.createdAt) : null;
+    const formattedCreationDate = accountCreationDate
+        ? format(accountCreationDate, 'MMMM d, yyyy')
+        : 'N/A';
+
     const userProfileImage = "https://res.cloudinary.com/dsxjhas6t/image/upload/v1652433208/sapphire/150_x5gbob.jpg";
+
+    const user = getCurrentUser(sessionStorage.getItem('user'))
+    const isAuthor = user === userInfo?._id
+    const [followUser,] = useFollowUserMutation()
+    const [unFollowUser, { isError, isLoading, data, }] = useUnFollowUserMutation()
+    const follow = (userID) => {
+        const a = followUser(userID)
+    }
+    const unfollow = (userID) => {
+        const a = unFollowUser(userID)
+
+        console.log({ isError, isLoading, data, });
+
+    }
+
+    const isFollowing = useMemo(() => {
+        if (userInfo && userInfo.followers) {
+            return userInfo.followers.some((follower) => follower._id === user);
+        }
+        return false;
+    }, [userInfo, user]);
+
+    console.log(isFollowing);
 
     return (
         <>
             <div className="p-5 flex items-center justify-center w-full">
                 <div className="bg-white dark:bg-gray-800 border-gray-300 p-4 rounded-xl border w-full max-w-xl shadow-sm hover:shadow-md">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                            <div >
-                                <div className="flex items-center">
-                                    <img
-                                        className="h-24 w-24 rounded-full border mr-4"
-                                        src={userProfileImage}
-                                        alt="User_Profile"
-                                    />
-                                    <div>
-                                        <span className="text-2xl font-bold block">{userInfo?.username}</span>
-                                        <span className="text-gray-500 dark:text-gray-400 font-normal block">
-                                            @{userInfo?.username}
-                                        </span>
-                                        <span className="text-gray-500 dark:text-gray-400 font-normal block">
-                                            Created  {userInfo?.createdAt && getTimeAgo(userInfo?.createdAt)}
-                                        </span>
-                                    </div>
-                                </div>
+                    <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-between">
+                        <div className="flex items-center justify-start">
+                            <img
+                                className="h-24 w-24 rounded-full border"
+                                src={userProfileImage}
+                                alt="User_Profile"
+                            />
+                            <div className="ml-4">
+                                <span className="text-2xl font-bold block">
+                                    {userInfo?.username}
+                                </span>
+                                <span className="text-gray-500 dark:text-gray-400 font-normal block">
+                                    @{userInfo?.username}
+                                </span>
+                                <span className="text-gray-500 dark:text-gray-400 font-normal block">
+                                    Created On {formattedCreationDate}
+                                </span>
                             </div>
                         </div>
-                        <div >
-                            <button className="text-purple-400 hover:text-purple-300 font-medium">
-                                Edit Profile
-                            </button>
+                        <div className=" flex justify-end items-end ml-36 md:ml-0">
+                            {isAuthor ?
+                                <button className="text-purple-400 hover:text-purple-300 font-medium border-purple-500 border-2 rounded-xl px-3 mt-3 flex justify-around items-center gap-2">
+                                    Edit
+                                    <AiFillEdit />
+                                </button>
+                                :
+                                isFollowing ?
+                                    <button
+                                        className="bg-purple-500  hover:bg-purple-600 text-white font-bold py-2 px-3  rounded-full shadow-md flex items-center justify-between gap-3 "
+                                        type="submit"
+                                        onClick={() => unfollow(userInfo?._id)}
+                                    >Unfollow
+                                        <AiOutlineUserDelete className='text-xl font-bold' />
+                                    </button>
+                                    : <button
+                                        className="bg-purple-500  hover:bg-purple-600 text-white font-bold py-2 px-3  rounded-full shadow-md flex items-center justify-between gap-3 "
+                                        type="submit"
+                                        onClick={() => follow(userInfo?._id)}
+                                    >Follow
+                                        <AiOutlineUserAdd className='text-xl font-bold' />
+                                    </button>}
                         </div>
                     </div>
                     <div className="border-gray-200 dark:border-gray-600 border border-b-0 my-4" />
-                    <div className="text-gray-500 dark:text-gray-400 flex mt-3 justify-center items-center gap-6">
-                        <div className="flex items-center mr-4 cursor-pointer">
+                    <div className="text-gray-500 dark:text-gray-400 flex mt-3 justify-center gap-4">
+                        <div className="flex items-center cursor-pointer">
                             <span className="font-medium">{userInfo?.followers.length}</span>
                             <span className="ml-1">Followers</span>
                         </div>
-                        <div className="flex items-center mr-4 cursor-pointer">
+                        <div className="flex items-center cursor-pointer">
                             <span className="font-medium">{userInfo?.following.length}</span>
                             <span className="ml-1">Following</span>
                         </div>
-                        <div className="flex items-center mr-4 cursor-pointer">
+                        <div className="flex items-center cursor-pointer">
                             <span className="font-medium">{totalPosts || 0}</span>
                             <span className="ml-1">Posts</span>
                         </div>
+                        {/* <div className="flex items-center cursor-pointer">
+
+                        </div> */}
                     </div>
                 </div>
             </div>
+            <Modal></Modal>
         </>
 
     )

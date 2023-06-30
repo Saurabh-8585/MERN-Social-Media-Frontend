@@ -5,7 +5,7 @@ import PostLoader from '../Components/Loader/PostLoader';
 import ProfileLoader from '../Components/Loader/ProfileLoader'
 import ProfileCard from '../Components/Card/ProfileCard';
 import PostCard from '../Components/Card/PostCard';
-import { useGetSinglePostQuery } from '../features/post/PostServices';
+import { useGetSingleUserPostsQuery } from '../features/post/PostServices';
 const Profile = () => {
 
   const { id } = useParams()
@@ -14,10 +14,10 @@ const Profile = () => {
 
   const { data, isLoading } = useGetProfileQuery(id)
 
-  const { data: userPosts, isLoading: postLoading } = useGetSinglePostQuery(id)
+  const { data: userPosts, isLoading: postLoading } = useGetSingleUserPostsQuery(id)
 
   const userInfo = data?.userInfo;
-  console.log({ userPosts });
+  console.log({ userInfo });
 
 
   return (
@@ -31,18 +31,30 @@ const Profile = () => {
       :
       <>
         <ProfileCard userInfo={userInfo} totalPosts={userPosts?.post?.length} />
-        {userPosts.post?.map(postData =>
-          <PostCard
-            key={postData._id}
-            author={postData.author}
-            content={postData.content}
-            createdAt={postData.createdAt}
-            updatedAt={postData.updatedAt}
-            postId={postData._id}
-            postImage={postData.postImage}
-            likes={postData.likes}
-            comments={postData.comments}
-          />)}
+
+
+        <div className='flex justify-center items-center px-5'>
+          <div className="flex items-center max-w-xl w-full">
+            <hr className="flex-grow border border-gray-300" />
+            <span className="mx-4 text-gray-500 font-medium">Posts</span>
+            <hr className="flex-grow border border-gray-300" />
+          </div>
+        </div>
+
+        {
+          userPosts?.post?.map(postData =>
+            <PostCard
+              key={postData._id}
+              author={postData.author}
+              content={postData.content}
+              createdAt={postData.createdAt}
+              updatedAt={postData.updatedAt}
+              postId={postData._id}
+              postImage={postData.postImage}
+              likes={postData.likes}
+              comments={postData.comments}
+            />)
+        }
       </>
 
 
