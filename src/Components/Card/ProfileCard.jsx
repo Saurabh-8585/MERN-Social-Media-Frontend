@@ -5,6 +5,7 @@ import { useFollowUserMutation, useUnFollowUserMutation } from '../../features/u
 import { profileDate } from '../../utils/DateFormatter';
 import { toast } from 'react-hot-toast';
 import LikeByModal from '../Modal/LikeByModal';
+import { Link } from 'react-router-dom';
 const ProfileCard = ({ userInfo, totalPosts }) => {
 
     const [showFollowingModal, setShowFollowingModal] = useState(false);
@@ -16,6 +17,9 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
     const isAuthor = user === userInfo?._id
     const [followUser,] = useFollowUserMutation()
     const [unFollowUser, { isError, isLoading, data, }] = useUnFollowUserMutation()
+
+
+
     const follow = (userID) => {
         if (user) {
             const a = followUser(userID);
@@ -51,7 +55,7 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                         <div className="flex items-center justify-start">
                             <img
                                 className="h-24 w-24 rounded-full border"
-                                src={userProfileImage}
+                                src={userInfo?.userImage?.url}
                                 alt="User_Profile"
                             />
                             <div className="ml-4">
@@ -62,16 +66,19 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                                     @{userInfo?.username}
                                 </span>
                                 <span className="text-gray-500 dark:text-gray-400 font-normal block">
+                                    {userInfo?.about}
+                                </span>
+                                <span className="text-gray-500 dark:text-gray-400 font-normal block">
                                     Created On {formattedCreationDate}
                                 </span>
                             </div>
                         </div>
                         <div className=" flex justify-end items-end ml-36 md:ml-0">
                             {isAuthor ?
-                                <button className="text-purple-400 hover:text-purple-300 font-medium border-purple-500 border-2 rounded-xl px-3 mt-3 flex justify-around items-center gap-2">
+                                <Link to='/settings' className="text-purple-400 hover:text-purple-300 font-medium border-purple-500 border-2 rounded-xl px-3 mt-3 flex justify-around items-center gap-2">
                                     Edit
                                     <AiFillEdit />
-                                </button>
+                                </Link>
                                 :
                                 isFollowing ?
                                     <button
@@ -104,14 +111,12 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                             <span className="font-medium">{totalPosts || 0}</span>
                             <span className="ml-1">Posts</span>
                         </div>
-                        {/* <div className="flex items-center cursor-pointer">
-
-                        </div> */}
+                       
                     </div>
                 </div>
             </div>
             {showFollowingModal && (
-                <LikeByModal users={userInfo.following} onClose={() => setShowFollowingModal(false)}  text='Following'/>
+                <LikeByModal users={userInfo.following} onClose={() => setShowFollowingModal(false)} text='Following' />
             )}
             {showFollowerModal && (
                 <LikeByModal users={userInfo.followers} onClose={() => setShowFollowerModal(false)} text='Followers' />

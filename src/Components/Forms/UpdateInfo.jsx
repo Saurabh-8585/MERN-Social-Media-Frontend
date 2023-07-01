@@ -2,16 +2,38 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineSave } from 'react-icons/ai';
 import { BiUserCircle } from 'react-icons/bi';
 import { MdOutlineImage } from 'react-icons/md';
-import { useGetProfileQuery } from '../../features/user/UserServices';
+import { useGetProfileQuery, useUpdateUserMutation } from '../../features/user/UserServices';
 import getCurrentUser from '../../utils/CurrentUser';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 
 const UpdateInfo = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const user = getCurrentUser(sessionStorage.getItem('user'))
     const { data } = useGetProfileQuery(user)
-
+    const [updateUser, { isError, error, data: data1, isLoading }] = useUpdateUserMutation()
+    const [userData, setUserData] = useState({
+        username: '',
+        email: '',
+        about: ''
+    });
     const [image, setImage] = useState(null);
+
+    useEffect(() => {
+        if (data?.userInfo) {
+            setUserData({
+                username: data.userInfo.username,
+                email: data.userInfo.email,
+                about: data.userInfo.about,
+                userImage: data.userInfo.userImage.url
+            });
+        }
+    }, [data]);
+
+    const handleOnchange = (e) => {
+        setUserData({ ...userData, [e.target.name]: e.target.value })
+    }
+
     const handlePhotoUpload = (event) => {
         const file = event.target.files[0];
         const reader = new FileReader();
@@ -23,15 +45,28 @@ const UpdateInfo = () => {
         }
         setSelectedFile(file);
     }
-    const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const onSubmit = async (info) => {
-        console.log(info);
+
+
+
+    const onSubmit = async (e) => {
+        e.preventDefault()
+        const { username, email, about } = userData;
+        const data = { user, username, email, about, selectedFile }
+        // console.log(data);
+        const response = await updateUser(data);
+        if (response.error) {
+            toast.error(response.error);
+        }
+        else {
+            toast.success(response.data.message);
+        }
+
     }
 
     return (
         <>
-            <form className='flex flex-col justify-center' onSubmit={handleSubmit(onSubmit)}>
+            <form className='flex flex-col justify-center' onSubmit={onSubmit}>
                 <div className="mt-2 flex items-center justify-center">
                     <label htmlFor="photo" className="h-48 w-48 rounded-full bg-gray-300 flex items-center justify-center cursor-pointer">
                         <input
@@ -55,21 +90,16 @@ const UpdateInfo = () => {
                 <div className="relative z-0 w-full mb-6 group">
                     <input
                         type="text"
-                        name="floating_username"
-                        id="floating_username"
-                        className={`block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer ${errors.username ? 'border-red-500 animate-shake' : ''}`}
-                        defaultValue={data?.userInfo?.username}
-                        {...register('username', {
-                            required: 'Username is required',
-                            minLength: {
-                                value: 6,
-                                message: 'Username must be at least 6 characters long',
-                            },
-                        })}
+                        name="username"
+                        id="username"
+                        className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer'
+                        value={userData.username}
+                        onChange={handleOnchange}
+
                     />
-                    {errors.username && <span className="text-red-500 ml-2 mt-1 text-xs">{errors.username.message}</span>}
+
                     <label
-                        htmlFor="floating_username"
+                        htmlFor="username"
                         className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-purple-600 peer-focus:dark:text-purple-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                         Username
@@ -78,37 +108,33 @@ const UpdateInfo = () => {
                 <div className="relative z-0 w-full mb-6 group">
                     <input
                         type="email"
-                        name="floating_email"
-                        id="floating_email"
-                        className={`block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer ${errors.email ? 'border-red-500 animate-shake' : ''}`}
-                        defaultValue={data?.userInfo?.email}
-                        {...register('email', {
-                            required: 'Email is required',
-                            pattern: {
-                                value: /^\S+@\S+$/i,
-                                message: 'Invalid email',
-                            },
-                        })}
+                        name="email"
+                        id="email"
+                        className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer'
+                        value={userData.email}
+                        onChange={handleOnchange}
+
                         autoComplete="email"
                     />
                     <label
-                        htmlFor="floating_email"
+                        htmlFor="email"
                         className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-purple-600 peer-focus:dark:text-purple-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                         Email address
                     </label>
-                    {errors.email && <span className="text-red-500 ml-2 mt-1 text-xs">{errors.email.message}</span>}
+
                 </div>
                 <div className="relative z-0 w-full mb-6 group">
                     <textarea
-                        name="floating_textarea"
-                        id="floating_textarea"
+                        name="about"
+                        id="about"
                         className="block pt-2 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer resize"
                         placeholder=" "
-                        defaultValue={data?.userInfo?.email}
+                        value={userData?.about}
+                        onChange={handleOnchange}
                     />
                     <label
-                        htmlFor="floating_textarea"
+                        htmlFor="about"
                         className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-purple-600 peer-focus:dark:text-purple-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                         About
@@ -129,6 +155,7 @@ const UpdateInfo = () => {
 };
 
 export default UpdateInfo;
+;
 
 
 

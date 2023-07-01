@@ -18,14 +18,14 @@ const CommentList = ({ comments, postId, commentLikes }) => {
     const [likeComment] = useLikeCommentMutation();
     console.log({ commentLikes });
     const removeComment = async (commentId) => {
-       
+
         let data = { postId, commentId }
         const response = await handleDeleteComment(data);
         console.log('Response:', response.data);
     };
 
     const handleLikeComment = async (commentId) => {
-       
+
         let data = { postId, commentId }
         const response = await likeComment(data);
         console.log('Response:', response.data);
@@ -37,7 +37,7 @@ const CommentList = ({ comments, postId, commentLikes }) => {
                 <div className="max-w-xl w-full bg-white dark:bg-gray-800 border-gray-300 border px-3 py-4 rounded-xl mb-5 shadow-sm" key={comment._id} >
                     <div className="flex items-center mb-6">
                         <img
-                            src="https://randomuser.me/api/portraits/men/97.jpg"
+                            src={comment?.user?.userImage?.url}
                             alt="Avatar"
                             className="w-12 h-12 rounded-full mr-4"
                         />

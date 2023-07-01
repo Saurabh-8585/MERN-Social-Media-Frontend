@@ -107,7 +107,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                         <Link to={`/profile/${author._id}`} className="flex items-center">
                             <img
                                 className="h-11 w-11 rounded-full border"
-                                src="https://res.cloudinary.com/dsxjhas6t/image/upload/v1652433208/sapphire/150_x5gbob.jpg"
+                                src={author?.userImage?.url}
                                 alt=''
                             />
                             <div className="ml-1.5 text-sm leading-tight">
