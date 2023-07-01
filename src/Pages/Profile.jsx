@@ -46,7 +46,7 @@ const Profile = () => {
                 comments={postData.comments}
               />)
           }
-          <TabsRender />
+        
         </>}
     </div>
 

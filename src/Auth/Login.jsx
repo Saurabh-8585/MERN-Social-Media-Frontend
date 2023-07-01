@@ -11,7 +11,6 @@ const Login = () => {
     const onSubmit = async (info) => {
         try {
             const data = await signInUser({ email: info.email, password: info.password }).unwrap();
-            console.log(data);
             if (data.token) {
                 toast.success(data.message);
                 sessionStorage.setItem('user', data.token)
@@ -23,7 +22,6 @@ const Login = () => {
             }
 
         } catch (error) {
-            console.error('Login failed', error);
             if (error.status === 401) {
                 toast.error('Invalid Credentials');
             } else if (error.status === 404) {

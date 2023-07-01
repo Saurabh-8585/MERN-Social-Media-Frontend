@@ -13,7 +13,7 @@ const Navbar = () => {
     }
     return (
         <>
-            <nav className="fixed bg-white dark:bg-gray-800 border-gray-300 dark:border-white top-0 left-0 right-0  shadow-md  border-b  lg:shadow-none px-4 py-4 flex items-center justify-between z-10  ">
+            <nav className="fixed bg-white dark:bg-gray-800 border-gray-300 dark:border-white top-0 left-0 right-0  shadow-md  border-b  lg:shadow-none px-4 py-4 flex items-center justify-between z-50  ">
                 <div className="flex items-center">
                     <div className="justify-start mr-6 lg:ml-32">
                         <Link className="lg:text-3xl text-xl font-bold text-white bg-gradient-to-r from-purple-500 to-pink-400 rounded-lg p-2" to='/'>

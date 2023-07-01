@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { MdOutlineImage, MdOutlineImageNotSupported } from 'react-icons/md';
 import { useCreatePostMutation } from '../../features/post/PostServices'
-import LoadingSpinner from '../Loader/LoadingSpinner';
 const CreateNewPost = () => {
 
     const [selectedFile, setSelectedFile] = useState(null);

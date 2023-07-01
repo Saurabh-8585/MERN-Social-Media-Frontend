@@ -14,6 +14,7 @@ const LazyBookmark = lazy(() => import('../Pages/Bookmark'));
 const LazyProfile = lazy(() => import('../Pages/Profile'));
 const ErrorPage = lazy(() => import('../Pages/ErrorPage'))
 const SinglePost = lazy(() => import('../Pages/SinglePost'))
+const Settings = lazy(() => import('../Pages/Settings'))
 
 const AppRoutes = () => {
     return (
@@ -74,10 +75,20 @@ const AppRoutes = () => {
                                 path="/profile/:id"
                                 element={
                                     // <ProtectedRoute>
-                                        <Suspense fallback={<LoadingSpinner />}>
-                                            <LazyProfile />
-                                        </Suspense>
+                                    <Suspense fallback={<LoadingSpinner />}>
+                                        <LazyProfile />
+                                    </Suspense>
                                     // </ProtectedRoute>
+                                }
+                            />
+                            <Route
+                                path="/settings"
+                                element={
+                                    <ProtectedRoute>
+                                        <Suspense fallback={<LoadingSpinner />}>
+                                            <Settings />
+                                        </Suspense>
+                                    </ProtectedRoute>
                                 }
                             />
 
