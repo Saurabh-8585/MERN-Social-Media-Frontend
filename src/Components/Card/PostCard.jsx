@@ -9,6 +9,7 @@ import getCurrentUser from '../../utils/CurrentUser';
 import LikeByModal from '../Modal/LikeByModal';
 import useHandlePostActions from '../../hooks/useHandlePostActions';
 import { Link, useNavigate } from 'react-router-dom'
+import { Avtar } from '../../utils/Avtar'
 
 const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBookMark, postImage, likes, comments }) => {
 
@@ -107,7 +108,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                         <Link to={`/profile/${author._id}`} className="flex items-center">
                             <img
                                 className="h-11 w-11 rounded-full border"
-                                src={author?.userImage?.url}
+                                src={author?.userImage?.url ? author?.userImage?.url : Avtar}
                                 alt=''
                             />
                             <div className="ml-1.5 text-sm leading-tight">

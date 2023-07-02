@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineSave } from 'react-icons/ai';
-import { BiUserCircle } from 'react-icons/bi';
-import { MdOutlineImage } from 'react-icons/md';
+import { BiImageAdd } from 'react-icons/bi';
+import { MdOutlineHideImage, MdOutlineImage } from 'react-icons/md';
 import { useGetProfileQuery, useUpdateUserMutation } from '../../features/user/UserServices';
 import getCurrentUser from '../../utils/CurrentUser';
-import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import { Avtar } from '../../utils/Avtar';
 
 const UpdateInfo = () => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -15,18 +15,20 @@ const UpdateInfo = () => {
     const [userData, setUserData] = useState({
         username: '',
         email: '',
-        about: ''
+        about: '',
+        userImageId: ''
     });
     const [image, setImage] = useState(null);
 
     useEffect(() => {
         if (data?.userInfo) {
             setUserData({
-                username: data.userInfo.username,
-                email: data.userInfo.email,
-                about: data.userInfo.about,
-                userImage: data.userInfo.userImage.url
+                username: data.userInfo?.username,
+                email: data.userInfo?.email,
+                about: data.userInfo?.about,
+                userImageId: data.userInfo?.userImage?.public_id
             });
+            setImage(data.userInfo?.userImage?.url)
         }
     }, [data]);
 
@@ -46,14 +48,15 @@ const UpdateInfo = () => {
         setSelectedFile(file);
     }
 
-
-
+    const handleRemovePhoto = () => {
+        setImage(null)
+        setSelectedFile(null);
+    }
 
     const onSubmit = async (e) => {
         e.preventDefault()
         const { username, email, about } = userData;
-        const data = { user, username, email, about, selectedFile }
-        // console.log(data);
+        const data = { user, username, email, about, selectedFile, image }
         const response = await updateUser(data);
         if (response.error) {
             toast.error(response.error);
@@ -67,31 +70,66 @@ const UpdateInfo = () => {
     return (
         <>
             <form className='flex flex-col justify-center' onSubmit={onSubmit}>
-                <div className="mt-2 flex items-center justify-center">
-                    <label htmlFor="photo" className="h-48 w-48 rounded-full bg-gray-300 flex items-center justify-center cursor-pointer">
-                        <input
-                            type="file"
-                            id="photo"
-                            className="sr-only"
-                            accept="image/*"
-                            onChange={handlePhotoUpload}
-                        />
-                        {image ? (
+
+                <div className=" my-5 flex items-center justify-around flex-wrap gap-4">
+                    {image ?
+                        <>
                             <img
                                 src={image}
                                 alt="UserPhoto"
                                 className="h-48 w-48 rounded-full"
                             />
-                        ) : (
-                            <BiUserCircle className="h-32 w-32 text-gray-500" aria-hidden="true" />
-                        )}
-                    </label>
+                            <div className="flex justify-center items-center flex-row  gap-4">
+
+                                <label className="text-purple-500 border border-purple-500 hover:bg-purple-500 hover:text-white active:bg-purple-600 font-bold uppercase text-sm px-6 py-3 rounded-full outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 flex items-center justify-around gap-3">
+                                    <span className="text-lg font-semibold hidden md:block">Change</span>
+                                    <MdOutlineImage className="text-2xl font-bold" />
+                                    <input
+                                        type="file"
+                                        
+                                        className="hidden"
+                                        accept="image/*"
+                                        onChange={handlePhotoUpload}
+                                    />
+                                </label>
+                                <button
+                                    className="text-purple-500 border border-purple-500 hover:bg-purple-500 hover:text-white active:bg-purple-600 font-bold uppercase text-sm px-6 py-3 rounded-full outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 flex justify-center items-center gap-4"
+                                    onClick={handleRemovePhoto}
+                                >
+                                    <span className='text-lg font-semibold hidden md:block'> Remove</span>
+                                    <MdOutlineHideImage className='text-2xl font-bold' />
+                                </button>
+
+                            </div>
+                        </>
+                        : <>
+                            <div className="flex justify-center items-center flex-col md:flex-md gap-4">
+                                <img
+                                    src={Avtar}
+                                    alt="UserPhoto"
+                                    className="h-48 w-48 rounded-full"
+                                />
+
+                                <label className="text-purple-500 border border-purple-500 hover:bg-purple-500 hover:text-white active:bg-purple-600 font-bold uppercase text-sm px-6 py-3 rounded-full outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 flex items-center justify-around gap-3">
+                                    <span className="text-lg font-semibold hidden md:block">Upload</span>
+                                    <BiImageAdd className="text-2xl font-bold" />
+                                    <input
+                                        type="file"
+                                        
+                                        className="hidden"
+                                        accept="image/*"
+                                        onChange={handlePhotoUpload}
+                                    />
+                                </label>
+                            </div>
+                        </>
+                    }
                 </div>
                 <div className="relative z-0 w-full mb-6 group">
                     <input
                         type="text"
                         name="username"
-                        id="username"
+                        
                         className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer'
                         value={userData.username}
                         onChange={handleOnchange}
@@ -109,7 +147,7 @@ const UpdateInfo = () => {
                     <input
                         type="email"
                         name="email"
-                        id="email"
+                        
                         className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer'
                         value={userData.email}
                         onChange={handleOnchange}
@@ -127,7 +165,7 @@ const UpdateInfo = () => {
                 <div className="relative z-0 w-full mb-6 group">
                     <textarea
                         name="about"
-                        id="about"
+                        
                         className="block pt-2 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer resize"
                         placeholder=" "
                         value={userData?.about}
@@ -163,7 +201,7 @@ export default UpdateInfo;
                     <input
                         type="password"
                         name="floating_password"
-                        id="floating_password"
+                        
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer"
                         placeholder=" "
                         required=""
@@ -179,7 +217,7 @@ export default UpdateInfo;
                     <input
                         type="password"
                         name="repeat_password"
-                        id="floating_repeat_password"
+                        
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer"
                         placeholder=" "
                         required=""

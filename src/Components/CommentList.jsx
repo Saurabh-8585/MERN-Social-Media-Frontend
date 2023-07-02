@@ -6,6 +6,8 @@ import { useDeleteCommentMutation, useLikeCommentMutation } from "../features/po
 import { useMemo, useState } from "react";
 import getCurrentUser from "../utils/CurrentUser";
 import LikeByModal from "./Modal/LikeByModal";
+import { Avtar } from "../utils/Avtar";
+import { Link } from "react-router-dom";
 
 const CommentList = ({ comments, postId, commentLikes }) => {
     const sortedComments = [...comments].sort((a, b) => {
@@ -35,9 +37,9 @@ const CommentList = ({ comments, postId, commentLikes }) => {
         <div className='mt-5 p-5 flex justify-center flex-col m-auto w-full items-center'>
             {sortedComments.map((comment) => (
                 <div className="max-w-xl w-full bg-white dark:bg-gray-800 border-gray-300 border px-3 py-4 rounded-xl mb-5 shadow-sm" key={comment._id} >
-                    <div className="flex items-center mb-6">
+                    <Link to={`/profile/${comment.user._id}`} className="flex items-center mb-6">
                         <img
-                            src={comment?.user?.userImage?.url}
+                            src={comment?.user?.userImage?.url ? comment?.user?.userImage?.url : Avtar}
                             alt="Avatar"
                             className="w-12 h-12 rounded-full mr-4"
                         />
@@ -45,7 +47,7 @@ const CommentList = ({ comments, postId, commentLikes }) => {
                             <div className="text-lg font-medium text-gray-800">{comment.user.username}</div>
                             <div className="text-gray-500">Commented {getTimeAgo(comment.createdAt)}</div>
                         </div>
-                    </div>
+                    </Link>
                     <p className="text-lg leading-relaxed mb-2 break-words">
                         {comment.text}
                     </p>

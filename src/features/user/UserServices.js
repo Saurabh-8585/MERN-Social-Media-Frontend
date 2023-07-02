@@ -41,12 +41,14 @@ export const UserApi = createApi({
             invalidatesTags: ['User']
         }),
         updateUser: builder.mutation({
-            query: ({ user, username, email, about, selectedFile }) => {
+            query: ({ user, username, email, about, selectedFile, image }) => {
                 const formData = new FormData();
                 formData.append('email', email);
                 formData.append('about', about);
                 formData.append('username', username);
                 formData.append('file', selectedFile);
+                formData.append('image', image);
+
                 return {
                     url: `/update/${user}`,
                     method: 'PUT',

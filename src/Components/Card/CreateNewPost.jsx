@@ -68,11 +68,6 @@ const CreateNewPost = () => {
                 <div className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-800 p-4 rounded-xl border w-full max-w-xl shadow-sm hover:shadow-md">
                     <form onSubmit={addPost}>
                         <div className="flex justify-between">
-                            <img
-                                className="h-11 w-11 rounded-full border"
-                                src="https://res.cloudinary.com/dsxjhas6t/image/upload/v1652433208/sapphire/150_x5gbob.jpg"
-                                alt=""
-                            />
                             <div className="flex items-center">
                                 <div className="flex-1 px-2 pt-2 my-4">
                                     <textarea

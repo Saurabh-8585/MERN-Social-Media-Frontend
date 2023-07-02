@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { BsShieldLockFill } from 'react-icons/bs'
 import { AiOutlineForm } from 'react-icons/ai';
 import UpdateInfo from "../Forms/UpdateInfo";
+import ResetPassword from "../Forms/ResetPassword";
 export default function TabsRender() {
     const [openTab, setOpenTab] = useState(1);
     return (
@@ -9,7 +10,7 @@ export default function TabsRender() {
             <div className="flex flex-wrap w-full max-w-xl p-4 md:p-0">
                 <div className="w-full">
                     <ul className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row" role="tablist">
-                        <li className="mr-2 last:mr-0 flex-auto text-center">
+                        <li className="mr-2 last:mr-0 flex-auto text-center cursor-pointer">
                             <div
                                 className={
                                     'text-xs font-bold uppercase px-2 py-3 shadow-lg rounded-2xl block leading-normal ' +
@@ -30,7 +31,7 @@ export default function TabsRender() {
                             </div>
                         </li>
 
-                        <li className=" mr-2 last:mr-0 flex-auto text-center">
+                        <li className=" mr-2 last:mr-0 flex-auto text-center cursor-pointer">
                             <div
                                 className={
                                     'text-xs font-bold uppercase px-2 py-3 shadow-lg rounded-2xl block leading-normal ' +
@@ -50,7 +51,7 @@ export default function TabsRender() {
                                 <BsShieldLockFill className=" text-xl inline-block align-middle mr-1" />
                             </div>
                         </li>
-                        <li className=" mr-2 last:mr-0 flex-auto text-center">
+                        <li className=" mr-2 last:mr-0 flex-auto text-center cursor-pointer">
                             <div
                                 className={
                                     'text-xs font-bold uppercase px-2 py-3 shadow-lg rounded-2xl block leading-normal ' +
@@ -78,7 +79,7 @@ export default function TabsRender() {
                                     <UpdateInfo />
                                 </div>
                                 <div className={openTab === 2 ? "block" : "hidden"} id="link2">
-                                    <UpdateInfo />
+                                    <ResetPassword />
                                 </div>
                                 <div className={openTab === 3 ? "block" : "hidden"} id="link3">
                                     <UpdateInfo />

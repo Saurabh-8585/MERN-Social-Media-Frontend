@@ -6,6 +6,7 @@ import { profileDate } from '../../utils/DateFormatter';
 import { toast } from 'react-hot-toast';
 import LikeByModal from '../Modal/LikeByModal';
 import { Link } from 'react-router-dom';
+import { Avtar } from '../../utils/Avtar';
 const ProfileCard = ({ userInfo, totalPosts }) => {
 
     const [showFollowingModal, setShowFollowingModal] = useState(false);
@@ -55,7 +56,7 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                         <div className="flex items-center justify-start">
                             <img
                                 className="h-24 w-24 rounded-full border"
-                                src={userInfo?.userImage?.url}
+                                src={userInfo?.userImage?.url ? userInfo?.userImage?.url : Avtar}
                                 alt="User_Profile"
                             />
                             <div className="ml-4">
@@ -111,7 +112,7 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                             <span className="font-medium">{totalPosts || 0}</span>
                             <span className="ml-1">Posts</span>
                         </div>
-                       
+
                     </div>
                 </div>
             </div>

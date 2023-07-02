@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { IoCloseSharp } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+import { Avtar } from '../../utils/Avtar';
 
 const LikeByModal = ({ users, onClose, text }) => {
     const [isOpen, setIsOpen] = useState(true);
@@ -35,7 +36,7 @@ const LikeByModal = ({ users, onClose, text }) => {
                                     className="flex justify-between items-center border border-gray-300 w-full rounded-md px-2 py-1"
                                 >
                                     <img
-                                        src="https://res.cloudinary.com/dsxjhas6t/image/upload/v1652433208/sapphire/150_x5gbob.jpg"
+                                        src={Avtar}
                                         alt='followers'
                                         className="w-16 h-16 rounded-full mb-2 border border-gray-300"
                                     />
@@ -47,7 +48,7 @@ const LikeByModal = ({ users, onClose, text }) => {
                                         className="flex justify-between items-center border border-gray-300 w-full rounded-md px-2 py-1"
                                     >
                                         <img
-                                            src="https://res.cloudinary.com/dsxjhas6t/image/upload/v1652433208/sapphire/150_x5gbob.jpg"
+                                            src={user?.userImage?.url ? user?.userImage?.url : Avtar}
                                             alt={user.username}
                                             className="w-16 h-16 rounded-full mb-2 border border-gray-300"
                                         />
