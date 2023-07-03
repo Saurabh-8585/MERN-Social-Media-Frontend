@@ -1,39 +1,44 @@
-import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { RiLockPasswordLine } from 'react-icons/ri'
 import { useResetPasswordMutation } from '../../features/auth/AuthServices'
-import getCurrentUser from '../../utils/CurrentUser'
+import { toast } from 'react-hot-toast'
 
 const ResetPassword = () => {
 
-    const [oldPassword, setOldPassword] = useState('')
-    const [newPassword, setNewPassword] = useState('')
-    const user = getCurrentUser(sessionStorage.getItem('user'))
-    const [resetPassword, { data, isLoading, isError }] = useResetPasswordMutation()
-    const onSubmit = async (e) => {
-        e.preventDefault()
-        const response = await resetPassword(user, oldPassword, newPassword )
+
+
+    const [resetPassword] = useResetPasswordMutation()
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const onSubmit = async (info) => {
+        const response = await resetPassword({ oldPassword: info.password, newPassword: info.new_password })
         if (response.data) {
-            console.log(response.data);
+            toast.success(response.data.message);
         }
         if (response.error) {
-            console.log(response.error);
+            toast.error(response.error.data.message);
         }
-        console.log({ data, isLoading, isError });
     }
     return (
         <>
             <h1 className="text-4xl font-bold text-center mb-8 text-purple-500">Reset Password</h1>
 
-            <form className='flex flex-col justify-center' onSubmit={onSubmit}>
+            <form className='flex flex-col justify-center' onSubmit={handleSubmit(onSubmit)}>
                 <div className="relative z-0 w-full mb-6 group">
                     <input
-                        type="password"
                         name="floating_password"
-                        autoComplete='new-password'
+
+                        type="password"
+                        autoComplete="current-password"
+                        id="password"
+                        {...register('password', {
+                            required: 'Password is required',
+                            pattern: {
+                                value: /^(?=.*[!@#$%^&*()_\-+=<>?])(?=.*\d).+$/,
+                                message: 'Password must contain at least 1 special symbol and 1 digit',
+                            },
+                        })}
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-500 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer"
-                        value={oldPassword}
-                        onChange={(e) => setOldPassword(e.target.value)}
-                        autoFocus
+
                     />
                     <label
                         htmlFor="floating_password"
@@ -41,6 +46,7 @@ const ResetPassword = () => {
                     >
                         Old Password
                     </label>
+                    <span className="text-red-500 text-xs mt-1 lg:w-80 w-60 break-keep">{errors.password && errors.password.message}</span>
                 </div>
                 <div className="relative z-0 w-full mb-6 group">
                     <input
@@ -48,8 +54,14 @@ const ResetPassword = () => {
                         name="floating_new_password"
                         autoComplete='new-password'
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-500 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
+                        id="new_password"
+                        {...register('new_password', {
+                            required: 'Password is required',
+                            pattern: {
+                                value: /^(?=.*[!@#$%^&*()_\-+=<>?])(?=.*\d).+$/,
+                                message: 'Password must contain at least 1 special symbol and 1 digit',
+                            },
+                        })}
                     />
                     <label
                         htmlFor="floating_new_password"
@@ -57,6 +69,7 @@ const ResetPassword = () => {
                     >
                         New Password
                     </label>
+                    <span className="text-red-500 text-xs mt-1 lg:w-80 w-60 break-keep">{errors.new_password && errors.new_password.message}</span>
                 </div>
                 <button
                     type="submit"

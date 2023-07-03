@@ -60,7 +60,7 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                                 alt="User_Profile"
                             />
                             <div className="ml-4">
-                                <span className="text-2xl font-bold block">
+                                <span className="text-2xl font-bold block dark:text-gray-400">
                                     {userInfo?.username}
                                 </span>
                                 <span className="text-gray-500 dark:text-gray-400 font-normal block">
@@ -76,7 +76,7 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                         </div>
                         <div className=" flex justify-end items-end ml-36 md:ml-0">
                             {isAuthor ?
-                                <Link to='/settings' className="text-purple-400 hover:text-purple-300 font-medium border-purple-500 border-2 rounded-xl px-3 mt-3 flex justify-around items-center gap-2">
+                                <Link to='/settings' className="text-purple-500 hover:text-purple-300 font-medium border-purple-500 border-2 rounded-xl px-3 mt-3 flex justify-around items-center gap-2 py-1">
                                     Edit
                                     <AiFillEdit />
                                 </Link>

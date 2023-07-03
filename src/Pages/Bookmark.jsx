@@ -39,12 +39,12 @@ const Bookmark = () => {
         data?.map((bookmarks) =>
           <PostCard
             key={bookmarks._id}
-            author={bookmarks.post.author}
-            content={bookmarks.post.content}
-            postImage={bookmarks.post.postImage}
-            createdAt={bookmarks.post.createdAt}
-            postId={bookmarks.post._id}
-            likes={bookmarks.post.likes}
+            author={bookmarks.post?.author}
+            content={bookmarks.post?.content}
+            postImage={bookmarks.post?.postImage}
+            createdAt={bookmarks.post?.createdAt}
+            postId={bookmarks.post?._id}
+            likes={bookmarks.post?.likes}
             bookmarkID={bookmarks._id}
             removeFromBookMark={removeFromBookmark}
           />

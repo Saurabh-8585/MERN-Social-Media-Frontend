@@ -19,6 +19,14 @@ export const UserApi = createApi({
             providesTags: ['User'],
         }),
 
+        getAllUsers: builder.query({
+            query: () => ({
+                url: '/users',
+                method: 'GET',
+            }),
+            providesTags: ['User'],
+        }),
+
         followUser: builder.mutation({
             query: (id) => ({
                 url: `/follow/${id}`,
@@ -40,6 +48,7 @@ export const UserApi = createApi({
             }),
             invalidatesTags: ['User']
         }),
+
         updateUser: builder.mutation({
             query: ({ user, username, email, about, selectedFile, image }) => {
                 const formData = new FormData();
@@ -60,9 +69,18 @@ export const UserApi = createApi({
             },
             invalidatesTags: ['User']
         }),
-
+        deleteUser: builder.mutation({
+            query: () => ({
+                url: '/deleteuser',
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('user')}`,
+                },
+            }),
+            invalidatesTags: ['User']
+        })
 
     })
 })
 
-export const { useGetProfileQuery, useFollowUserMutation, useUnFollowUserMutation, useUpdateUserMutation } = UserApi
+export const { useGetProfileQuery, useGetAllUsersQuery, useFollowUserMutation, useUnFollowUserMutation, useUpdateUserMutation, useDeleteUserMutation } = UserApi

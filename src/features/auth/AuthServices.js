@@ -27,13 +27,17 @@ export const AuthApi = createApi({
             }),
         }),
         resetPassword: builder.mutation({
-            query: ( id, oldPassword, newPassword ) => ({
-                url: `/reset/${id}`,
+            query: ({ oldPassword, newPassword }) => ({
+                url: '/reset',
                 method: 'PUT',
                 body: { oldPassword, newPassword },
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('user')}`,
+                },
             }),
-        })
+        }),
+        
     }),
 });
 
-export const { useUserSignInMutation, useUserSignUpMutation,useResetPasswordMutation } = AuthApi;
+export const { useUserSignInMutation, useUserSignUpMutation, useResetPasswordMutation } = AuthApi;

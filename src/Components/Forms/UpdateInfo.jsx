@@ -81,7 +81,7 @@ const UpdateInfo = () => {
                             />
                             <div className="flex justify-center items-center flex-row  gap-4">
 
-                                <label className="text-purple-500 border border-purple-500 hover:bg-purple-500 hover:text-white active:bg-purple-600 font-bold uppercase text-sm px-6 py-3 rounded-full outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 flex items-center justify-around gap-3">
+                                <label className="text-purple-500 border border-purple-500 hover:bg-purple-500 hover:text-white active:bg-purple-600 font-bold uppercase text-sm px-6 py-3 rounded-full outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 flex items-center justify-around gap-3 cursor-pointer">
                                     <span className="text-lg font-semibold hidden md:block">Change</span>
                                     <MdOutlineImage className="text-2xl font-bold" />
                                     <input
@@ -111,7 +111,7 @@ const UpdateInfo = () => {
                                 />
 
                                 <label className="text-purple-500 border border-purple-500 hover:bg-purple-500 hover:text-white active:bg-purple-600 font-bold uppercase text-sm px-6 py-3 rounded-full outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 flex items-center justify-around gap-3">
-                                    <span className="text-lg font-semibold hidden md:block">Upload</span>
+                                    <span className="text-lg font-semibold hidden md:block cursor-pointer">Upload</span>
                                     <BiImageAdd className="text-2xl font-bold" />
                                     <input
                                         type="file"

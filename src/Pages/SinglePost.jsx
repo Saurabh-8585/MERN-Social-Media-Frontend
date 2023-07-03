@@ -9,7 +9,7 @@ const SinglePost = () => {
     const { id } = useParams()
     const { data, isLoading } = useGetSinglePostQuery(id)
     const newData = { ...data }
-   
+
 
     const user = sessionStorage.getItem('user')
     return (
@@ -20,24 +20,24 @@ const SinglePost = () => {
                 <>
                     {newData.length < 1 && <h1>No Post found</h1>}
                     <PostCard
-                        key={newData.post._id}
-                        author={newData.post.author}
-                        content={newData.post.content}
-                        createdAt={newData.post.createdAt}
-                        likes={newData.post.likes}
-                        comments={newData.post.comments}
-                        updatedAt={newData.post.updatedAt}
-                        postId={newData.post._id}
+                        key={newData.post?._id}
+                        author={newData.post?.author}
+                        content={newData.post?.content}
+                        createdAt={newData.post?.createdAt}
+                        likes={newData.post?.likes}
+                        comments={newData.post?.comments}
+                        updatedAt={newData.post?.updatedAt}
+                        postId={newData.post?._id}
 
                     />
 
                     <AddComment postId={id} />
 
                     <CommentList
-                        comments={newData.post.comments}
-                        postId={newData.post._id}
+                        comments={newData.post?.comments}
+                        postId={newData.post?._id}
                         user={user}
-                        commentLikes={newData.post.comments} />
+                        commentLikes={newData.post?.comments} />
                 </>
             }
 

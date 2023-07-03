@@ -3,6 +3,8 @@ import CreateNewPost from '../Components/Card/CreateNewPost'
 import PostLoader from '../Components/Loader/PostLoader'
 import { useGetAllPostsQuery } from '../features/post/PostServices'
 
+import Slider from '../Components/Slider/Slider'
+
 
 const HomePage = () => {
     const { data, isLoading } = useGetAllPostsQuery();
@@ -25,7 +27,7 @@ const HomePage = () => {
                         comments={postData.comments}
                     />)}
 
-
+                <Slider />
             </div>
         </>
     )
