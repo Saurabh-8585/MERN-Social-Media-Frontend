@@ -8,7 +8,6 @@ import Slider from '../Components/Slider/Slider'
 
 const HomePage = () => {
     const { data, isLoading } = useGetAllPostsQuery();
-    console.log(data);
 
     return (
         <>

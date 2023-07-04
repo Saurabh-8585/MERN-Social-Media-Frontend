@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     /* overflow-x: hidden; */
+    scroll-behavior: smooth;
 
 }
 
@@ -32,10 +33,7 @@
     animation: shake 0.5s ease-in-out;
 }
 
-.active {
-    color: white;
 
-}
 
 @media (min-width: 992px) {
     .active {
@@ -105,6 +103,15 @@ body{
 ::-moz-scrollbar-thumb {
     background-color: #8B5CF6;
     border-radius: 4px;
+}
+
+
+
+
+.swiper-slide {
+  
+    border-radius: 18px;
+  
 }
 
 

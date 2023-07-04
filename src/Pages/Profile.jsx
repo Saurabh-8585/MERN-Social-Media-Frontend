@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { useGetProfileQuery } from '../features/user/UserServices';
 import PostLoader from '../Components/Loader/PostLoader';
@@ -7,47 +7,48 @@ import ProfileCard from '../Components/Card/ProfileCard';
 import PostCard from '../Components/Card/PostCard';
 import { useGetSingleUserPostsQuery } from '../features/post/PostServices';
 import TabsRender from '../Components/Tabs/UserTab';
+import Slider from '../Components/Slider/Slider';
 const Profile = () => {
 
   const { id } = useParams()
-  console.log(id);
 
 
-  const { data, isLoading } = useGetProfileQuery(id)
+  const { data, isLoading: profileLoading } = useGetProfileQuery(id)
 
   const { data: userPosts, isLoading: postLoading } = useGetSingleUserPostsQuery(id)
 
   const userInfo = data?.userInfo;
-  console.log({ userInfo });
 
 
   return (
 
     <div className="flex justify-center items-center flex-col">
-      {isLoading ?
-        <>
-          <ProfileLoader />
-          <PostLoader />
-        </>
-        :
-        <>
-          <ProfileCard userInfo={userInfo} totalPosts={userPosts?.post?.length} />
-          {
-            userPosts?.post?.map(postData =>
-              <PostCard
-                key={postData._id}
-                author={postData.author}
-                content={postData.content}
-                createdAt={postData.createdAt}
-                updatedAt={postData.updatedAt}
-                postId={postData._id}
-                postImage={postData.postImage}
-                likes={postData.likes}
-                comments={postData.comments}
-              />)
-          }
-        
-        </>}
+      {
+        profileLoading ? <ProfileLoader />
+
+          : postLoading ? <PostLoader />
+
+            :
+            <>
+              <ProfileCard userInfo={userInfo} totalPosts={userPosts?.post?.length} />
+              {userPosts?.post?.length === 0 && <span className='text-gray-800 text-md text-left font-bold mt-2'>Not posted yet</span>}
+              {
+                userPosts?.post?.map(postData =>
+                  <PostCard
+                    key={postData._id}
+                    author={postData.author}
+                    content={postData.content}
+                    createdAt={postData.createdAt}
+                    updatedAt={postData.updatedAt}
+                    postId={postData._id}
+                    postImage={postData.postImage}
+                    likes={postData.likes}
+                    comments={postData.comments}
+                  />)
+              }
+              <Slider />
+
+            </>}
     </div>
 
 

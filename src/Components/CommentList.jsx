@@ -19,6 +19,7 @@ const CommentList = ({ comments, postId, commentLikes }) => {
     const [handleDeleteComment] = useDeleteCommentMutation();
     const [likeComment] = useLikeCommentMutation();
     console.log({ commentLikes });
+
     const removeComment = async (commentId) => {
 
         let data = { postId, commentId }
@@ -32,6 +33,7 @@ const CommentList = ({ comments, postId, commentLikes }) => {
         const response = await likeComment(data);
         console.log('Response:', response.data);
     }
+    const userId = getCurrentUser(sessionStorage.getItem('user'))
 
     return (
         <div className='mt-5 p-5 flex justify-center flex-col m-auto w-full items-center'>
@@ -67,12 +69,14 @@ const CommentList = ({ comments, postId, commentLikes }) => {
                                 className="text-purple-400 hover:text-purple-300 text-xl cursor-pointer"
                             />
                         </div>
-                        <div className="flex items-center mr-4 justify-center">
-                            <AiOutlineDelete
-                                className="text-purple-400  text-xl cursor-pointer hover:text-red-500"
-                                onClick={() => removeComment(comment._id)}
-                            />
-                        </div>
+                        {userId == comment.user.toString() &&
+                            <div className="flex items-center mr-4 justify-center">
+                                <AiOutlineDelete
+                                    className="text-purple-400  text-xl cursor-pointer hover:text-red-500"
+                                    onClick={() => removeComment(comment._id)}
+                                />
+                            </div>
+                        }
                     </div>
                 </div>
 

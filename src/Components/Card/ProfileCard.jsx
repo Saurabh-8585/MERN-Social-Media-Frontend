@@ -1,51 +1,22 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { AiFillEdit, AiOutlineUserDelete, AiOutlineUserAdd } from 'react-icons/ai'
 import getCurrentUser from '../../utils/CurrentUser';
-import { useFollowUserMutation, useUnFollowUserMutation } from '../../features/user/UserServices';
 import { profileDate } from '../../utils/DateFormatter';
-import { toast } from 'react-hot-toast';
 import LikeByModal from '../Modal/LikeByModal';
 import { Link } from 'react-router-dom';
 import { Avtar } from '../../utils/Avtar';
+import useHandleUsersAction from '../../hooks/useHandleUsersAction';
 const ProfileCard = ({ userInfo, totalPosts }) => {
 
+    const user = getCurrentUser(sessionStorage.getItem('user'))
+    const { follow, isFollowing, unFollow } = useHandleUsersAction({ userInfo, user })
     const [showFollowingModal, setShowFollowingModal] = useState(false);
     const [showFollowerModal, setShowFollowerModal] = useState(false);
     const formattedCreationDate = profileDate(userInfo?.createdAt);
-    const userProfileImage = "https://res.cloudinary.com/dsxjhas6t/image/upload/v1652433208/sapphire/150_x5gbob.jpg";
-
-    const user = getCurrentUser(sessionStorage.getItem('user'))
     const isAuthor = user === userInfo?._id
-    const [followUser,] = useFollowUserMutation()
-    const [unFollowUser, { isError, isLoading, data, }] = useUnFollowUserMutation()
 
 
 
-    const follow = (userID) => {
-        if (user) {
-            const a = followUser(userID);
-        }
-        else {
-            toast.error('Please login')
-        }
-    }
-    const unfollow = (userID) => {
-        if (user) {
-            const a = unFollowUser(userID)
-            console.log({ isError, isLoading, data, });
-        }
-        else {
-            toast.error('Please login')
-        }
-
-    }
-
-    const isFollowing = useMemo(() => {
-        if (userInfo && userInfo.followers) {
-            return userInfo.followers.some((follower) => follower._id === user);
-        }
-        return false;
-    }, [userInfo, user]);
 
 
     return (
@@ -74,7 +45,7 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                                 </span>
                             </div>
                         </div>
-                        <div className=" flex justify-end items-end ml-36 md:ml-0">
+                        <div className=" flex justify-end   items-end mt-4  md:ml-0 ">
                             {isAuthor ?
                                 <Link to='/settings' className="text-purple-500 hover:text-purple-300 font-medium border-purple-500 border-2 rounded-xl px-3 mt-3 flex justify-around items-center gap-2 py-1">
                                     Edit
@@ -83,14 +54,14 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                                 :
                                 isFollowing ?
                                     <button
-                                        className="bg-purple-500  hover:bg-purple-600 text-white font-bold py-2 px-3  rounded-full shadow-md flex items-center justify-between gap-3 "
+                                        className="bg-purple-500  hover:bg-purple-600 text-white font-bold py-2 px-5  rounded-full shadow-md flex items-center justify-between gap-3 w-full"
                                         type="submit"
-                                        onClick={() => unfollow(userInfo?._id)}
+                                        onClick={() => unFollow(userInfo?._id)}
                                     >Unfollow
                                         <AiOutlineUserDelete className='text-xl font-bold' />
                                     </button>
                                     : <button
-                                        className="bg-purple-500  hover:bg-purple-600 text-white font-bold py-2 px-3  rounded-full shadow-md flex items-center justify-between gap-3 "
+                                        className="bg-purple-500  hover:bg-purple-600 text-white font-bold py-2 px-5  rounded-full shadow-md flex items-center justify-between gap-3"
                                         type="submit"
                                         onClick={() => follow(userInfo?._id)}
                                     >Follow

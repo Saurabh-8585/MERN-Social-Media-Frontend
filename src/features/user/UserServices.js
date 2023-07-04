@@ -12,16 +12,13 @@ export const UserApi = createApi({
             query: (id) => ({
                 url: `/${id}`,
                 method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem('user')}`,
-                },
             }),
             providesTags: ['User'],
         }),
 
         getAllUsers: builder.query({
             query: () => ({
-                url: '/users',
+                url: '/all/users',
                 method: 'GET',
             }),
             providesTags: ['User'],
