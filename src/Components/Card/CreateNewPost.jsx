@@ -117,7 +117,7 @@ const CreateNewPost = () => {
                             </div>
                             <div className="flex-1">
                                 <button
-                                    className="bg-purple-500 mt-5 hover:bg-purple-600 text-white font-bold py-2 px-5 md:px-8 rounded-full mr-8 float-right shadow-md"
+                                    className="bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500 mt-5 font-bold py-2 px-5 md:px-8 rounded-full mr-8 float-right shadow-md  ease-linear transition-all duration-150"
                                     type="submit"
                                     onClick={addPost}
                                 >

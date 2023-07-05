@@ -2,12 +2,13 @@ import { getTimeAgo } from "../utils/DateFormatter";
 import { AiOutlineEdit, AiOutlineDelete, AiOutlineSave, AiOutlineHeart, AiFillAlert } from 'react-icons/ai'
 import { MdOutlineCancel } from 'react-icons/md'
 import useHandleCommentActions from "../hooks/useHandleCommentActions";
-import { useDeleteCommentMutation, useLikeCommentMutation } from "../features/post/PostServices";
+import { useDeleteCommentMutation, } from "../features/post/PostServices";
 import { useMemo, useState } from "react";
 import getCurrentUser from "../utils/CurrentUser";
 import LikeByModal from "./Modal/LikeByModal";
 import { Avtar } from "../utils/Avtar";
 import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const CommentList = ({ comments, postId, commentLikes }) => {
     const sortedComments = [...comments].sort((a, b) => {
@@ -17,23 +18,19 @@ const CommentList = ({ comments, postId, commentLikes }) => {
     });
     const [showModal, setShowModal] = useState(false);
     const [handleDeleteComment] = useDeleteCommentMutation();
-    const [likeComment] = useLikeCommentMutation();
-    console.log({ commentLikes });
+    console.log({ sortedComments });
 
     const removeComment = async (commentId) => {
 
         let data = { postId, commentId }
         const response = await handleDeleteComment(data);
-        console.log('Response:', response.data);
+        response.data ? toast.success(response.data.message) : toast.error(response.error.data.message)
+
     };
 
-    const handleLikeComment = async (commentId) => {
 
-        let data = { postId, commentId }
-        const response = await likeComment(data);
-        console.log('Response:', response.data);
-    }
     const userId = getCurrentUser(sessionStorage.getItem('user'))
+
 
     return (
         <div className='mt-5 p-5 flex justify-center flex-col m-auto w-full items-center'>
@@ -54,30 +51,23 @@ const CommentList = ({ comments, postId, commentLikes }) => {
                         {comment.text}
                     </p>
                     <div className="border-gray-200 dark:border-gray-600 border border-b-0 my-2" />
-                    <div className="text-gray-500 dark:text-gray-400 flex mt-3 justify-center items-center gap-2">
-                        <div className="flex items-center mr-4 justify-center">
-                            <AiOutlineHeart
-                                className="text-purple-400 text-xl cursor-pointer hover:text-red-500"
-                                onClick={() => handleLikeComment(comment._id)}
-                            />
-                            <span className="ml-2 font-medium cursor-pointer"
-                                onClick={() => setShowModal(true)}
-                            >{comment.commentLikes.length} </span>
-                        </div>
-                        <div className="flex items-center mr-4 justify-center">
-                            <AiOutlineEdit
-                                className="text-purple-400 hover:text-purple-300 text-xl cursor-pointer"
-                            />
-                        </div>
-                        {userId == comment.user.toString() &&
+
+                    {userId === comment.user._id &&
+                        <div className="text-gray-500 dark:text-gray-400 flex mt-3 justify-center items-center gap-2">
+                            <div className="flex items-center mr-4 justify-center">
+                                <AiOutlineEdit
+                                    className="text-purple-400 hover:text-purple-300 text-xl cursor-pointer"
+                                />
+                            </div>
+
                             <div className="flex items-center mr-4 justify-center">
                                 <AiOutlineDelete
                                     className="text-purple-400  text-xl cursor-pointer hover:text-red-500"
                                     onClick={() => removeComment(comment._id)}
                                 />
                             </div>
-                        }
-                    </div>
+                        </div>
+                    }
                 </div>
 
             ))}

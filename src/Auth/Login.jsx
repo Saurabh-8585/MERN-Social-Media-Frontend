@@ -89,7 +89,7 @@ const Login = () => {
                         </div>
                     </div>
                     <div className="text-center mt-7">
-                        <button className="uppercase px-24 md:px-[118px] lg:px-[140px] py-2 rounded-md text-white bg-purple-500 hover:bg-purple-600 font-medium shadow-md hover:shadow-lg" type="submit">
+                        <button className="uppercase px-24 md:px-[118px] lg:px-[140px] py-2 rounded-md bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500  ease-linear transition-all duration-150 font-medium shadow-md hover:shadow-lg" type="submit">
                             Sign In
                         </button>
                     </div>

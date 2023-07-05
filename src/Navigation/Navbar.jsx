@@ -63,7 +63,7 @@ const Navbar = () => {
                         <ul className="absolute top-12 w-full bg-white border border-gray-300 rounded-md shadow-md">
                             {filteredData.map((user) => (
                                 <Link to={`/profile/${user._id}`} key={user._id} onClick={() => setSearchTerm('')}>
-                                    <li key={user._id} className="px-10 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between">
+                                    <li className="px-10 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between" >
                                         <img
                                             className="h-10 w-10 rounded-full border"
                                             src={user?.userImage?.url ? user?.userImage?.url : Avtar}
@@ -94,7 +94,7 @@ const Navbar = () => {
 
                 {isLogin ? (
                     <button
-                        className="md:flex items-center justify-center px-4 py-2 text-white font-medium rounded-md bg-purple-500 hover:bg-purple-600 focus:outline-none hidden mr-10"
+                        className="md:flex items-center justify-center px-4 py-2  font-medium rounded-md bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500  ease-linear transition-all duration-150 focus:outline-none hidden mr-10"
                         onClick={handleSignOut}
                     >
                         <FiLogOut className="mr-2 font-bold " />
@@ -102,7 +102,7 @@ const Navbar = () => {
                     </button>
                 ) : (
                     <Link to="/SignIn">
-                        <button className="md:flex items-center justify-center px-4 py-2 text-white font-medium rounded-md bg-purple-500 hover:bg-purple-600 focus:outline-none hidden mr-10 ">
+                            <button className="md:flex items-center justify-center px-4 py-2  font-medium rounded-md bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500  ease-linear transition-all duration-150 focus:outline-none hidden mr-10 ">
                             <AiOutlineLogin className="mr-2 font-bold" />
                             Sign In
                         </button>

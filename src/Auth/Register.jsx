@@ -114,7 +114,7 @@ const Register = () => {
             </div>
           </div>
           <div className="text-center mt-7">
-            <button className="uppercase px-[5.4rem] md:w-72 lg:w-[340px] py-2 rounded-md text-white bg-purple-500 hover:bg-purple-600 font-medium shadow-md hover:shadow-lg" type='submit'>
+            <button className="uppercase px-[5.4rem] md:w-72 lg:w-[340px] py-2 rounded-md bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500  ease-linear transition-all duration-150font-medium shadow-md hover:shadow-lg" type='submit'>
               Sign Up
             </button>
           </div>

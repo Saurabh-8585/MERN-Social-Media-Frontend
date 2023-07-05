@@ -54,14 +54,14 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                                 :
                                 isFollowing ?
                                     <button
-                                        className="bg-purple-500  hover:bg-purple-600 text-white font-bold py-2 px-5  rounded-full shadow-md flex items-center justify-between gap-3 w-full"
+                                        className="bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500  ease-linear transition-all duration-150 font-bold py-2 px-5  rounded-full shadow-md flex items-center justify-between gap-3 w-full"
                                         type="submit"
                                         onClick={() => unFollow(userInfo?._id)}
                                     >Unfollow
                                         <AiOutlineUserDelete className='text-xl font-bold' />
                                     </button>
                                     : <button
-                                        className="bg-purple-500  hover:bg-purple-600 text-white font-bold py-2 px-5  rounded-full shadow-md flex items-center justify-between gap-3"
+                                        className="bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500  ease-linear transition-all duration-150 font-bold py-2 px-5  rounded-full shadow-md flex items-center justify-between gap-3"
                                         type="submit"
                                         onClick={() => follow(userInfo?._id)}
                                     >Follow

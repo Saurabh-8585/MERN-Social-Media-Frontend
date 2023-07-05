@@ -73,7 +73,7 @@ const ResetPassword = () => {
                 </div>
                 <button
                     type="submit"
-                    className="text-white bg-purple-500 hover:bg-purple-600 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-purple-500 dark:hover:bg-purple-600 dark:focus:ring-purple-800 flex justify-center items-center gap-4 "
+                    className="border border-purple-500 text-purple-500 hover:bg-purple-600 hover:text-white flex  justify-center gap-4  items-center font-bold py-2 px-4  ease-linear transition-all duration-150 rounded-lg"
                 >
                     <span className='text-lg font-semibold '> Reset</span>
                     <RiLockPasswordLine className='text-2xl font-bold' />

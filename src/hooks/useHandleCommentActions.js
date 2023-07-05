@@ -27,12 +27,7 @@ const useHandleCommentActions = () => {
             toast.error('Please login to comment')
         }
     }
-    const handleLikeComment = async (postId) => {
-
-    }
-    const handleRemoveLikeComment = async (postId) => {
-
-    }
+  
     const handleDeleteComment = async (postId, commentId) => {
         console.log({ postId, commentId },2);
         let data={postId,commentId}

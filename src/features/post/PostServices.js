@@ -122,17 +122,7 @@ export const PostApi = createApi({
             invalidatesTags: ['SinglePost']
         }),
 
-        likeComment: builder.mutation({
-            query: ({ postId, commentId }) => ({
-                url: '/like/comment',
-                method: 'POST',
-                body: { postId, commentId },
-                headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem('user')}`,
-                },
-            }),
-            invalidatesTags: ['SinglePost']
-        }),
+      
 
 
     }),
@@ -150,6 +140,6 @@ export const {
     useDislikePostMutation,
     useAddCommentMutation,
     useDeleteCommentMutation,
-    useLikeCommentMutation
+  
 
 } = PostApi;

@@ -29,8 +29,8 @@ const DeleteAccount = () => {
     }
     return (
         <>
-            <div className="flex flex-col items-center mt-4">
-                <h2 className="text-2xl font-bold mb-2 dark:text-white">Do you want to delete account?</h2>
+            <div className="flex flex-col items-center mt-4 gap-3">
+                <h2 className="text-xl font-bold mb-2 dark:text-white">Do you want to delete account?</h2>
                 <button
                     className="border border-red-500 text-red-500 hover:bg-red-600 hover:text-white flex justify-around gap-3 items-center font-bold py-2 px-4 rounded ease-linear transition-all duration-150"
                     onClick={openModal}

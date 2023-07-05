@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import useHandlePostActions from '../hooks/useHandlePostActions';
 import useHandleCommentActions from '../hooks/useHandleCommentActions';
 
 const AddComment = ({ postId }) => {

@@ -99,7 +99,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
         }
 
         return false;
-    }, [handleLike, handleRemoveLike]);
+    }, [likes,user]);
     return (
         <>
             <div className="p-5 flex items-center justify-center  w-full">
