@@ -6,11 +6,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { useGetAllUsersQuery } from '../features/user/UserServices'
 import { Avtar } from '../utils/Avtar';
+import getCurrentUser from '../utils/CurrentUser';
 const Navbar = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredData, setFilteredData] = useState([])
     const { data } = useGetAllUsersQuery()
-    const isLogin = sessionStorage.getItem('user');
+    const isUser = getCurrentUser(sessionStorage.getItem('user'))
     const navigate = useNavigate();
 
     const handleSignOut = () => {
@@ -92,7 +93,7 @@ const Navbar = () => {
 
                 </div>
 
-                {isLogin ? (
+                {isUser ? (
                     <button
                         className="md:flex items-center justify-center px-4 py-2  font-medium rounded-md bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500  ease-linear transition-all duration-150 focus:outline-none hidden mr-10"
                         onClick={handleSignOut}

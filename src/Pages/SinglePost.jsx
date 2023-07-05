@@ -12,7 +12,7 @@ const SinglePost = () => {
     const { data, isLoading } = useGetSinglePostQuery(id)
     const newData = { ...data }
 
-    const user = sessionStorage.getItem('user')
+   
     return (
         <div className="flex justify-center items-center flex-col mt-10">
             {isLoading ?
@@ -41,7 +41,7 @@ const SinglePost = () => {
                                 <CommentList
                                     comments={newData.post?.comments}
                                     postId={newData.post?._id}
-                                    user={user}
+                                    author={newData.post?.author}
                                     commentLikes={newData.post?.comments} />
                             </>
                     }

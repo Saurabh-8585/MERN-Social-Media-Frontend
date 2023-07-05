@@ -22,7 +22,7 @@ const Slider = () => {
             <>
                 {/* for large screen */}
                 <span className='text-gray-600 text-md text-left font-semibold mt-2'>Suggested for you</span>
-                <div className="hidden lg:flex flex-col justify-center items-center mt-10 mb-10 ml-10 w-full max-w-4xl ">
+                <div className="hidden lg:flex flex-col justify-center items-center my-10 ml-10 w-full max-w-4xl ">
                     <Swiper
                         effect="coverflow"
                         grabCursor={true}

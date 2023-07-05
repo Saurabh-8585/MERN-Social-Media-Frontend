@@ -1,16 +1,15 @@
 import { getTimeAgo } from "../utils/DateFormatter";
 import { AiOutlineEdit, AiOutlineDelete, AiOutlineSave, AiOutlineHeart, AiFillAlert } from 'react-icons/ai'
 import { MdOutlineCancel } from 'react-icons/md'
-import useHandleCommentActions from "../hooks/useHandleCommentActions";
 import { useDeleteCommentMutation, } from "../features/post/PostServices";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import getCurrentUser from "../utils/CurrentUser";
 import LikeByModal from "./Modal/LikeByModal";
 import { Avtar } from "../utils/Avtar";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
-const CommentList = ({ comments, postId, commentLikes }) => {
+const CommentList = ({ comments, postId, commentLikes, author }) => {
     const sortedComments = [...comments].sort((a, b) => {
         const createdAtA = new Date(a.createdAt);
         const createdAtB = new Date(b.createdAt);
@@ -31,7 +30,7 @@ const CommentList = ({ comments, postId, commentLikes }) => {
 
     const userId = getCurrentUser(sessionStorage.getItem('user'))
 
-
+console.log({author});
     return (
         <div className='mt-5 p-5 flex justify-center flex-col m-auto w-full items-center'>
             {sortedComments.map((comment) => (
@@ -52,22 +51,25 @@ const CommentList = ({ comments, postId, commentLikes }) => {
                     </p>
                     <div className="border-gray-200 dark:border-gray-600 border border-b-0 my-2" />
 
-                    {userId === comment.user._id &&
-                        <div className="text-gray-500 dark:text-gray-400 flex mt-3 justify-center items-center gap-2">
+                    <div className="text-gray-500 dark:text-gray-400 flex mt-3 justify-center items-center gap-2">
+                        {userId === comment.user._id &&
                             <div className="flex items-center mr-4 justify-center">
                                 <AiOutlineEdit
                                     className="text-purple-400 hover:text-purple-300 text-xl cursor-pointer"
                                 />
                             </div>
+                        }
 
+                        {(userId === author._id || userId === comment.user._id) &&
                             <div className="flex items-center mr-4 justify-center">
                                 <AiOutlineDelete
                                     className="text-purple-400  text-xl cursor-pointer hover:text-red-500"
                                     onClick={() => removeComment(comment._id)}
                                 />
                             </div>
-                        </div>
-                    }
+                        }
+                    </div>
+
                 </div>
 
             ))}

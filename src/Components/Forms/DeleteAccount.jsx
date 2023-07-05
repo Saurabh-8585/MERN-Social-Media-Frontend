@@ -21,7 +21,7 @@ const DeleteAccount = () => {
         if (response.data) {
             toast.success(response.data.message);
             navigate('/SignIn')
-
+            sessionStorage.removeItem('user')
         }
         if (response.error) {
             toast.error(response.error.data.message);

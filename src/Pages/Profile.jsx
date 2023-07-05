@@ -1,21 +1,21 @@
-import React, { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 import { useGetProfileQuery } from '../features/user/UserServices';
 import PostLoader from '../Components/Loader/PostLoader';
 import ProfileLoader from '../Components/Loader/ProfileLoader'
 import ProfileCard from '../Components/Card/ProfileCard';
 import PostCard from '../Components/Card/PostCard';
 import { useGetSingleUserPostsQuery } from '../features/post/PostServices';
-import TabsRender from '../Components/Tabs/UserTab';
 import Slider from '../Components/Slider/Slider';
+import getCurrentUser from '../utils/CurrentUser';
 const Profile = () => {
 
+  const user = getCurrentUser(sessionStorage.getItem('user'))
   const { id } = useParams()
+  const userId = id ? id : user
 
+  const { data, isLoading: profileLoading } = useGetProfileQuery(userId)
 
-  const { data, isLoading: profileLoading } = useGetProfileQuery(id)
-
-  const { data: userPosts, isLoading: postLoading } = useGetSingleUserPostsQuery(id)
+  const { data: userPosts, isLoading: postLoading } = useGetSingleUserPostsQuery(userId)
 
   const userInfo = data?.userInfo;
 
