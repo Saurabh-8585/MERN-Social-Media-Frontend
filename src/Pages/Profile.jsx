@@ -1,12 +1,15 @@
-import {  useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useGetProfileQuery } from '../features/user/UserServices';
 import PostLoader from '../Components/Loader/PostLoader';
 import ProfileLoader from '../Components/Loader/ProfileLoader'
 import ProfileCard from '../Components/Card/ProfileCard';
+import PostNotFound from '../Components/Card/PostNotFound';
 import PostCard from '../Components/Card/PostCard';
 import { useGetSingleUserPostsQuery } from '../features/post/PostServices';
 import Slider from '../Components/Slider/Slider';
 import getCurrentUser from '../utils/CurrentUser';
+import CreateNewPost from '../Components/Card/CreateNewPost'
+import { MdOutlinePostAdd } from 'react-icons/md';
 const Profile = () => {
 
   const user = getCurrentUser(sessionStorage.getItem('user'))
@@ -22,7 +25,7 @@ const Profile = () => {
 
   return (
 
-    <div className="flex justify-center items-center flex-col">
+    <div className="flex justify-center items-center flex-col ">
       {
         profileLoading ? <ProfileLoader />
 
@@ -31,7 +34,18 @@ const Profile = () => {
             :
             <>
               <ProfileCard userInfo={userInfo} totalPosts={userPosts?.post?.length} />
-              {userPosts?.post?.length === 0 && <span className='text-gray-800 text-md text-left font-bold mt-2'>Not posted yet</span>}
+
+
+              {((user === id) || (!id && user)) ?
+
+                <CreateNewPost />
+                : userPosts?.post?.length === 0 &&
+                <PostNotFound
+                  message='Not Posted Yet'
+                  icon={<MdOutlinePostAdd className="text-white font-extrabold text-2xl cursor-pointer" />
+                  }
+                />
+              }
               {
                 userPosts?.post?.map(postData =>
                   <PostCard

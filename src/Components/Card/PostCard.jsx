@@ -6,10 +6,10 @@ import { FaRegCommentAlt } from 'react-icons/fa'
 import { AiOutlineHeart, AiFillHeart, AiOutlineShareAlt, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
 import { MdOutlineCancel, MdOutlineSaveAs, MdOutlineBookmarkAdd, MdBookmarkRemove } from 'react-icons/md'
 import getCurrentUser from '../../utils/CurrentUser';
-import LikeByModal from '../Modal/LikeByModal';
 import useHandlePostActions from '../../hooks/useHandlePostActions';
 import { Link, useNavigate } from 'react-router-dom'
-import { Avtar } from '../../utils/Avtar'
+import Avatar from '../../assets/Avatar.png'
+import UserListPopUp from '../Modal/UserListPopUp'
 
 const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBookMark, postImage, likes, comments }) => {
 
@@ -20,7 +20,6 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
             const decodedToken = getCurrentUser(user);
             return decodedToken === author._id;
         }
-        console.log(1);
         return false;
 
     }, [user]);
@@ -70,20 +69,20 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
     };
 
     const handleSharePost = async (PostID) => {
-
         const data = {
-            text: `${author.username} on snapia shared post about ${content}`,
+            text: `${author.username} on snapia shared a post about ${content}`,
             title: 'snapia',
             url: `http://localhost:3000/post/${PostID}`,
             imageUrl: 'https://img.freepik.com/free-vector/computer-user-human-character-program-windows_1284-63445.jpg?w=740&t=st=1687531407~exp=1687532007~hmac=4fca4b34f720e749446eecb9e436ced9666cb4c83f5f005d43b364a15fd713f8'
-        }
-        if (navigator.canShare && navigator.canShare(data)) {
+        };
+
+        if (navigator.share && navigator.canShare(data)) { 
             navigator.share(data);
+        } else {
+            toast.error("Browser does not support sharing");
         }
-        else {
-            toast.error("browser not support")
-        }
-    }
+    };
+
 
 
     const isLikedPost = useMemo(() => {
@@ -99,16 +98,16 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
         }
 
         return false;
-    }, [likes,user]);
+    }, [likes, user]);
     return (
         <>
-            <div className="p-5 flex items-center justify-center  w-full">
+            <div className="p-5 flex items-center justify-center w-[99%]">
                 <div className="bg-white dark:bg-gray-800 border-gray-300  p-4 rounded-xl border w-full max-w-xl shadow-sm hover:shadow-md">
                     <div className="flex justify-between">
                         <Link to={`/profile/${author._id}`} className="flex items-center">
                             <img
                                 className="h-11 w-11 rounded-full border"
-                                src={author?.userImage?.url ? author?.userImage?.url : Avtar}
+                                src={author?.userImage?.url ? author?.userImage?.url : Avatar}
                                 alt=''
                             />
                             <div className="ml-1.5 text-sm leading-tight">
@@ -141,7 +140,6 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                         <img
                             className="mt-2 rounded-2xl border border-gray-100 dark:border-gray-700 flex m-auto"
                             src={postImage?.url}
-                            // src="https://res.cloudinary.com/dsxjhas6t/image/upload/v1652433208/sapphire/150_x5gbob.jpg"
                             alt='Post_Photo'
                         />
                     }
@@ -151,7 +149,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                     </p>
 
                     <div className="border-gray-200 dark:border-gray-600 border border-b-0 my-1" />
-                    <div className="text-gray-500 dark:text-gray-400 flex mt-3 justify-center items-center gap-2">
+                    <div className="text-gray-500 dark:text-gray-400 flex mt-3 justify-center items-center">
                         {
                             (removeFromBookMark && bookmarkID) &&
                             <div className="flex items-center mr-6 justify-center">
@@ -236,7 +234,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                     </div>
                 </div>
                 {showModal && (
-                    <LikeByModal users={likes} onClose={() => setShowModal(false)} text='Liked by' />
+                    <UserListPopUp users={likes} onClose={() => setShowModal(false)} text='Liked by' />
                 )}
             </div >
         </>

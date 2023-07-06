@@ -1,4 +1,4 @@
-import { Avtar } from '../../utils/Avtar'
+import Avtar  from '../../assets/Avatar.png'
 import { AiOutlineUserAdd } from 'react-icons/ai'
 
 const UserCard = () => {

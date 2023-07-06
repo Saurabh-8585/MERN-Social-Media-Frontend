@@ -8,7 +8,7 @@ const Register = () => {
 
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors }, watch } = useForm();
-  const [signUpUser, response] = useUserSignUpMutation()
+  const [signUpUser] = useUserSignUpMutation()
   const onSubmit = async (info) => {
     try {
       const data = await signUpUser({ username: info.username, email: info.email, password: info.password }).unwrap();

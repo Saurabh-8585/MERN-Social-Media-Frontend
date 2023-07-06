@@ -99,10 +99,10 @@ export const PostApi = createApi({
         }),
 
         addComment: builder.mutation({
-            query: ({ id, content }) => ({
-                url: `/comment/${id}`,
+            query: ({ postId, comment }) => ({
+                url: `/comment/${postId}`,
                 method: 'POST',
-                body: { content },
+                body: { content: comment },
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem('user')}`,
                 }
@@ -122,7 +122,7 @@ export const PostApi = createApi({
             invalidatesTags: ['SinglePost']
         }),
 
-      
+
 
 
     }),
@@ -140,6 +140,6 @@ export const {
     useDislikePostMutation,
     useAddCommentMutation,
     useDeleteCommentMutation,
-  
+
 
 } = PostApi;

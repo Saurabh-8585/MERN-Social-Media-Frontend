@@ -1,13 +1,12 @@
 import { getTimeAgo } from "../utils/DateFormatter";
-import { AiOutlineEdit, AiOutlineDelete, AiOutlineSave, AiOutlineHeart, AiFillAlert } from 'react-icons/ai'
-import { MdOutlineCancel } from 'react-icons/md'
+import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai'
 import { useDeleteCommentMutation, } from "../features/post/PostServices";
 import { useState } from "react";
 import getCurrentUser from "../utils/CurrentUser";
-import LikeByModal from "./Modal/LikeByModal";
-import { Avtar } from "../utils/Avtar";
+import  Avtar  from "../assets/Avatar.png";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import PopUp from "./Modal/PopUp";
 
 const CommentList = ({ comments, postId, commentLikes, author }) => {
     const sortedComments = [...comments].sort((a, b) => {
@@ -17,10 +16,8 @@ const CommentList = ({ comments, postId, commentLikes, author }) => {
     });
     const [showModal, setShowModal] = useState(false);
     const [handleDeleteComment] = useDeleteCommentMutation();
-    console.log({ sortedComments });
 
     const removeComment = async (commentId) => {
-
         let data = { postId, commentId }
         const response = await handleDeleteComment(data);
         response.data ? toast.success(response.data.message) : toast.error(response.error.data.message)
@@ -74,7 +71,7 @@ console.log({author});
 
             ))}
             {showModal && (
-                commentLikes.map(data => <LikeByModal users={data.commentLikes} onClose={() => setShowModal(false)} />)
+                commentLikes.map(data => <PopUp users={data.commentLikes} onClose={() => setShowModal(false)} />)
             )}
         </div>
     );

@@ -8,7 +8,7 @@ const useHandlePostActions = (isCurrentUserAuthor) => {
 
     const [likePost] = useLikePostMutation();
     const [dislike] = useDislikePostMutation();
-    const [deletePost, { isLoading, isError, isSuccess, error }] = useDeletePostMutation();
+    const [deletePost] = useDeletePostMutation();
     const [addBookMark] = useAddToBookMarkMutation();
     const [removeBookMark] = useRemoveFromBookMarkMutation()
 
@@ -20,7 +20,7 @@ const useHandlePostActions = (isCurrentUserAuthor) => {
         if (user) {
             const likePostResponse = await likePost(PostID)
             if (likePostResponse.error) {
-                toast.error(likePostResponse.error);
+                toast.error(likePostResponse.error.data.message);
             }
         }
         else {
@@ -34,7 +34,7 @@ const useHandlePostActions = (isCurrentUserAuthor) => {
 
             const likePostResponse = await dislike(PostID)
             if (likePostResponse.error) {
-                toast.error(likePostResponse.error);
+                toast.error(likePostResponse.error.data.message);
             }
         }
         else {
@@ -46,20 +46,15 @@ const useHandlePostActions = (isCurrentUserAuthor) => {
     const handleDelete = async (postId, commentId) => {
         if (user) {
             if (isCurrentUserAuthor) {
-                try {
-                    deletePost(postId, commentId);
-                    if (isLoading) {
-                        toast.loading('Deleting...');
-                    }
-                    if (isError) {
-                        console.log(error);
-                    }
-                    if (isSuccess) {
-                        toast.success('Deleted');
-                    }
-                } catch (error) {
-                    toast.error('Failed to delete post');
+                const deletePostToast = toast.loading('Deleting ...');
+                let response = await deletePost(postId, commentId);
+                if (response.error) {
+                    toast.error(response.error.data.message, { id: deletePostToast });
                 }
+                else {
+                    toast.success('Post Deleted', { id: deletePostToast });
+                }
+
             } else {
                 toast.error('You are not authorized to delete this post');
             }
@@ -69,13 +64,14 @@ const useHandlePostActions = (isCurrentUserAuthor) => {
     };
     const handleAddBookMark = async (PostID) => {
         if (user) {
+            const addBookMarKToast = toast.loading('Saving ...');
             const response = await addBookMark(PostID);
             if (response.error) {
-                toast.error(response.error.data.message);
-                console.log(response.error);
+                toast.error(response.error.data.message, { id: addBookMarKToast });
+
             }
             else {
-                toast.success(response.data.message);
+                toast.success('Saved to bookmarks', { id: addBookMarKToast });
             }
         }
         else {
@@ -84,14 +80,15 @@ const useHandlePostActions = (isCurrentUserAuthor) => {
     }
 
     const removeFromBookmark = async (bookmarkId) => {
+        const removeBookMarkToast = toast.loading('Removing ...');
+        let response = await removeBookMark(bookmarkId);
+        if (response.error) {
+            toast.error(response.error.data.message, { id: removeBookMarkToast });
 
-        let response = removeBookMark(bookmarkId);
-        toast.promise(response, {
-            loading: 'Removing...',
-            success: 'Removed',
-            error: 'Failed to Removed bookmark',
-        });
-        await response
+        }
+        else {
+            toast.success('Removed from bookmarks', { id: removeBookMarkToast });
+        }
 
     }
 

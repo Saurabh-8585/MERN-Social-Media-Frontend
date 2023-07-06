@@ -23,7 +23,7 @@ const AppRoutes = () => {
             <Router>
                 <div className="flex">
                     <Sidebar />
-                    <div className="flex-1 lg:ml-28 mt-20">
+                    <div className="flex-1 lg:ml-28 mt-20 ">
                         <Routes>
                             <Route index path="/" element={<HomePage />} />
                             <Route path="/SignIn" element={<Login />} />

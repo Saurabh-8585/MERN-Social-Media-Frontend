@@ -17,7 +17,11 @@ const Bookmark = () => {
 
     <div className="flex justify-center items-center flex-col">
       {!isLoading && data.length < 1 &&
-        <PostNotFound message='Add New BookMark' icon={<BsBookmarkPlus className="text-white font-extrabold text-2xl cursor-pointer" />} />
+        <PostNotFound
+          message='Add New BookMark'
+          icon={<BsBookmarkPlus className="text-white font-extrabold text-2xl cursor-pointer" />}
+          link={'/'}
+        />
       }
 
 

@@ -1,11 +1,12 @@
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { useUserSignInMutation } from '../features/auth/AuthServices';
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
+    const location = useLocation();
     const [signInUser] = useUserSignInMutation()
 
     const onSubmit = async (info) => {
@@ -14,7 +15,8 @@ const Login = () => {
             if (data.token) {
                 toast.success(data.message);
                 sessionStorage.setItem('user', data.token)
-                navigate('/')
+                const { from } = location.state || { from: { pathname: '/' } };
+                navigate(from);
             }
 
             else {
@@ -45,9 +47,9 @@ const Login = () => {
                     <h1 className="font-bold text-3xl text-purple-500 dark:text-purple-400">Sign In</h1>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    
+
                     <div className="flex flex-col justify-center items-center mt-10 md:mt-4 space-y-6 md:space-y-8">
-                        
+
                         <div className="flex flex-col">
                             <input
                                 type="text"

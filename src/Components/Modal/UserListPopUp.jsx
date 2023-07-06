@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { IoCloseSharp } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import { Avtar } from '../../utils/Avtar';
-
-const LikeByModal = ({ users, onClose, text }) => {
+import  Avtar  from '../../assets/Avatar.png';
+const UserListPopUp = ({ users, onClose, text }) => {
     const [isOpen, setIsOpen] = useState(true);
 
     const closeModal = () => {
         setIsOpen(false);
         onClose();
     };
-
     return (
         <>
             <div
@@ -60,7 +58,7 @@ const LikeByModal = ({ users, onClose, text }) => {
                 </div>
             </div>
         </>
-    );
-};
+    )
+}
 
-export default LikeByModal;
+export default UserListPopUp

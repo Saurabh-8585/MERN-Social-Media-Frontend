@@ -47,13 +47,15 @@ export const UserApi = createApi({
         }),
 
         updateUser: builder.mutation({
-            query: ({ user, username, email, about, selectedFile, image }) => {
+            query: ({ user, username, email, about, selectedFile, image, location, website }) => {
                 const formData = new FormData();
                 formData.append('email', email);
                 formData.append('about', about);
                 formData.append('username', username);
                 formData.append('file', selectedFile);
                 formData.append('image', image);
+                formData.append('location', location);
+                formData.append('website', website);
 
                 return {
                     url: `/update/${user}`,

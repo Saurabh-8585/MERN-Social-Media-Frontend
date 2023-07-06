@@ -1,13 +1,22 @@
-import React from 'react';
-import { FiHome, FiBookmark, FiMail, FiSettings } from 'react-icons/fi';
+import React, { useState } from 'react';
+import { FiHome, FiBookmark, FiMail, FiSettings, FiLogOut } from 'react-icons/fi';
 import { VscAccount } from 'react-icons/vsc';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate, } from 'react-router-dom';
 import Navbar from './Navbar';
 import getCurrentUser from '../utils/CurrentUser';
+import { toast } from 'react-hot-toast';
+import { AiOutlineLogin } from 'react-icons/ai';
+import PopUp from '../Components/Modal/PopUp';
 
 const Sidebar = () => {
     const profileId = getCurrentUser(sessionStorage.getItem('user'))
-
+    const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate();
+    const handleSignOut = () => {
+        sessionStorage.removeItem('user');
+        toast.success('Sign out successfully');
+        navigate('/SignIn');
+    };
     return (
         <>
             <Navbar />
@@ -62,6 +71,40 @@ const Sidebar = () => {
                             <FiSettings className='lg:text-3xl text-xl lg:mr-10 dark:text-white' />
                         </NavLink>
                     </li>
+
+                    {profileId ?
+                        <li className='lg:w-3/4 lg:border lg:border-purple-500 lg:mt-10 lg:text-purple-500 ease-linear transition-all duration-150 lg:p-3  lg:hover:bg-purple-500 lg:hover:text-white
+                        lg:rounded-full'>
+                            <Link
+                                className=" flex items-center justify-between gap-2"
+                                onClick={() => setShowModal(true)}
+                            >
+                                <span className="dark:text-white lg:text-xl lg:font-semibold text-start lg:mt-1 hidden lg:inline lg:ml-6">Sign out</span>
+                                <FiLogOut className='lg:text-3xl text-xl lg:mr-6 dark:text-white hover:text-purple-500' />
+                            </Link>
+                        </li>
+                        :
+                        <li className='lg:w-3/4 lg:border lg:border-purple-500 lg:mt-10 lg:text-purple-500 ease-linear transition-all duration-150 lg:p-3  lg:hover:bg-purple-500 lg:hover:text-white
+                        lg:rounded-full'>
+                            <Link
+                                to={`/SignIn`}
+                                className=" flex items-center justify-between gap-2"
+                            >
+                                <span className="dark:text-white lg:text-xl lg:font-semibold text-start lg:mt-1 hidden lg:inline lg:ml-6">Sign In</span>
+                                <AiOutlineLogin className='lg:text-3xl text-xl lg:mr-6 dark:text-white hover:text-purple-500' />
+                            </Link>
+                        </li>
+                    }
+
+                    {showModal && (
+                        <PopUp
+                            onClose={() => setShowModal(false)}
+                            handleClick={handleSignOut}
+                            btnMessage='Logout'
+                            message='Are you sure you want to logout? '
+                            icon={<FiLogOut className="w-16 h-16 rounded-2xl p-3 border border-blue-100 text-blue-400 bg-blue-50 mt-4" />}
+                        />
+                    )}
                 </ul>
             </aside>
         </>

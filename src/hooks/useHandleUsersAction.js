@@ -7,13 +7,14 @@ const useHandleUsersAction = ({ userInfo, user }) => {
     const [followUser,] = useFollowUserMutation()
     const [unFollowUser] = useUnFollowUserMutation()
 
-    const follow = (userID) => {
+    const follow = async (userID) => {
         if (user) {
-            try {
-                const a = followUser(userID);
-            } catch (error) {
-                toast.error('Something went wrong')
+
+            const response = await followUser(userID);
+            if (response.error) {
+                toast.error(response.error.data.message)
             }
+
         }
         else {
             toast.error('Please login')
@@ -21,11 +22,10 @@ const useHandleUsersAction = ({ userInfo, user }) => {
     }
     const unFollow = async (userID) => {
         if (user) {
-            try {
-                unFollowUser(userID)
 
-            } catch (error) {
-                toast.error('Something went wrong')
+            const response = await unFollowUser(userID)
+            if (response.error) {
+                toast.error(response.error.data.message)
             }
 
         }

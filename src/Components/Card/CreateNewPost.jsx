@@ -7,7 +7,7 @@ const CreateNewPost = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [image, setImage] = useState(null);
     const [content, setContent] = useState('');
-    const [createPost, { isLoading, isError, error, isSuccess }] = useCreatePostMutation();
+    const [createPost] = useCreatePostMutation();
 
 
 
@@ -37,19 +37,21 @@ const CreateNewPost = () => {
             return toast.error('Add some text');
         }
 
+        const createPostToast = toast.loading('Posting...');
         try {
             const data = { content, image: selectedFile };
 
-            const promise = createPost(data);
-            toast.promise(promise, {
-                loading: 'Posting...',
-                success: 'Posted',
-                error: 'Failed to create post',
-            });
+            const response = await createPost(data);
+            if (response.error) {
+                toast.error(response.error, { id: createPostToast });
+            }
+            else {
+                toast.success('Posted', { id: createPostToast });
+            }
 
-            await promise;
             setContent('');
             setImage(null);
+            setSelectedFile(null)
         } catch (error) {
             console.log(error);
             toast.error('Failed to create post');
@@ -71,7 +73,7 @@ const CreateNewPost = () => {
                             <div className="flex items-center">
                                 <div className="flex-1 px-2 pt-2 my-4">
                                     <textarea
-                                        className="bg-transparent text-gray-400 font-medium text-lg w-full outline-none"
+                                        className="bg-transparent text-gray-600 font-medium text-lg w-full outline-none"
                                         rows={2}
                                         cols={50}
                                         placeholder="What's happening?"

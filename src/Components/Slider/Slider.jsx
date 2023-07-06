@@ -3,7 +3,7 @@ import { EffectCards, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-cards';
 import 'swiper/css/navigation';
-import { Avtar } from '../../utils/Avtar'
+import Avtar from '../../assets/Avatar.png'
 import { HiOutlineUserCircle } from 'react-icons/hi'
 import { useGetAllUsersQuery } from '../../features/user/UserServices';
 import LoadingSpinner from '../Loader/LoadingSpinner'

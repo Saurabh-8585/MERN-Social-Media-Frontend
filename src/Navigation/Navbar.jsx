@@ -5,7 +5,7 @@ import { FaSearch } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { useGetAllUsersQuery } from '../features/user/UserServices'
-import { Avtar } from '../utils/Avtar';
+import Avtar from '../assets/Avatar.png';
 import getCurrentUser from '../utils/CurrentUser';
 const Navbar = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -17,7 +17,7 @@ const Navbar = () => {
     const handleSignOut = () => {
         sessionStorage.removeItem('user');
         toast.success('Sign out successfully');
-        navigate('/');
+        navigate('/SignIn');
     };
 
     const handleSearch = (e) => {
@@ -64,7 +64,7 @@ const Navbar = () => {
                         <ul className="absolute top-12 w-full bg-white border border-gray-300 rounded-md shadow-md">
                             {filteredData.map((user) => (
                                 <Link to={`/profile/${user._id}`} key={user._id} onClick={() => setSearchTerm('')}>
-                                    <li className="px-10 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between" >
+                                    <li className="md:px-10 px-2 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between" >
                                         <img
                                             className="h-10 w-10 rounded-full border"
                                             src={user?.userImage?.url ? user?.userImage?.url : Avtar}
