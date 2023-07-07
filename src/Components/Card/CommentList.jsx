@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import PopUp from "./Modal/PopUp";
 
-const CommentList = ({ comments, postId, commentLikes, author }) => {
+const CommentList = ({ comments, postId, author }) => {
     const sortedComments = [...comments].sort((a, b) => {
         const createdAtA = new Date(a.createdAt);
         const createdAtB = new Date(b.createdAt);
@@ -70,9 +70,6 @@ console.log({author});
                 </div>
 
             ))}
-            {showModal && (
-                commentLikes.map(data => <PopUp users={data.commentLikes} onClose={() => setShowModal(false)} />)
-            )}
         </div>
     );
 };

@@ -5,7 +5,7 @@ import { MdOutlineHideImage, MdOutlineImage, MdOutlineLocationOn } from 'react-i
 import { useGetProfileQuery, useUpdateUserMutation } from '../../features/user/UserServices';
 import getCurrentUser from '../../utils/CurrentUser';
 import { toast } from 'react-hot-toast';
-import  Avtar  from '../../assets/Avatar.png';
+import Avtar from '../../assets/Avatar.png';
 
 const UpdateInfo = () => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -59,17 +59,23 @@ const UpdateInfo = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault()
-        const updateProfileToast = toast.loading('Updating...');
-
         const { username, email, about, location, website } = userData;
 
-        const data = { user, username, email, about, selectedFile, image, location, website }
-        const response = await updateUser(data);
-        if (response.error) {
-            toast.error(response.error, { id: updateProfileToast });
+        if (!username || !email) {
+            toast.error('Username and email are mandatory')
         }
         else {
-            toast.success(response.data.message, { id: updateProfileToast });
+            const updateProfileToast = toast.loading('Updating...');
+
+
+            const data = { user, username, email, about, selectedFile, image, location, website }
+            const response = await updateUser(data);
+            if (response.error) {
+                toast.error(response.error, { id: updateProfileToast });
+            }
+            else {
+                toast.success(response.data.message, { id: updateProfileToast });
+            }
         }
 
     }
@@ -80,7 +86,7 @@ const UpdateInfo = () => {
         navigator.geolocation.getCurrentPosition(
             async (position) => {
                 const { latitude, longitude } = position.coords;
-                console.log({latitude,longitude});
+                console.log({ latitude, longitude });
                 const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10&addressdetails=1`;
 
                 try {
@@ -89,7 +95,6 @@ const UpdateInfo = () => {
                         toast.error('Error fetching location');
                     }
                     const data = await response.json();
-                    console.log({data});
                     const location = `${data?.address?.country_code.toUpperCase()} ,${data?.address?.state_district}`;
                     setUserData({ ...userData, location });
                     toast.success(`Location fetched successfully! `, { id: loadingToastId });
@@ -98,7 +103,7 @@ const UpdateInfo = () => {
                 }
             },
             (error) => {
-                toast.error('Error while getting geolocation');
+                toast.error('Error while getting geolocation', { id: loadingToastId });
             }
         );
     };
@@ -165,7 +170,7 @@ const UpdateInfo = () => {
                     <input
                         type="text"
                         name="username"
-                        required
+                        
                         className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer'
                         value={userData.username}
                         onChange={handleOnchange}
@@ -183,7 +188,8 @@ const UpdateInfo = () => {
                     <input
                         type="email"
                         name="email"
-                        required
+
+                        
                         className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer'
                         value={userData.email}
                         onChange={handleOnchange}
@@ -218,7 +224,7 @@ const UpdateInfo = () => {
                     <input
                         type="text"
                         name="location"
-                        placeholder='Country, State, District'
+                        placeholder='Country, City'
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer"
                         value={userData?.location}
                         onChange={handleOnchange}

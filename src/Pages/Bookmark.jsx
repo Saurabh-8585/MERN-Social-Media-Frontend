@@ -3,13 +3,14 @@ import PostCard from '../Components/Card/PostCard'
 import PostLoader from '../Components/Loader/PostLoader'
 import { useGetAllBookMarksQuery } from '../features/bookmark/BookMarkServices'
 import { BsBookmarkPlus } from 'react-icons/bs'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import useHandlePostActions from '../hooks/useHandlePostActions'
 import PostNotFound from '../Components/Card/PostNotFound'
 const Bookmark = () => {
   const { data, isLoading, } = useGetAllBookMarksQuery()
 
   const { removeFromBookmark } = useHandlePostActions()
+  const navigate = useNavigate()
 
   console.log({ data });
 
@@ -20,7 +21,7 @@ const Bookmark = () => {
         <PostNotFound
           message='Add New BookMark'
           icon={<BsBookmarkPlus className="text-white font-extrabold text-2xl cursor-pointer" />}
-          link={'/'}
+          handleClick={() => navigate('/')}
         />
       }
 

@@ -41,8 +41,7 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                                     {userInfo?.about}
                                 </span>}
                                 {userInfo?.website && (
-                                    <span className="hover:text-indigo-700 text-gray-500  dark:text-gray-400 font-normal flex items-center gap-2 cursor-pointer break-all"
-                                        // style={{ wordBreak: "break-all" }}
+                                    <span className="hover:text-blue-800 text-gray-500  dark:text-gray-400 font-normal flex items-center gap-2 cursor-pointer break-all"
                                         onClick={() => window.open(userInfo.website, "_blank")}>
                                         <AiOutlineLink className='text-xl'/>
                                         {userInfo?.website}

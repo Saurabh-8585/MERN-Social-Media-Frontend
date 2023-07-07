@@ -9,7 +9,7 @@ export default function TabsRender() {
 
     return (
         <>
-            <div className="flex flex-wrap w-full max-w-xl p-4 md:p-0">
+            <div className="flex flex-wrap w-full max-w-xl mb-10 p-4 md:p-0">
                 <div className="w-full">
                     <ul className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row" role="tablist">
                         <li className="mr-2 last:mr-0 flex-auto text-center cursor-pointer  ">

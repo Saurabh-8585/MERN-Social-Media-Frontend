@@ -1,9 +1,8 @@
-import { useNavigate } from 'react-router-dom'
 import PostImage from '../../assets/Posts.jpg'
-const PostNotFound = ({ message, icon, link }) => {
-    const navigate = useNavigate()
+const PostNotFound = ({ message, icon,handleClick }) => {
+    
     return (
-        <div className="flex items-center justify-center w-full ">
+        <div className="flex items-center justify-center w-full mb-16">
             <div className="bg-white dark:bg-gray-800  text-lg  rounded-xl  w-full max-w-xl ">
                 <img
                     src={PostImage}
@@ -13,7 +12,7 @@ const PostNotFound = ({ message, icon, link }) => {
                 />
                 <div className='flex justify-center items-center mb-5'>
                     <button className="bg-purple-500 hover:shadow-md hover:bg-purple-600 font-bold py-4 px-5 md:px-8 rounded-full shadow-sm border text-white flex justify-between items-center gap-3"
-                        onClick={() => link && navigate(link)}>
+                        onClick={handleClick}>
                         {message}
                         {icon}
                     </button>

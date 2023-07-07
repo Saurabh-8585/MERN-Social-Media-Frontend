@@ -8,6 +8,7 @@ import Login from '../Auth/Login'
 import Register from '../Auth/Register'
 import LoadingSpinner from '../Components/Loader/LoadingSpinner'
 import Sidebar from '../Navigation/SideBar'
+import ForgotPassword from '../Auth/ForgotPassword'
 const LazyNotification = lazy(() => import('../Pages/Notification'));
 const LazyMessage = lazy(() => import('../Pages/Message'));
 const LazyBookmark = lazy(() => import('../Pages/Bookmark'));
@@ -35,6 +36,11 @@ const AppRoutes = () => {
                             <Route path="/post/:id" element={
                                 <Suspense fallback={<LoadingSpinner />}>
                                     <SinglePost />
+                                </Suspense>
+                            } />
+                            <Route path="/forgot-password" element={
+                                <Suspense fallback={<LoadingSpinner />}>
+                                    <ForgotPassword />
                                 </Suspense>
                             } />
 
