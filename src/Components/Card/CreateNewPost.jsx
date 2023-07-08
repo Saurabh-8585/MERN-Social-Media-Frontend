@@ -48,7 +48,7 @@ const CreateNewPost = () => {
             else {
                 toast.success('Posted', { id: createPostToast });
             }
-
+            
             setContent('');
             setImage(null);
             setSelectedFile(null)
@@ -57,12 +57,6 @@ const CreateNewPost = () => {
             toast.error('Failed to create post');
         }
     };
-
-
-
-
-
-
 
     return (
         <>
