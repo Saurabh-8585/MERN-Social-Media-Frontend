@@ -2,16 +2,22 @@ import React, { useState } from 'react'
 import { AiFillEdit, AiOutlineUserDelete, AiOutlineUserAdd, AiOutlineLink, AiOutlineInfoCircle } from 'react-icons/ai'
 import getCurrentUser from '../../utils/CurrentUser';
 import { Link } from 'react-router-dom';
-import  Avtar  from '../../assets/Avatar.png';
+import Avtar from '../../assets/Avatar.png';
 import useHandleUsersAction from '../../hooks/useHandleUsersAction';
 import { MdLocationCity } from 'react-icons/md';
 import UserListPopUp from '../Modal/UserListPopUp';
+import PopUp from '../Modal/PopUp';
+import { FaUserTimes } from 'react-icons/fa';
 const ProfileCard = ({ userInfo, totalPosts }) => {
 
     const user = getCurrentUser(sessionStorage.getItem('user'))
     const { follow, isFollowing, unFollow } = useHandleUsersAction({ userInfo, user })
+
     const [showFollowingModal, setShowFollowingModal] = useState(false);
+
     const [showFollowerModal, setShowFollowerModal] = useState(false);
+
+    const [showUnFollowPopUp, setShowUnFollowPopUp] = useState(false);
 
 
 
@@ -43,7 +49,7 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                                 {userInfo?.website && (
                                     <span className="hover:text-blue-800 text-gray-500  dark:text-gray-400 font-normal flex items-center gap-2 cursor-pointer break-all"
                                         onClick={() => window.open(userInfo.website, "_blank")}>
-                                        <AiOutlineLink className='text-xl'/>
+                                        <AiOutlineLink className='text-xl' />
                                         {userInfo?.website}
                                     </span>
                                 )}
@@ -68,7 +74,7 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                                     <button
                                         className="bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500  ease-linear transition-all duration-150 font-bold py-2 px-5  rounded-full shadow-md flex items-center justify-between gap-3 w-full"
                                         type="submit"
-                                        onClick={() => unFollow(userInfo?._id)}
+                                        onClick={() => setShowUnFollowPopUp(true)}
                                     >Unfollow
                                         <AiOutlineUserDelete className='text-xl font-bold' />
                                     </button>
@@ -104,6 +110,16 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
             )}
             {showFollowerModal && (
                 <UserListPopUp users={userInfo.followers} onClose={() => setShowFollowerModal(false)} text='Followers' />
+            )}
+            {showUnFollowPopUp && (
+                <PopUp
+                    onClose={() => setShowUnFollowPopUp(false)}
+                    handleClick={() => unFollow(userInfo?._id)}
+                    btnMessage='Unfollow'
+                    btnColor='red'
+                    message={`Are you sure you want to unfollow ${userInfo.username}?`}
+                    icon={<FaUserTimes className="w-16 h-16 rounded-2xl p-3 border border-blue-100 text-blue-400 bg-blue-50 mt-4" />}
+                />
             )}
         </>
 

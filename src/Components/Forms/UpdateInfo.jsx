@@ -94,7 +94,8 @@ const UpdateInfo = () => {
                         toast.error('Error fetching location');
                     }
                     const data = await response.json();
-                    const location = `${data?.address?.country_code.toUpperCase()} ,${data?.address?.state_district}`;
+                    console.log({data});
+                    const location = `${data?.address?.['ISO3166-2-lvl4'].toUpperCase()} ,${data?.address?.state_district}`;
                     setUserData({ ...userData, location });
                     toast.success(`Location fetched successfully! `, { id: loadingToastId });
                 } catch (error) {

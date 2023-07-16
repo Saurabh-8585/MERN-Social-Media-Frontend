@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { getTimeAgo } from '../../utils/DateFormatter'
 import { useEditPostMutation } from '../../features/post/PostServices'
-import { FaRegCommentAlt } from 'react-icons/fa'
+import { FaRegCommentAlt, FaTrash } from 'react-icons/fa'
 import { AiOutlineHeart, AiFillHeart, AiOutlineShareAlt, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
 import { MdOutlineCancel, MdOutlineSaveAs, MdOutlineBookmarkAdd, MdBookmarkRemove } from 'react-icons/md'
 import getCurrentUser from '../../utils/CurrentUser';
@@ -10,6 +10,7 @@ import useHandlePostActions from '../../hooks/useHandlePostActions';
 import { Link, useNavigate } from 'react-router-dom'
 import Avatar from '../../assets/Avatar.png'
 import UserListPopUp from '../Modal/UserListPopUp'
+import PopUp from '../Modal/PopUp'
 
 const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBookMark, postImage, likes, comments }) => {
 
@@ -32,6 +33,9 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
 
     const [showModal, setShowModal] = useState(false);
 
+    const [showDeletePopUp, setShowDeletePopUp] = useState(false)
+    const [showEditPopUp, setShowEditPopUp] = useState(false)
+    const [showDeleteBookMarkPopUp, setShowDeleteBookMarkPopUp] = useState(false)
 
     const [editPost] = useEditPostMutation();
 
@@ -76,7 +80,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
             imageUrl: 'https://img.freepik.com/free-vector/computer-user-human-character-program-windows_1284-63445.jpg?w=740&t=st=1687531407~exp=1687532007~hmac=4fca4b34f720e749446eecb9e436ced9666cb4c83f5f005d43b364a15fd713f8'
         };
 
-        if (navigator.share && navigator.canShare(data)) { 
+        if (navigator.share && navigator.canShare(data)) {
             navigator.share(data);
         } else {
             toast.error("Browser does not support sharing");
@@ -157,7 +161,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                                 <button
                                     className="bg-white hover:bg-gray-50 font-bold py-2 px-5 md:px-8 rounded-full shadow-md border"
                                     title='remove'
-                                    onClick={() => removeFromBookMark(bookmarkID)}
+                                    onClick={() => setShowDeleteBookMarkPopUp(true)}
                                 >
                                     <MdBookmarkRemove className='text-red-500 hover:text-red-300 text-xl cursor-pointer' />
                                 </button>
@@ -200,7 +204,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                                         <div className="flex items-center mr-6 justify-center">
                                             <MdOutlineSaveAs
                                                 className="text-purple-400 hover:text-purple-300 font-bold text-2xl cursor-pointer"
-                                                onClick={() => handleSaveEdit(postId)}
+                                                onClick={() => setShowEditPopUp(true)}
                                             />
 
                                         </div>
@@ -223,7 +227,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                                         <div className="flex items-center mr-6 justify-center">
                                             <AiOutlineDelete
                                                 className="text-purple-400 hover:text-red-500 text-xl cursor-pointer hover:"
-                                                onClick={() => handleDelete(postId)}
+                                                onClick={() => setShowDeletePopUp(true)}
                                             />
                                         </div>
 
@@ -234,7 +238,42 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                     </div>
                 </div>
                 {showModal && (
-                    <UserListPopUp users={likes} onClose={() => setShowModal(false)} text='Liked by' />
+                    <UserListPopUp
+                        users={likes}
+                        onClose={() => setShowModal(false)}
+                        text='Liked by'
+                    />
+                )}
+                {showDeletePopUp && (
+                    <PopUp
+                        onClose={() => setShowDeletePopUp(false)}
+                        handleClick={() => handleDelete(postId)}
+                        btnMessage='Delete'
+                        btnColor='red'
+                        message='Are you sure you want to delete this post? This action cannot be undone.'
+                        icon={<FaTrash className="w-16 h-16 rounded-2xl p-3 border border-blue-100 text-blue-400 bg-blue-50 mt-4" />}
+                    />
+                )}
+                {showDeleteBookMarkPopUp && (
+                    <PopUp
+                        onClose={() => setShowDeleteBookMarkPopUp(false)}
+                        handleClick={() => removeFromBookMark(bookmarkID)}
+                        btnMessage='Delete'
+                        btnColor='red'
+                        
+                        message='Are you sure you want to delete this bookmark?'
+                        icon={<FaTrash className="w-16 h-16 rounded-2xl p-3 border border-blue-100 text-blue-400 bg-blue-50 mt-4" />}
+                    />
+                )}
+                {showEditPopUp && (
+                    <PopUp
+                        onClose={() => setShowEditPopUp(false)}
+                        handleClick={() => handleSaveEdit(postId)}
+                        btnMessage='Save'
+                        btnColor='purple'
+                        message='Do you want to save the changes?'
+                        icon={<MdOutlineSaveAs className="w-16 h-16 rounded-2xl p-3 border border-blue-100 text-blue-400 bg-blue-50 mt-4" />}
+                    />
                 )}
             </div >
         </>

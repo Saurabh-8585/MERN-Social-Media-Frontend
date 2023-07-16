@@ -35,6 +35,10 @@ const Login = () => {
     };
 
 
+    const handleLoginWithGoogle = async () => {
+        window.open(`${process.env.REACT_APP_AUTH}/auth/google/callback`,"_self")
+    }
+
 
 
 
@@ -99,7 +103,7 @@ const Login = () => {
                 <div className="flex flex-col justify-center items-center mt-5 md:mt-4 space-y-3 md:space-y-3">
                     <div className="text-gray-700 font-semibold dark:text-gray-300">or</div>
                     <div className="flex gap-4">
-                        <button className="px-6 md:px-[45px] lg:px-[70px] py-1.5 rounded-md text-gray-500 dark:text-gray-900 dark:bg-white dark:hover:bg-gray-200 border flex items-center gap-6 hover:shadow-md shadow-sm ">
+                        <button className="px-6 md:px-[45px] lg:px-[70px] py-1.5 rounded-md text-gray-500 dark:text-gray-900 dark:bg-white dark:hover:bg-gray-200 border flex items-center gap-6 hover:shadow-md shadow-sm " onClick={handleLoginWithGoogle}>
                             <span>
                                 <FcGoogle name="logo-google" className="text-3xl" />
                             </span>

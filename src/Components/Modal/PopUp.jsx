@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const PopUp = ({ onClose, icon, message, handleClick, btnMessage }) => {
+const PopUp = ({ onClose, icon, message, handleClick, btnMessage,btnColor, }) => {
     const [isOpen, setIsOpen] = useState(true);
     const closeModal = () => {
         setIsOpen(false);
@@ -23,11 +23,11 @@ const PopUp = ({ onClose, icon, message, handleClick, btnMessage }) => {
                         </div>
                     </div>
                     <div className="flex justify-around mt-5 w-full gap-5">
-                        <button className="flex-no-shrink border-purple-500 px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 text-purple-500  rounded-full hover:bg-purple-500 hover:text-white ease-linear transition-all duration-150 w-fit"
+                        <button className="flex-no-shrink border-red-500 px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 text-red-500  rounded-full hover:bg-red-500 hover:text-white ease-linear transition-all duration-150 w-fit"
                             onClick={closeModal}>
                             Close
                         </button>
-                        <button className="flex-no-shrink  px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2  border-red-500 text-red-500 hover:bg-red-600 hover:text-white  rounded-full ease-linear transition-all duration-150 w-fit"
+                        <button className={`flex-no-shrink  px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2  border-${btnColor}-500 text-${btnColor}-500 hover:bg-${btnColor}-600 hover:text-white  rounded-full ease-linear transition-all duration-150 w-fit`}
                             onClick={handleClick}
                         >
                            {btnMessage}

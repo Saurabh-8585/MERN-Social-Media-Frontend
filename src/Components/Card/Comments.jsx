@@ -7,10 +7,14 @@ import getCurrentUser from "../../utils/CurrentUser";
 import { useDeleteCommentMutation, useEditCommentMutation } from "../../features/post/PostServices";
 import { getTimeAgo } from '../../utils/DateFormatter';
 import { MdOutlineCancel, MdOutlineSaveAs } from 'react-icons/md';
+import PopUp from '../Modal/PopUp';
+import { FaTrash } from 'react-icons/fa';
 const Comments = ({ comment, postId, postAuthor }) => {
     const [handleDeleteComment] = useDeleteCommentMutation();
     const [handleEditComment] = useEditCommentMutation();
     const [isEditing, setIsEditing] = useState(false);
+    const [showDeleteCmntPopUp, setShowDeleteCmmntPopUp] = useState(false);
+    const [showSaveEditPopUp, setShowSaveEditPopUp] = useState(false);
     const [editedContent, setEditedContent] = useState(comment.text);
     const userId = getCurrentUser(sessionStorage.getItem('user'))
 
@@ -89,7 +93,7 @@ const Comments = ({ comment, postId, postAuthor }) => {
                                 <div className="flex items-center mr-6 justify-center">
                                     <MdOutlineSaveAs
                                         className="text-purple-400 hover:text-purple-300 font-bold text-2xl cursor-pointer"
-                                        onClick={() => updateComment(postId)}
+                                        onClick={() => setShowSaveEditPopUp(true)}
                                     />
 
                                 </div>
@@ -116,7 +120,7 @@ const Comments = ({ comment, postId, postAuthor }) => {
                                     <div className="flex items-center mr-4 justify-center">
                                         <AiOutlineDelete
                                             className="text-purple-400  text-xl cursor-pointer hover:text-red-500"
-                                            onClick={() => removeComment(comment._id)}
+                                                onClick={() => setShowDeleteCmmntPopUp(true)}
                                         />
                                     </div>
                                 }
@@ -124,6 +128,26 @@ const Comments = ({ comment, postId, postAuthor }) => {
                             </>
                         )}
                     </>
+                )}
+                {showDeleteCmntPopUp && (
+                    <PopUp
+                        onClose={() => setShowDeleteCmmntPopUp(false)}
+                        handleClick={() => removeComment(comment._id)}
+                        btnMessage='Delete'
+                        btnColor='red'
+                        message='Are you sure you want to delete this comment?'
+                        icon={<FaTrash className="w-16 h-16 rounded-2xl p-3 border border-blue-100 text-blue-400 bg-blue-50 mt-4" />}
+                    />
+                )}
+                {showSaveEditPopUp && (
+                    <PopUp
+                        onClose={() => setShowSaveEditPopUp(false)}
+                        handleClick={() => updateComment()}
+                        btnMessage='Save'
+                        btnColor='purple'
+                        message='Do you want to save the changes?'
+                        icon={<MdOutlineSaveAs className="w-16 h-16 rounded-2xl p-3 border border-blue-100 text-blue-400 bg-blue-50 mt-4" />}
+                    />
                 )}
             </div>
 

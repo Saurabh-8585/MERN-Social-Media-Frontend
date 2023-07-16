@@ -40,6 +40,7 @@ const DeleteAccount = () => {
                     onClose={() => setShowModal(false)}
                     handleClick={deleteUserAccount}
                     btnMessage='Delete'
+                    btnColor='red'
                     message='By deleting your account, you will lose all your data.'
                     icon={<FaTrash className="w-16 h-16 rounded-2xl p-3 border border-blue-100 text-blue-400 bg-blue-50 mt-4" />}
                 />
