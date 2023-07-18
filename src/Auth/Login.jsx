@@ -36,7 +36,10 @@ const Login = () => {
 
 
     const handleLoginWithGoogle = async () => {
-        window.open(`${process.env.REACT_APP_AUTH}/auth/google/callback`,"_self")
+        window.open(
+            `${process.env.REACT_APP_AUTH}/auth/google/callback`,
+            "_self"
+        );
     }
 
 

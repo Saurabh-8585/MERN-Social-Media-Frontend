@@ -118,7 +118,7 @@ const UpdateInfo = () => {
                             <img
                                 src={image}
                                 alt="UserPhoto"
-                                className="h-48 w-48 rounded-full"
+                                className="h-48 w-48 rounded-full border p-1"
                             />
                             <div className="flex justify-center items-center flex-row  gap-4">
 

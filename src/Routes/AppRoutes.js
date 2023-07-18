@@ -11,6 +11,7 @@ import Sidebar from '../Navigation/SideBar'
 import ForgotPassword from '../Auth/ForgotPassword'
 const LazyNotification = lazy(() => import('../Pages/Notification'));
 const LazyMessage = lazy(() => import('../Pages/Message'));
+const SingleChat = lazy(() => import('../Pages/SingleChat'));
 const LazyBookmark = lazy(() => import('../Pages/Bookmark'));
 const LazyProfile = lazy(() => import('../Pages/Profile'));
 const ErrorPage = lazy(() => import('../Pages/ErrorPage'))
@@ -61,6 +62,16 @@ const AppRoutes = () => {
                                     <ProtectedRoute>
                                         <Suspense fallback={<LoadingSpinner />}>
                                             <LazyMessage />
+                                        </Suspense>
+                                    </ProtectedRoute>
+                                }
+                            />
+                            <Route
+                                path="/messages/:id"
+                                element={
+                                    <ProtectedRoute>
+                                        <Suspense fallback={<LoadingSpinner />}>
+                                            <SingleChat />
                                         </Suspense>
                                     </ProtectedRoute>
                                 }
