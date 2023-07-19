@@ -16,41 +16,37 @@ const Message = () => {
   const userFollowings = userData?.following || [];
   const userFollowers = userData?.followers || [];
 
+
   const combinedUsers = () => {
     const usersDict = {};
-
-    // Add followings to the users dictionary with a unique key
     userFollowings.forEach((followingUser) => {
-      usersDict[`following_${followingUser.id}`] = followingUser;
+      const key = `following_${followingUser.id}`;
+      usersDict[key] = followingUser;
     });
-
-    // Add followers to the users dictionary with a unique key
     userFollowers.forEach((followerUser) => {
-      usersDict[`follower_${followerUser.id}`] = followerUser;
+      const key = `follower_${followerUser.id}`;
+      usersDict[key] = followerUser;
     });
-
-    // Convert the dictionary values (combined users) to an array
     return Object.values(usersDict);
   };
 
-  const combinedUsersList = combinedUsers();
+  const combinedUsersArray = combinedUsers();
 
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value)
     let search = (e.target.value).toLowerCase().replace(/\s/g, '');
-    const newFilteredData = combinedUsers.filter((user) =>
+    const newFilteredData = combinedUsersArray.filter((user) =>
       user?.username.toLowerCase().replace(/\s/g, '').includes(search) ||
       (user?.about && user?.about.toLowerCase().replace(/\s/g, '').includes(search))
     );
 
     setFilteredData(newFilteredData)
-
-
   };
 
+  
 
-  console.log({ combinedUsersList });
+
   return (
     <div className="flex justify-center items-center flex-col mt-10  w-full max-w-3xl m-auto border">
       <div className="flex justify-between items-center gap-5 p-5 w-full">
@@ -109,10 +105,10 @@ const Message = () => {
       </div>
       <div className="flex flex-col items-center justify-center w-full p-5 h-full">
         {
-          combinedUsersList && combinedUsersList.map(userList => (
+          combinedUsersArray && combinedUsersArray.map(userList => (
             <Link
               to={`/messages/${userList._id}`} key={userList._id}
-              class="flex items-center w-full px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none shadow-md">
+              class="flex items-center w-full px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none ">
               <img class="object-cover w-10 h-10 rounded-full"
                 src={Avatar} alt="username" />
               <div class="w-full pb-2">
@@ -134,23 +130,6 @@ const Message = () => {
 export default Message
 
 
-// serachbar
-// {
-//   combinedUsers && combinedUsers.map(userList => (
-//     <Link
-//       class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">
-//       <img class="object-cover w-10 h-10 rounded-full"
-//         src={Avatar} alt="username" />
-//       <div class="w-full pb-2">
-//         <div class="flex justify-between">
-//           <span class="block ml-2 font-semibold text-gray-600">{userList.username}</span>
-//           <span class="block ml-2 text-sm text-gray-600">25 minutes</span>
-//         </div>
-//         <span class="block ml-2 text-sm text-gray-600">bye</span>
-//       </div>
-//     </Link>
-//   ))
-// }
 
 
 {/* <div className="relative flex items-center  w-full">
