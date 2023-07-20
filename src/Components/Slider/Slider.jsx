@@ -3,7 +3,7 @@ import { EffectCards, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-cards';
 import 'swiper/css/navigation';
-import Avtar from '../../assets/Avatar.png'
+import Avatar from '../../assets/Avatar.png'
 import { HiOutlineUserCircle } from 'react-icons/hi'
 import { useGetAllUsersQuery } from '../../features/user/UserServices';
 import LoadingSpinner from '../Loader/LoadingSpinner'
@@ -17,6 +17,7 @@ const Slider = () => {
     const { data, isLoading } = useGetAllUsersQuery()
     const userID = getCurrentUser(sessionStorage.getItem('user'))
     const filterUser = data?.filter((user) => user._id !== userID).sort(() => Math.random() - 0.5)
+    console.log(filterUser);
     return (
         isLoading ? <LoadingSpinner /> :
             <>
@@ -35,7 +36,7 @@ const Slider = () => {
                             filterUser?.map(userData => (
                                 <SwiperSlide key={userData._id}>
                                     <div className="flex flex-col items-center rounded-2xl p-5 bg-white border shadow-md dark:bg-navy-800 dark:text-white dark:shadow-none w-fit h-fit">
-                                        <img className="h-32 w-32 rounded-full" src={userData.userImage ? userData.userImage : Avtar} alt="user" />
+                                        <img className="h-32 w-32 rounded-full" src={userData?.userImage ? userData.userImage.url : Avatar} alt="user" />
                                         <Link to={`/profile/${userData._id}`} onClick={() => window.scroll(0, 0)} className="mt-10 flex flex-col items-center">
                                             <h4 className="text-xl font-bold text-navy-700 dark:text-white">
                                                 {userData.username}
@@ -85,7 +86,7 @@ const Slider = () => {
                                 <SwiperSlide key={userData._id}>
                                     <div className="flex flex-col items-center rounded-[18px] h-full p-5 bg-white border-2
                                       shadow-md dark:bg-navy-800 dark:text-white dark:shadow-none w-full">
-                                        <img className="h-32 w-32 rounded-full" src={userData.userImage ? userData.userImage : Avtar} alt="user" />
+                                        <img className="h-32 w-32 rounded-full" src={userData.userImage ? userData.userImage : Avatar} alt="user" />
                                         <Link to={`/profile/${userData._id}`} onClick={() => window.scroll(0, 0)} className="mt-10 flex flex-col items-center">
                                             <h4 className="text-xl font-bold text-navy-700 dark:text-white">
                                                 {userData.username}

@@ -88,19 +88,25 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                         </div>
                     </div>
                     <div className="border-gray-200 dark:border-gray-600 border border-b-0 my-4" />
-                    <div className="text-gray-500 dark:text-gray-400 flex mt-3 justify-center gap-4">
-                        <div className="flex items-center cursor-pointer" onClick={() => setShowFollowerModal(true)}>
+                    <div className="text-gray-500 dark:text-gray-400 flex mt-3 justify-center md:gap-4 gap-1">
+                        <div className="flex items-center cursor-pointer hover:text-purple-500" onClick={() => setShowFollowerModal(true)}>
                             <span className="font-medium">{userInfo?.followers.length}</span>
                             <span className="ml-1">Followers</span>
                         </div>
-                        <div className="flex items-center cursor-pointer" onClick={() => setShowFollowingModal(true)}>
+                        <div className="flex items-center cursor-pointer hover:text-purple-500" onClick={() => setShowFollowingModal(true)}>
                             <span className="font-medium">{userInfo?.following.length}</span>
                             <span className="ml-1">Following</span>
                         </div>
-                        <div className="flex items-center cursor-pointer">
+                        <div className="flex items-center cursor-pointer hover:text-purple-500">
                             <span className="font-medium">{totalPosts || 0}</span>
                             <span className="ml-1">Posts</span>
                         </div>
+
+                        {user !== userInfo?._id &&
+                            <Link to={`/messages/${userInfo?._id}`} className="flex items-center cursor-pointer hover:text-purple-500">
+                                <span className="ml-1">Message</span>
+                            </Link>
+                        }
 
                     </div>
                 </div>

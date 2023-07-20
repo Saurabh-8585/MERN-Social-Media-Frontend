@@ -1,127 +1,183 @@
-import React, { useRef, useState, useEffect, useReducer } from 'react';
+// SingleChat.js
+import React, { useRef, useState, useEffect } from 'react';
 import Avatar from '../assets/Avatar.png';
 import { FaArrowLeft } from 'react-icons/fa';
 import { Link, useParams } from 'react-router-dom';
 import { AiOutlineSend } from 'react-icons/ai';
 import getCurrentUser from '../utils/CurrentUser';
-import { useGetConversationQuery } from '../features/conversation/ConversationService';
+import { useGetConversationQuery, usePostConversationMutation } from '../features/conversation/ConversationService';
 import { useGetMessageQuery, usePostMessageMutation } from '../features/message/MessageService';
 import { getTimeAgo } from '../utils/DateFormatter';
-import { io } from 'socket.io-client'
+import { io } from 'socket.io-client';
+import { toast } from 'react-hot-toast'
+import { useGetProfileQuery } from '../features/user/UserServices';
+import EmojiPicker, { EmojiStyle } from 'emoji-picker-react';
+import { MdOutlineEmojiEmotions } from 'react-icons/md'
 
 const SingleChat = () => {
     const { id } = useParams();
-    const [message, setMessage] = useState('');
-    const socket = useRef(io("ws://localhost:8900"));
+    const [sendingMessage, setSendingMessage] = useState('');
+    const socketRef = useRef();
     const messageRef = useRef();
     const scrollRef = useRef();
-    const user = getCurrentUser(sessionStorage.getItem('user'));
-    const { data } = useGetConversationQuery(id)
-    const { data: msg, isLoading } = useGetMessageQuery(data && data[0]._id)
-    const [postMsg] = usePostMessageMutation()
-    const sendMessage = async () => {
+    const currentUser = getCurrentUser(sessionStorage.getItem('user'));
+    const { data: userProfile } = useGetProfileQuery(id)
+    const { data: conversationData } = useGetConversationQuery(id);
+    const[postConversation]=usePostConversationMutation()
+    const { data: messageData, isLoading: isMessageLoading } = useGetMessageQuery(conversationData?.[0]?._id);
+    const [messages, setMessages] = useState([]);
+    const [postMessage] = usePostMessageMutation();
+    const [arrivalMessage, setArrivalMessage] = useState(null);
+    const [pickerVisible, setPickerVisible] = useState(false)
+    const [onlineUsers, setOnlineUsers] = useState([])
 
-        if (message.trim() === '') {
-            messageRef.current.focus();
+    useEffect(() => {
+        setupSocket();
+    }, []);
+
+    useEffect(() => {
+        if (!isMessageLoading && messageData) {
+            setMessages(messageData);
         }
-        else {
+    }, [messageData, isMessageLoading]);
+
+    useEffect(() => {
+        if (arrivalMessage) {
+            setMessages((prevMessages) => [...prevMessages, arrivalMessage]);
+        }
+    }, [arrivalMessage]);
+
+    const setupSocket = () => {
+        socketRef.current = io("ws://localhost:8900");
+        socketRef.current.on('getMessage', ({ senderId, text }) => {
+            setArrivalMessage({
+                sender: senderId,
+                text,
+                createdAt: Date.now(),
+            });
+        });
+        socketRef.current.emit('addUser', currentUser);
+        socketRef.current.emit('getUsers', users => setOnlineUsers(users))
+    };
+
+    const sendMessage = async () => {
+        
+        socketRef.current.emit('sendMessage', {
+            senderId: currentUser,
+            receiverId: id,
+            text: sendingMessage,
+        });
+
+        if (sendingMessage.trim() === '') {
+            messageRef.current.focus();
+        } else {
             const msgData = {
-                conversationId: data[0]._id,
-                sender: user,
-                text: message
+                conversationId: conversationData[0]._id,
+                sender: currentUser,
+                text: sendingMessage,
+            };
+
+            const response = await postMessage(msgData);
+            if (response.error) {
+                toast.error('Something went wrong please try again')
             }
-            try {
-                const response = await postMsg(msgData)
-                if (response.data) {
-                    console.log(response.data);
-                }
-            } catch (error) {
-                console.log(error);
-            }
-            setMessage('');
+
+            setSendingMessage('');
         }
     };
 
     useEffect(() => {
-        socket.current.emit('addUser',user )
-        socket.current.on('getUsers',allUsers=>{
-            console.log(allUsers);
-        })
+        scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }, [messageData, messageRef]);
+    const pickerRef = useRef();
 
-    }, [])
-    // useEffect(() => {
-    //     socket?.on("welcome", callbackMsg => {
-    //         console.log(callbackMsg);
-    //     })
-    // }, [socket])
-console.log({socket});
+    const handleEmojiClick = (emojiObject) => {
+        // Handle emoji selection here
+        setSendingMessage((prevMessage) => prevMessage + emojiObject.emoji);
+    };
+
     useEffect(() => {
-        scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-    }, [msg]);
+        const handleOutsideClick = (event) => {
+            if (pickerRef.current && !pickerRef.current.contains(event.target)) {
+                setPickerVisible(false);
+            }
+        };
 
+        document.addEventListener('click', handleOutsideClick);
+
+        return () => {
+
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, []);
     return (
-        <div className="flex justify-center items-center flex-col  w-full max-w-3xl m-auto p-5">
-            <div className="flex justify-between items-center gap-5 p-5 w-full border" >
+        <div className="flex justify-center items-center flex-col md:max-w-3xl w-full m-auto ">
+            <div className="flex justify-between items-center gap-5 p-5 w-full">
                 <Link to="/messages">
                     <FaArrowLeft className="text-xl text-purple-600" />
                 </Link>
                 <Link to={`/profile/${id}`}>
-                    <span className="font-semibold text-gray-600">Guest</span>
+                    <span className="font-semibold text-gray-600">{userProfile?.userInfo?.username}</span>
                 </Link>
                 <Link to={`/profile/${id}`}>
-                    <img
-                        className="w-12 h-12 rounded-full mr-4"
-                        src={Avatar}
-                        alt="Post_Photo"
-                    />
+                    <img className="w-12 h-12 rounded-full mr-4" src={userProfile?.userInfo?.userImage?.url ? userProfile?.userInfo?.userImage?.url : Avatar} alt="Post_Photo" />
                 </Link>
             </div>
-            <div
-                id="message-container"
-                className="flex flex-col p-5 w-full border h-[50vh] overflow-y-auto"
-            >
-                {!isLoading && msg?.map((messageItem) => (
-                    <>
-                        <div
-                            key={messageItem._id}
-
-                            className={`rounded-lg p-2 mt-2 ${messageItem.sender === user
-                                ? 'bg-purple-500 text-white self-end'
-                                : 'bg-gray-200 text-black self-start'
-                                }`}
-                        >
-                            <span>{messageItem.text}</span>
-                        </div>
-                        <span ref={scrollRef} className={` ${messageItem.sender === user
-                            ? ' self-end bg-red-600'
-                            : ' self-start bg-red-600'
-                            }text-gray-800`}>
-                            {getTimeAgo(messageItem.createdAt)}
-                        </span>
-                    </>
-                ))}
+            <div id="message-container" className="flex flex-col p-5 w-full border h-[50vh] overflow-y-auto">
+                {!isMessageLoading &&
+                    messages &&
+                    messages.map((messageItem) => (
+                        <React.Fragment key={messageItem._id}>
+                            <div
+                                className={`rounded-lg p-2 mt-2 max-w-[200px] break-words ${messageItem.sender === currentUser
+                                    ? 'bg-purple-500 text-white self-end'
+                                    : 'bg-gray-200 text-black self-start'
+                                    }`}
+                            >
+                                <span>{messageItem.text}</span>
+                            </div>
+                            <span
+                                ref={scrollRef}
+                                className={` ${messageItem.sender === currentUser ? 'self-end' : 'self-start'
+                                    }  text-gray-800`}
+                            >
+                                {getTimeAgo(messageItem.createdAt)}
+                            </span>
+                        </React.Fragment>
+                    ))}
             </div>
+            <div className="flex gap-3 py-5 w-full max-w-3xl border px-2 items-center relative">
+                <div className="relative flex-grow">
+                    <input
+                        type="text"
+                        placeholder="Message..."
+                        ref={messageRef}
 
-
-
-
-            <div className="flex justify-between items-center gap-5 p-5 w-full border">
-                <input
-                    type="text"
-                    placeholder="Message..."
-                    ref={messageRef}
-                    value={message}
-                    autoFocus
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="border-primary text-body-color placeholder-body-color focus:border-purple-500 active:border-purple-500 w-full rounded-lg border-[1.5px] py-3 px-5 font-medium outline-none transition disabled:cursor-default disabled:bg-[#F5F7FD]"
-                />
+                        value={sendingMessage}
+                        autoFocus
+                        onChange={(e) => setSendingMessage(e.target.value)}
+                        className="border-primary text-body-color placeholder-body-color focus:border-purple-500 active:border-purple-500 w-full rounded-lg border-[1.5px] py-3 px-5 font-medium outline-none transition disabled:cursor-default disabled:bg-[#F5F7FD]  z-0"
+                    />
+                    <button
+                        className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-transparent text-gray-400 hover:text-gray-600 focus:outline-none z-20 bg-white"
+                        onClick={() => setPickerVisible(true)}
+                    >
+                        <MdOutlineEmojiEmotions className="text-3xl" />
+                    </button>
+                    {pickerVisible && (
+                        <div className="absolute right-0 bottom-20 mt-12 bg-white z-50" ref={pickerRef}>
+                            <EmojiPicker emojiStyle={EmojiStyle.NATIVE} onEmojiClick={handleEmojiClick} />
+                        </div>
+                    )}
+                </div>
                 <button
-                    className="bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500 font-bold py-3 px-5 md:px-8 rounded-full float-right shadow-md ease-linear transition-all duration-150 disabled:border-gray-300 disabled:text-gray-400 disabled:bg-white"
+                    className="bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500 font-bold rounded-full w-fit h-fit py-3 px-3 shadow-md ease-linear transition-all duration-150 disabled:border-gray-300 disabled:text-gray-400 disabled:bg-white"
                     onClick={sendMessage}
                 >
-                    <AiOutlineSend className="text-xl" />
+                    <AiOutlineSend className="text-md" />
                 </button>
             </div>
+
         </div>
     );
 };

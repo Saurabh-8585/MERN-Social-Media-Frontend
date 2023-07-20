@@ -21,10 +21,12 @@ const Message = () => {
     const usersDict = {};
     userFollowings.forEach((followingUser) => {
       const key = `following_${followingUser.id}`;
+      console.log({key});
       usersDict[key] = followingUser;
     });
     userFollowers.forEach((followerUser) => {
       const key = `follower_${followerUser.id}`;
+      console.log({key});
       usersDict[key] = followerUser;
     });
     return Object.values(usersDict);
@@ -44,7 +46,7 @@ const Message = () => {
     setFilteredData(newFilteredData)
   };
 
-  
+console.log({combinedUsersArray});
 
 
   return (
