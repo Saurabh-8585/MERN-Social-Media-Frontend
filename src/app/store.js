@@ -6,7 +6,6 @@ import { BookMarkApi } from '../features/bookmark/BookMarkServices';
 import { UserApi } from '../features/user/UserServices'
 import { ConversationApi } from '../features/conversation/ConversationService';
 import { MessageApi } from '../features/message/MessageService';
-
 const store = configureStore({
   reducer: {
     [AuthApi.reducerPath]: AuthApi.reducer,
@@ -14,7 +13,7 @@ const store = configureStore({
     [BookMarkApi.reducerPath]: BookMarkApi.reducer,
     [UserApi.reducerPath]: UserApi.reducer,
     [ConversationApi.reducerPath]: ConversationApi.reducer,
-    [MessageApi.reducerPath]: MessageApi.reducer
+    [MessageApi.reducerPath]: MessageApi.reducer,
 
   },
   middleware:

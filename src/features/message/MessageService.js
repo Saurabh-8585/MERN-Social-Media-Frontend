@@ -12,7 +12,10 @@ export const MessageApi = createApi({
 
         getMessage: builder.query({
             query: (conversationId) => ({
-                url: `/${conversationId}`,
+                url: `conversation/${conversationId}`,
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('user')}`,
+                },
                 method: 'GET',
             }),
             providesTags: ['message']
@@ -22,6 +25,9 @@ export const MessageApi = createApi({
             query: (message) => ({
                 url: '/',
                 method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('user')}`,
+                },
                 body: { message }
             }),
             invalidatesTags: ['message']

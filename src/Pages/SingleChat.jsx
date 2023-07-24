@@ -1,4 +1,3 @@
-// SingleChat.js
 import React, { useRef, useState, useEffect } from 'react';
 import Avatar from '../assets/Avatar.png';
 import { FaArrowLeft } from 'react-icons/fa';
@@ -22,22 +21,35 @@ const SingleChat = () => {
     const scrollRef = useRef();
     const currentUser = getCurrentUser(sessionStorage.getItem('user'));
     const { data: userProfile } = useGetProfileQuery(id)
-    const { data: conversationData } = useGetConversationQuery(id);
-    const[postConversation]=usePostConversationMutation()
+    const { data: conversationData, isLoading: conversationLoading } = useGetConversationQuery({ currentUser, id });
+    const [postConversation] = usePostConversationMutation()
     const { data: messageData, isLoading: isMessageLoading } = useGetMessageQuery(conversationData?.[0]?._id);
     const [messages, setMessages] = useState([]);
     const [postMessage] = usePostMessageMutation();
     const [arrivalMessage, setArrivalMessage] = useState(null);
     const [pickerVisible, setPickerVisible] = useState(false)
     const [onlineUsers, setOnlineUsers] = useState([])
+    const [isTyping, setIsTyping] = useState(false);
+    const [isSenderTyping, setIsSenderTyping] = useState(false);
+
 
     useEffect(() => {
         setupSocket();
+        return () => {
+            socketRef.current.disconnect();
+        };
     }, []);
+
+    useEffect(() => {
+        if (!conversationLoading && !conversationData) {
+            postConversation({ senderId: currentUser, receiverId: id })
+        }
+    }, [conversationLoading, conversationData])
 
     useEffect(() => {
         if (!isMessageLoading && messageData) {
             setMessages(messageData);
+
         }
     }, [messageData, isMessageLoading]);
 
@@ -48,7 +60,7 @@ const SingleChat = () => {
     }, [arrivalMessage]);
 
     const setupSocket = () => {
-        socketRef.current = io("ws://localhost:8900");
+        socketRef.current = io(process.env.REACT_APP_SOCKET_URL);
         socketRef.current.on('getMessage', ({ senderId, text }) => {
             setArrivalMessage({
                 sender: senderId,
@@ -57,11 +69,18 @@ const SingleChat = () => {
             });
         });
         socketRef.current.emit('addUser', currentUser);
-        socketRef.current.emit('getUsers', users => setOnlineUsers(users))
-    };
+        socketRef.current.on('getUsers', users => setOnlineUsers(users))
+        socketRef.current.on('userTyping', ({ senderId, isTyping }) => {
+            if (senderId === id) {
+                setIsSenderTyping(isTyping);
+            }
+        });
 
+
+    };
     const sendMessage = async () => {
-        
+        pickerVisible && setPickerVisible(false)
+        socketRef.current.emit('userTyping', { senderId: currentUser, isTyping: false })
         socketRef.current.emit('sendMessage', {
             senderId: currentUser,
             receiverId: id,
@@ -70,6 +89,7 @@ const SingleChat = () => {
 
         if (sendingMessage.trim() === '') {
             messageRef.current.focus();
+
         } else {
             const msgData = {
                 conversationId: conversationData[0]._id,
@@ -84,46 +104,58 @@ const SingleChat = () => {
 
             setSendingMessage('');
         }
+        setIsTyping(false);
+    };
+    const scrollToBottom = () => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
     };
 
     useEffect(() => {
-        scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-    }, [messageData, messageRef]);
-    const pickerRef = useRef();
+        scrollToBottom();
+    }, [messages]);
 
     const handleEmojiClick = (emojiObject) => {
-        // Handle emoji selection here
         setSendingMessage((prevMessage) => prevMessage + emojiObject.emoji);
     };
 
-    useEffect(() => {
-        const handleOutsideClick = (event) => {
-            if (pickerRef.current && !pickerRef.current.contains(event.target)) {
-                setPickerVisible(false);
-            }
-        };
+    const handleOnChange = (e) => {
+        const messageText = e.target.value;
+        setSendingMessage(messageText);
+        if (messageText.trim() !== '' && !isTyping) {
+            socketRef.current.emit('userTyping', { senderId: currentUser, isTyping: true });
+            setIsTyping(true);
+        } else if (messageText.trim() === '' && isTyping) {
+            socketRef.current.emit('userTyping', { senderId: currentUser, isTyping: false });
+            setIsTyping(false);
+        }
+    };
+    
 
-        document.addEventListener('click', handleOutsideClick);
 
-        return () => {
-
-            document.removeEventListener('click', handleOutsideClick);
-        };
-    }, []);
     return (
-        <div className="flex justify-center items-center flex-col md:max-w-3xl w-full m-auto ">
-            <div className="flex justify-between items-center gap-5 p-5 w-full">
+        <div className="flex justify-center items-center flex-col md:max-w-3xl w-full m-auto "
+        // 
+        >
+            <div className="flex justify-between items-center gap-5 px-5 py-2 w-full border">
                 <Link to="/messages">
                     <FaArrowLeft className="text-xl text-purple-600" />
                 </Link>
-                <Link to={`/profile/${id}`}>
-                    <span className="font-semibold text-gray-600">{userProfile?.userInfo?.username}</span>
+                <Link to={`/profile/${id}`} className='flex flex-col'>
+                    <span className="font-semibold text-gray-600 font-mono">{userProfile?.userInfo?.username} </span>
+                    {isSenderTyping && <span className='text-purple-400 text-center font-semibold'>Typing...</span>}
+
+
                 </Link>
-                <Link to={`/profile/${id}`}>
+                <Link to={`/profile/${id}`} className='flex flex-col items-center justify-center gap-3'>
                     <img className="w-12 h-12 rounded-full mr-4" src={userProfile?.userInfo?.userImage?.url ? userProfile?.userInfo?.userImage?.url : Avatar} alt="Post_Photo" />
+                    <span class={`px-3 py-1  text-base rounded-3xl ${onlineUsers.includes(id) ? 'text-green-600' : 'text-red-600  '}  mr-3`}>
+                        {onlineUsers.includes(id) ? 'Online' : 'Offline'}
+                    </span>
                 </Link>
             </div>
-            <div id="message-container" className="flex flex-col p-5 w-full border h-[50vh] overflow-y-auto">
+            <div id="message-container" className="flex flex-col p-5 w-full  border h-[50vh] overflow-y-auto">
                 {!isMessageLoading &&
                     messages &&
                     messages.map((messageItem) => (
@@ -146,30 +178,29 @@ const SingleChat = () => {
                         </React.Fragment>
                     ))}
             </div>
-            <div className="flex gap-3 py-5 w-full max-w-3xl border px-2 items-center relative">
-                <div className="relative flex-grow">
+            <div className="flex gap-3 py-5 w-full max-w-3xl border px-2 items-center relative" >
+                <div className=" flex-grow " onClick={() => pickerVisible && setPickerVisible(false)}>
                     <input
                         type="text"
                         placeholder="Message..."
                         ref={messageRef}
-
                         value={sendingMessage}
                         autoFocus
-                        onChange={(e) => setSendingMessage(e.target.value)}
+                        onChange={handleOnChange}
                         className="border-primary text-body-color placeholder-body-color focus:border-purple-500 active:border-purple-500 w-full rounded-lg border-[1.5px] py-3 px-5 font-medium outline-none transition disabled:cursor-default disabled:bg-[#F5F7FD]  z-0"
                     />
-                    <button
-                        className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-transparent text-gray-400 hover:text-gray-600 focus:outline-none z-20 bg-white"
-                        onClick={() => setPickerVisible(true)}
-                    >
-                        <MdOutlineEmojiEmotions className="text-3xl" />
-                    </button>
-                    {pickerVisible && (
-                        <div className="absolute right-0 bottom-20 mt-12 bg-white z-50" ref={pickerRef}>
-                            <EmojiPicker emojiStyle={EmojiStyle.NATIVE} onEmojiClick={handleEmojiClick} />
-                        </div>
-                    )}
                 </div>
+                {pickerVisible && (
+                    <div className="absolute right-0 bottom-20 mt-12 bg-white z-50 w-fit h-fit">
+                        <EmojiPicker emojiStyle={EmojiStyle.NATIVE} onEmojiClick={handleEmojiClick} />
+                    </div>
+                )}
+                <button
+                    className=" bg-transparent text-gray-400 hover:text-gray-600 focus:outline-none z-20 bg-white"
+                    onClick={() => setPickerVisible(true)}
+                >
+                    <MdOutlineEmojiEmotions className="text-3xl" />
+                </button>
                 <button
                     className="bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500 font-bold rounded-full w-fit h-fit py-3 px-3 shadow-md ease-linear transition-all duration-150 disabled:border-gray-300 disabled:text-gray-400 disabled:bg-white"
                     onClick={sendMessage}
@@ -178,7 +209,7 @@ const SingleChat = () => {
                 </button>
             </div>
 
-        </div>
+        </div >
     );
 };
 

@@ -12,17 +12,23 @@ export const ConversationApi = createApi({
     endpoints: (builder) => ({
 
         getConversation: builder.query({
-            query: (userId) => ({
-                url: `/${userId}`,
+            query: ({ currentUser, id }) => ({
+                url: `/${currentUser}/${id}`,
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('user')}`,
+                },
                 method: 'GET',
             }),
             providesTags: ['conversation']
         }),
 
         postConversation: builder.mutation({
-            query: (senderId, receiverId) => ({
+            query: ({senderId, receiverId}) => ({
                 url: '/',
                 method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('user')}`,
+                },
                 body: { senderId, receiverId }
             }),
             invalidatesTags: ['conversation']

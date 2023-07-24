@@ -9,8 +9,9 @@ const ForgotPassword = () => {
     const onSubmit = async (info) => {
 
         const response = await forgotPassword({ email: info.email })
+        console.log({response});
         if (response.error) {
-            toast.error(response.error.data.message)
+            // toast.error(response.error.data.message)
         }
         else {
             toast.success(response.data.message)

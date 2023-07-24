@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import getCurrentUser from '../utils/CurrentUser';
 import { useGetProfileQuery } from '../features/user/UserServices';
-import { FiMessageSquare } from 'react-icons/fi';
-import { FaSearch, FaUser } from 'react-icons/fa';
+import { FaSearch, } from 'react-icons/fa';
 import { Link } from 'react-router-dom'
 import Avatar from '../assets/Avatar.png'
 
@@ -11,28 +10,13 @@ const Message = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredData, setFilteredData] = useState([])
   const user = getCurrentUser(sessionStorage.getItem('user'));
-  const { data, isLoading } = useGetProfileQuery(user);
+  const { data } = useGetProfileQuery(user);
   const userData = data?.userInfo;
   const userFollowings = userData?.following || [];
   const userFollowers = userData?.followers || [];
 
 
-  const combinedUsers = () => {
-    const usersDict = {};
-    userFollowings.forEach((followingUser) => {
-      const key = `following_${followingUser.id}`;
-      console.log({key});
-      usersDict[key] = followingUser;
-    });
-    userFollowers.forEach((followerUser) => {
-      const key = `follower_${followerUser.id}`;
-      console.log({key});
-      usersDict[key] = followerUser;
-    });
-    return Object.values(usersDict);
-  };
-
-  const combinedUsersArray = combinedUsers();
+  const combinedUsersArray = [...userFollowers, ...userFollowings]
 
 
   const handleSearch = (e) => {
@@ -46,7 +30,7 @@ const Message = () => {
     setFilteredData(newFilteredData)
   };
 
-console.log({combinedUsersArray});
+  console.log({ userData });
 
 
   return (
@@ -99,7 +83,7 @@ console.log({combinedUsersArray});
           to={`/profile`}>
           <img
             className="w-12 h-12 rounded-full mr-4"
-            src={data?.userImage?.url ? data.userImage.url : Avatar}
+            src={userData?.userImage?.url ? userData.userImage.url : Avatar}
             alt='Post_Photo'
           />
         </Link>
@@ -110,16 +94,14 @@ console.log({combinedUsersArray});
           combinedUsersArray && combinedUsersArray.map(userList => (
             <Link
               to={`/messages/${userList._id}`} key={userList._id}
-              class="flex items-center w-full px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none ">
-              <img class="object-cover w-10 h-10 rounded-full"
-                src={Avatar} alt="username" />
-              <div class="w-full pb-2">
-                <div class="flex justify-between">
-                  <span class="block ml-2 font-semibold text-gray-600">{userList.username}</span>
-                  <span class="block ml-2 text-sm text-gray-600">25 minutes</span>
-                </div>
-                <span class="block ml-2 text-sm text-gray-600">bye</span>
-              </div>
+              class="flex items-center w-full py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none justify-between px-5 md:px-10">
+              <img class="object-fill w-12 h-12 rounded-full"
+                src={userList?.userImage?.url ? userList?.userImage?.url : Avatar} alt="username" />
+
+              <span class="block ml-2 font-semibold text-gray-600">{userList.username}</span>
+
+
+
             </Link>
           ))
         }
@@ -134,46 +116,3 @@ export default Message
 
 
 
-{/* <div className="relative flex items-center  w-full">
-  <input
-    type="text"
-    placeholder="Search"
-    className="py-2 pl-10 pr-4 border border-gray-300 rounded-full focus:outline-none focus:border-purple-500 transition-colors duration-300 w-full"
-    value={searchTerm}
-    onChange={handleSearch}
-  />
-  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-    <FaSearch className="text-gray-500" />
-  </div>
-  {searchTerm && (
-    <ul className="absolute top-12 w-full bg-white border border-gray-300 rounded-md shadow-md">
-      {filteredData.map((user) => (
-        <Link to={`/message/${user._id}`} key={user._id} onClick={() => setSearchTerm('')}>
-          <li className="md:px-10 px-2 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between" >
-            <img
-              className="h-10 w-10 rounded-full border"
-              src={user?.userImage?.url ? user?.userImage?.url : Avatar}
-              alt="User_Profile"
-            />
-            <span className='text-gray-500 dark:text-gray-400 font-semibold text-start'>
-              {user.username}
-            </span>
-          </li>
-        </Link>
-      ))}
-      {filteredData.length === 0 &&
-        <li className="px-10 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between">
-          <img
-            className="h-10 w-10 rounded-full border"
-            src={Avatar}
-            alt="User_Profile"
-          />
-          <span className='text-gray-500 dark:text-gray-400 font-semibold text-start'>
-            User not found
-          </span>
-        </li>
-      }
-    </ul>
-  )}
-
-</div> */}
