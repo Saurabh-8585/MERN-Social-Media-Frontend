@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineSave } from 'react-icons/ai';
 import { BiImageAdd } from 'react-icons/bi';
 import { MdOutlineHideImage, MdOutlineImage, MdOutlineLocationOn } from 'react-icons/md';
-import { useGetProfileQuery, useUpdateUserMutation } from '../../features/user/UserServices';
-import getCurrentUser from '../../utils/CurrentUser';
+import { useGetProfileQuery, useUpdateUserMutation } from '../../../features/user/UserServices';
+import getCurrentUser from '../../../utils/CurrentUser';
 import { toast } from 'react-hot-toast';
-import Avtar from '../../assets/Avatar.png';
+import Avtar from '../../../assets/Avatar.png';
 
 const UpdateInfo = () => {
     const [selectedFile, setSelectedFile] = useState(null);

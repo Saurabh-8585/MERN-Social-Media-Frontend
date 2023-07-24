@@ -71,7 +71,7 @@ const Login = () => {
                                     },
                                 })}
                                 autoComplete="email"
-                                className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-none text-black dark:text-white dark:first-letter:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.email ? 'border-red-500 animate-shake' : ''}`}
+                                className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-purple-500 focus:placeholder:text-purple-600 text-black dark:text-white dark:first-letter:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.email ? 'border-red-500 animate-shake' : ''}`}
                             />
                             <span className="text-red-500 ml-2 mt-1 text-xs">{errors.email && errors.email.message}</span>
                         </div>
@@ -88,7 +88,7 @@ const Login = () => {
                                         message: 'Password must contain at least 1 special symbol and 1 digit',
                                     },
                                 })}
-                                className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-none text-black dark:text-white dark:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.password ? 'border-red-500 animate-shake' : ''}`}
+                                className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2  focus:border  focus:placeholder:text-purple-600 focus:outline-purple-500 text-black dark:text-white dark:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.password ? 'border-red-500 animate-shake' : ''}`}
                             />
                             <span className="text-red-500 text-xs ml-2 mt-1 lg:w-80 w-60 break-keep">{errors.password && errors.password.message}</span>
                         </div>
@@ -118,7 +118,7 @@ const Login = () => {
                     <Link to="/forgot-password" className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-purple-500 m-1">
                         Forgot Password?
                     </Link>
-                    <Link to="/SignUp" className="text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-purple-500 m-1">
+                    <Link to="/signup" className="text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-purple-500 m-1">
                         Not a User? Create New Account
                     </Link>
                 </div>

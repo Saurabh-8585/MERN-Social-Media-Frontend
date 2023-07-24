@@ -5,7 +5,7 @@ const ProtectedRoute = ({ children }) => {
     const user = getCurrentUser(sessionStorage.getItem('user'))
      const location = useLocation();
     if (!user) {
-        return <Navigate to='/SignIn' state={{ from: location }} />
+        return <Navigate to='/signin' state={{ from: location }} />
     }
     return children;
 

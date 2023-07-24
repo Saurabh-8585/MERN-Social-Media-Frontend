@@ -9,6 +9,7 @@ import Register from '../Auth/Register'
 import LoadingSpinner from '../Components/Loader/LoadingSpinner'
 import Sidebar from '../Navigation/SideBar'
 import ForgotPassword from '../Auth/ForgotPassword'
+const NewPassword = lazy(() => import('../Auth/NewPassword'));
 const LazyNotification = lazy(() => import('../Pages/Notification'));
 const LazyMessage = lazy(() => import('../Pages/Message'));
 const SingleChat = lazy(() => import('../Pages/SingleChat'));
@@ -28,8 +29,8 @@ const AppRoutes = () => {
                     <div className="flex-1 lg:ml-28 mt-20 ">
                         <Routes>
                             <Route index path="/" element={<HomePage />} />
-                            <Route path="/SignIn" element={<Login />} />
-                            <Route path="/SignUp" element={<Register />} />
+                            <Route path="/signin" element={<Login />} />
+                            <Route path="/signup" element={<Register />} />
                             <Route path="/explore" element={<Explore />} />
 
                             {/* lazy loaded components */}
@@ -114,6 +115,14 @@ const AppRoutes = () => {
                                             <Settings />
                                         </Suspense>
                                     </ProtectedRoute>
+                                }
+                            />
+                            <Route
+                                path="/reset-password/:id/:token"
+                                element={
+                                        <Suspense fallback={<LoadingSpinner />}>
+                                            <NewPassword />
+                                        </Suspense>
                                 }
                             />
 

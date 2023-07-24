@@ -45,6 +45,7 @@ const Register = () => {
             <div className="flex flex-col">
               <input
                 type="text"
+                autoFocus
                 placeholder="Username"
                 autoComplete="username"
                 {...register('username', {
@@ -54,7 +55,7 @@ const Register = () => {
                     message: 'Username must be at least 6 characters long',
                   },
                 })}
-                className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-none text-black dark:text-white dark:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.username ? 'border-red-500 animate-shake' : ''}`}
+                className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-purple-500 focus:placeholder:text-purple-600 text-black dark:text-white dark:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.username ? 'border-red-500 animate-shake' : ''}`}
               />
               <span className="text-red-500 text-xs ml-2 mt-1">
                 {errors.username && errors.username.message}
@@ -73,7 +74,7 @@ const Register = () => {
                   },
                 })}
                 autoComplete="email"
-                className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-none text-black dark:text-white dark:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.email ? 'border-red-500 animate-shake' : ''}`}
+                className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-purple-500 focus:placeholder:text-purple-600 text-black dark:text-white dark:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.email ? 'border-red-500 animate-shake' : ''}`}
               />
               <span className="text-red-500 ml-2 mt-1 text-xs">{errors.email && errors.email.message}</span>
             </div>
@@ -90,7 +91,7 @@ const Register = () => {
                     message: 'Password must contain at least 1 special symbol and 1 digit',
                   },
                 })}
-                className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-none text-black dark:text-white dark:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.password ? 'border-red-500 animate-shake' : ''}`}
+                className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-purple-500 focus:placeholder:text-purple-600 text-black dark:text-white dark:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.password ? 'border-red-500 animate-shake' : ''}`}
               />
               <span className="text-red-500 text-xs ml-2 mt-1 lg:w-80 w-60 break-keep">
                 {errors.password && errors.password.message}
@@ -104,7 +105,7 @@ const Register = () => {
                 {...register('confirmPassword', {
                   validate: (value) => value === password || 'Passwords do not match',
                 })}
-                className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-none text-black dark:text-white dark:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.confirmPassword ? 'border-red-500 animate-shake' : ''}`}
+                className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-purple-500 focus:placeholder:text-purple-600 text-black dark:text-white dark:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.confirmPassword ? 'border-red-500 animate-shake' : ''}`}
               />
               {errors.confirmPassword && (
                 <span className="text-red-500 text-xs ml-2 mt-1">
@@ -133,7 +134,7 @@ const Register = () => {
 
         <div className="text-center my-5 flex flex-col">
           <Link
-            to="/SignIn"
+            to="/signin"
             className="text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-purple-500 m-1"
           >
             Already have an account? Log In
