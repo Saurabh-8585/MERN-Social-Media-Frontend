@@ -82,4 +82,11 @@ export const UserApi = createApi({
     })
 })
 
-export const { useGetProfileQuery, useGetAllUsersQuery, useFollowUserMutation, useUnFollowUserMutation, useUpdateUserMutation, useDeleteUserMutation } = UserApi
+export const {
+    useGetProfileQuery,
+    useGetAllUsersQuery,
+    useFollowUserMutation,
+    useUnFollowUserMutation,
+    useUpdateUserMutation,
+    useDeleteUserMutation
+} = UserApi

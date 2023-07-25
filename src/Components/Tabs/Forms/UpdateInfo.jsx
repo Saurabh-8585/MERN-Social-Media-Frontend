@@ -34,7 +34,6 @@ const UpdateInfo = () => {
             });
             setImage(data.userInfo?.userImage?.url)
         }
-        console.log(1);
     }, [data]);
 
     const handleOnchange = (e) => {

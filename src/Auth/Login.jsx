@@ -3,6 +3,12 @@ import { FcGoogle } from 'react-icons/fc';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { useUserSignInMutation } from '../features/auth/AuthServices';
+
+
+export const handleLoginWithGoogle =  () => {
+        window.open(`${process.env.REACT_APP_AUTH}/google`, "_self")
+        // window.open(`${process.env.REACT_APP_AUTH}/google`, '_blank', 'noopener,noreferrer');
+    }
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
@@ -35,13 +41,7 @@ const Login = () => {
     };
 
 
-    const handleLoginWithGoogle = async () => {
-        window.open(
-            `${process.env.REACT_APP_AUTH}/auth/google/callback`,
-            "_self"
-        );
-    }
-
+   
 
 
 

@@ -1,22 +1,44 @@
-import  { useState } from 'react'
+import { useState } from 'react'
 import getCurrentUser from '../utils/CurrentUser';
+import PostNotFound from '../Components/Card/PostNotFound';
 import { useGetProfileQuery } from '../features/user/UserServices';
 import { FaSearch, } from 'react-icons/fa';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Avatar from '../assets/Avatar.png'
+import { AiOutlineUserAdd } from 'react-icons/ai';
 
 
 const Message = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredData, setFilteredData] = useState([])
   const user = getCurrentUser(sessionStorage.getItem('user'));
-  const { data } = useGetProfileQuery(user);
+  const navigate = useNavigate()
+  const { data, isLoading } = useGetProfileQuery(user);
   const userData = data?.userInfo;
   const userFollowings = userData?.following || [];
   const userFollowers = userData?.followers || [];
+  const combinedUsersArray = [...userFollowers, ...userFollowings];
+  const uniqueUsersSet = new Set();
+  const uniqueUsersArray = [];
+
+  const isFollowing = (user, follower) => {
+    return (
+      user.following &&
+      Array.isArray(user.following) &&
+      user.following.some(followingUser => followingUser._id === follower._id)
+    );
+  };
+
+  combinedUsersArray.forEach(user => {
+    if (!uniqueUsersSet.has(user._id)) {
+      uniqueUsersSet.add(user._id);
+      if (!isFollowing(user, user)) {
+        uniqueUsersArray.push(user);
+      }
+    }
+  })
 
 
-  const combinedUsersArray = [...userFollowers, ...userFollowings]
 
 
   const handleSearch = (e) => {
@@ -30,7 +52,6 @@ const Message = () => {
     setFilteredData(newFilteredData)
   };
 
-  console.log({ userData });
 
 
   return (
@@ -91,7 +112,7 @@ const Message = () => {
       </div>
       <div className="flex flex-col items-center justify-center w-full p-5 h-full">
         {
-          combinedUsersArray && combinedUsersArray.map(userList => (
+          !isLoading && uniqueUsersArray.length > 0 ? uniqueUsersArray.map(userList => (
             <Link
               to={`/messages/${userList._id}`} key={userList._id}
               class="flex items-center w-full py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none justify-between px-5 md:px-10">
@@ -103,7 +124,9 @@ const Message = () => {
 
 
             </Link>
+
           ))
+            : <PostNotFound message='Make new friends' icon={<AiOutlineUserAdd className='text-2xl'/>} handleClick={() => navigate('/')} />
         }
       </div>
 

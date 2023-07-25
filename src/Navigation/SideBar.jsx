@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { FiHome, FiBookmark, FiMail, FiSettings, FiLogOut } from 'react-icons/fi';
 import { VscAccount } from 'react-icons/vsc';
 import { Link, NavLink, useNavigate, } from 'react-router-dom';
@@ -12,14 +12,26 @@ const Sidebar = () => {
     const profileId = getCurrentUser(sessionStorage.getItem('user'))
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
-    const handleSignOut = () => {
-        sessionStorage.removeItem('user');
-        toast.success('Sign out successfully');
-        navigate('/SignIn');
+    const handleSignOut = async () => {
+        try {
+            const userLogout = await fetch(`${process.env.REACT_APP_AUTH}/logout`);
+            if (userLogout.status === 200) {
+                sessionStorage.removeItem('user');
+                toast.success('Sign out successfully');
+                navigate('/signIn');
+            } else {
+                toast.error('Something went wrong')
+                throw new Error('Sign out failed');
+            }
+        } catch (error) {
+
+            toast.error('Sign out failed');
+        }
     };
+
     return (
         <>
-            <Navbar />
+            <Navbar handleSignOut={handleSignOut} />
             <aside className="fixed z-30 bottom-0 left-0 lg:fixed lg:top-10 lg:bottom-0 lg:w-1/4 lg:h-full lg:flex lg:flex-col bg-white dark:bg-gray-800 border-gray-300 lg:dark:border-white lg:border-r-2 border-t-2 w-full ">
                 <ul className="flex justify-around py-4 lg:flex-col lg:justify-start lg:items-center lg:h-screen lg:gap-8 lg:py-2 lg:mt-10">
                     <li className='lg:w-3/4'>
@@ -99,9 +111,10 @@ const Sidebar = () => {
                     {showModal && (
                         <PopUp
                             onClose={() => setShowModal(false)}
-                            handleClick={handleSignOut}
+                            handleClick={async () => await handleSignOut()}
                             btnMessage='Logout'
                             message='Are you sure you want to logout? '
+                            btnColor='red'
                             icon={<FiLogOut className="w-16 h-16 rounded-2xl p-3 border border-blue-100 text-blue-400 bg-blue-50 mt-4" />}
                         />
                     )}

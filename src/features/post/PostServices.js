@@ -114,7 +114,6 @@ export const PostApi = createApi({
             query: ({ postId, commentId }) => ({
                 url: `/comment/delete/${postId}/${commentId}`,
                 method: 'DELETE',
-                // body: { commentId },
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem('user')}`,
                 }

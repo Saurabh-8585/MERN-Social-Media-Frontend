@@ -1,5 +1,5 @@
-import React, { lazy, Suspense } from 'react'
-import { Toaster } from 'react-hot-toast'
+import React, { lazy, Suspense, useEffect, useState } from 'react'
+import toast, { Toaster } from 'react-hot-toast'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute'
 import HomePage from '../Pages/HomePage'
@@ -20,6 +20,7 @@ const SinglePost = lazy(() => import('../Pages/SinglePost'))
 const Settings = lazy(() => import('../Pages/Settings'))
 
 const AppRoutes = () => {
+       
     return (
         <>
             <Toaster position="top-center" reverseOrder={false} />
@@ -120,9 +121,9 @@ const AppRoutes = () => {
                             <Route
                                 path="/reset-password/:id/:token"
                                 element={
-                                        <Suspense fallback={<LoadingSpinner />}>
-                                            <NewPassword />
-                                        </Suspense>
+                                    <Suspense fallback={<LoadingSpinner />}>
+                                        <NewPassword />
+                                    </Suspense>
                                 }
                             />
 

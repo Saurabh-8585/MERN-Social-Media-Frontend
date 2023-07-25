@@ -1,38 +1,27 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { AiOutlineLogin } from 'react-icons/ai';
 import { FiLogOut } from 'react-icons/fi';
 import { FaSearch } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
+import { Link, } from 'react-router-dom';
 import { useGetAllUsersQuery } from '../features/user/UserServices'
-import Avtar from '../assets/Avatar.png';
+import Avatar from '../assets/Avatar.png';
 import getCurrentUser from '../utils/CurrentUser';
-const Navbar = () => {
+import PopUp from '../Components/Modal/PopUp';
+const Navbar = ({ handleSignOut }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredData, setFilteredData] = useState([])
+    const [showModal, setShowModal] = useState(false);
     const { data } = useGetAllUsersQuery()
     const isUser = getCurrentUser(sessionStorage.getItem('user'))
-    const navigate = useNavigate();
-
-    const handleSignOut = () => {
-        sessionStorage.removeItem('user');
-        toast.success('Sign out successfully');
-        navigate('/SignIn');
-    };
 
     const handleSearch = (e) => {
         setSearchTerm(e.target.value)
-
         let search = (e.target.value).toLowerCase().replace(/\s/g, '');
-
         const newFilteredData = data.filter((user) =>
             user?.username.toLowerCase().replace(/\s/g, '').includes(search) ||
             (user?.about && user?.about.toLowerCase().replace(/\s/g, '').includes(search))
         );
-
         setFilteredData(newFilteredData)
-
-
     };
 
     return (
@@ -67,7 +56,7 @@ const Navbar = () => {
                                     <li className="md:px-10 px-2 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between" >
                                         <img
                                             className="h-10 w-10 rounded-full border"
-                                            src={user?.userImage?.url ? user?.userImage?.url : Avtar}
+                                            src={user?.userImage?.url ? user?.userImage?.url : Avatar}
                                             alt="User_Profile"
                                         />
                                         <span className='text-gray-500 dark:text-gray-400 font-semibold text-start'>
@@ -80,7 +69,7 @@ const Navbar = () => {
                                 <li className="px-10 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between">
                                     <img
                                         className="h-10 w-10 rounded-full border"
-                                        src={Avtar}
+                                        src={Avatar}
                                         alt="User_Profile"
                                     />
                                     <span className='text-gray-500 dark:text-gray-400 font-semibold text-start'>
@@ -96,7 +85,7 @@ const Navbar = () => {
                 {isUser ? (
                     <button
                         className="md:flex items-center justify-center px-4 py-2  font-medium rounded-md bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500  ease-linear transition-all duration-150 focus:outline-none hidden mr-10"
-                        onClick={handleSignOut}
+                        onClick={() => setShowModal(true)}
                     >
                         <FiLogOut className="mr-2 font-bold " />
                         Sign Out
@@ -110,6 +99,16 @@ const Navbar = () => {
                     </Link>
                 )}
             </nav>
+            {showModal && (
+                <PopUp
+                    onClose={() => setShowModal(false)}
+                    handleClick={async () => await handleSignOut()}
+                    btnMessage='Logout'
+                    message='Are you sure you want to logout? '
+                    btnColor='red'
+                    icon={<FiLogOut className="w-16 h-16 rounded-2xl p-3 border border-blue-100 text-blue-400 bg-blue-50 mt-4" />}
+                />
+            )}
         </>
     );
 };

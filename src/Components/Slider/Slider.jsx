@@ -17,7 +17,7 @@ const Slider = () => {
     const { data, isLoading } = useGetAllUsersQuery()
     const userID = getCurrentUser(sessionStorage.getItem('user'))
     const filterUser = data?.filter((user) => user._id !== userID).sort(() => Math.random() - 0.5)
-    console.log(filterUser);
+   
     return (
         isLoading ? <LoadingSpinner /> :
             <>
