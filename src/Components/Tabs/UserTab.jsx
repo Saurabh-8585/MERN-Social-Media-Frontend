@@ -18,7 +18,7 @@ export default function TabsRender() {
                                     'text-xs font-bold uppercase px-2 py-3 shadow-lg rounded-2xl block leading-normal ' +
                                     (openTab === 1
                                         ? "text-white bg-purple-500"
-                                        : "text-purple-500 bg-white")
+                                        : "text-purple-500 bg-white border border-purple-500")
                                 }
                                 onClick={e => {
                                     e.preventDefault();
@@ -38,7 +38,7 @@ export default function TabsRender() {
                                     'text-xs font-bold uppercase px-2 py-3 shadow-lg rounded-2xl block leading-normal ' +
                                     (openTab === 2
                                         ? "text-white bg-purple-500"
-                                        : "text-purple-500 bg-white")
+                                        : "text-purple-500 bg-white border border-purple-500")
                                 }
                                 onClick={e => {
                                     e.preventDefault();
@@ -58,7 +58,7 @@ export default function TabsRender() {
                                     'text-xs font-bold uppercase px-2 py-3 shadow-lg rounded-2xl block leading-normal ' +
                                     (openTab === 3
                                         ? "text-white bg-purple-500"
-                                        : "text-purple-500 bg-white")
+                                        : "text-purple-500 bg-white border border-purple-500")
                                 }
                                 onClick={e => {
                                     e.preventDefault();
@@ -76,7 +76,7 @@ export default function TabsRender() {
                     <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-2xl dark:bg-gray-800 h-auto mt-5">
                         <div className="px-4 py-5 flex-auto">
                             <div className="tab-content tab-space dark:bg-gray-800">
-                                <div className={openTab === 1 ? "block" : "hidden" } id="link1">
+                                <div className={openTab === 1 ? "block" : "hidden" }  id="link1">
                                     <UpdateInfo />
                                 </div>
                                 <div className={openTab === 2 ? "block" : "hidden"} id="link2">

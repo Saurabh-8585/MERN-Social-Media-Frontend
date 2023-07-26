@@ -2,20 +2,23 @@ import { useForm } from 'react-hook-form'
 import { RiLockPasswordLine } from 'react-icons/ri'
 import { useResetPasswordMutation } from '../../../features/auth/AuthServices'
 import { toast } from 'react-hot-toast'
-
+import { useNavigate } from 'react-router-dom'
 const ResetPassword = () => {
 
 
 
     const [resetPassword] = useResetPasswordMutation()
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const navigate = useNavigate()
     const onSubmit = async (info) => {
         const response = await resetPassword({ oldPassword: info.password, newPassword: info.new_password })
         if (response.data) {
             toast.success(response.data.message);
+            navigate('/profile')
         }
         if (response.error) {
             toast.error(response.error.data.message);
+            navigate('/profile')
         }
     }
     return (
@@ -36,6 +39,14 @@ const ResetPassword = () => {
                                 value: /^(?=.*[!@#$%^&*()_\-+=<>?])(?=.*\d).+$/,
                                 message: 'Password must contain at least 1 special symbol and 1 digit',
                             },
+                            maxLength: {
+                                value: 16,
+                                message: 'Password cannot exceed 14 characters',
+                            },
+                            minLength: {
+                                value: 6,
+                                message: 'Password must be at least 6 characters long',
+                            }
                         })}
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-500 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer"
 
@@ -61,6 +72,14 @@ const ResetPassword = () => {
                                 value: /^(?=.*[!@#$%^&*()_\-+=<>?])(?=.*\d).+$/,
                                 message: 'Password must contain at least 1 special symbol and 1 digit',
                             },
+                            maxLength: {
+                                value: 16,
+                                message: 'Password cannot exceed 14 characters',
+                            },
+                            minLength: {
+                                value: 6,
+                                message: 'Password must be at least 6 characters long',
+                            }
                         })}
                     />
                     <label

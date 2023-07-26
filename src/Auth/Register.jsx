@@ -88,6 +88,14 @@ const Register = () => {
                     value: /^(?=.*[!@#$%^&*()_\-+=<>?])(?=.*\d).+$/,
                     message: 'Password must contain at least 1 special symbol and 1 digit',
                   },
+                  maxLength: {
+                    value: 16,
+                    message: 'Password cannot exceed 14 characters',
+                  },
+                  minLength: {
+                    value: 6,
+                    message: 'Password must be at least 6 characters long',
+                  }
                 })}
                 className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-purple-500 focus:placeholder:text-purple-600 text-black dark:text-white dark:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.password ? 'border-red-500 animate-shake' : ''}`}
               />

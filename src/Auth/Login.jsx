@@ -5,10 +5,10 @@ import { toast } from 'react-hot-toast';
 import { useUserSignInMutation } from '../features/auth/AuthServices';
 
 
-export const handleLoginWithGoogle =  () => {
-        window.open(`${process.env.REACT_APP_AUTH}/google`, "_self")
-        // window.open(`${process.env.REACT_APP_AUTH}/google`, '_blank', 'noopener,noreferrer');
-    }
+export const handleLoginWithGoogle = () => {
+    window.open(`${process.env.REACT_APP_AUTH}/google`, "_self")
+    // window.open(`${process.env.REACT_APP_AUTH}/google`, '_blank', 'noopener,noreferrer');
+}
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
@@ -30,6 +30,7 @@ const Login = () => {
             }
 
         } catch (error) {
+            console.log(error);
             if (error.status === 401) {
                 toast.error('Invalid Credentials');
             } else if (error.status === 404) {
@@ -41,7 +42,7 @@ const Login = () => {
     };
 
 
-   
+
 
 
 
@@ -86,7 +87,16 @@ const Login = () => {
                                     pattern: {
                                         value: /^(?=.*[!@#$%^&*()_\-+=<>?])(?=.*\d).+$/,
                                         message: 'Password must contain at least 1 special symbol and 1 digit',
+
                                     },
+                                    maxLength: {
+                                        value: 16,
+                                        message: 'Password cannot exceed 14 characters',
+                                    },
+                                    minLength: {
+                                        value: 6,
+                                        message: 'Password must be at least 6 characters long',
+                                    }
                                 })}
                                 className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2  focus:border  focus:placeholder:text-purple-600 focus:outline-purple-500 text-black dark:text-white dark:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.password ? 'border-red-500 animate-shake' : ''}`}
                             />

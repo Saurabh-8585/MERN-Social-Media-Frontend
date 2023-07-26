@@ -18,7 +18,7 @@ const Sidebar = () => {
             if (userLogout.status === 200) {
                 sessionStorage.removeItem('user');
                 toast.success('Sign out successfully');
-                navigate('/signIn');
+                navigate('/signin');
             } else {
                 toast.error('Something went wrong')
                 throw new Error('Sign out failed');
@@ -99,7 +99,7 @@ const Sidebar = () => {
                         <li className='lg:w-3/4 lg:border lg:border-purple-500 lg:mt-10 lg:text-purple-500 ease-linear transition-all duration-150 lg:p-3  lg:hover:bg-purple-500 lg:hover:text-white
                         lg:rounded-full'>
                             <Link
-                                to={`/SignIn`}
+                                to={`/signin`}
                                 className=" flex items-center justify-between gap-2"
                             >
                                 <span className="dark:text-white lg:text-xl lg:font-semibold text-start lg:mt-1 hidden lg:inline lg:ml-6">Sign In</span>

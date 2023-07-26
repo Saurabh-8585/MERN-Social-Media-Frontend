@@ -16,7 +16,7 @@ const DeleteAccount = () => {
         if (response.data) {
             toast.success('Account deleted successfully', { id: loadingToastId });
             sessionStorage.removeItem('user')
-            navigate('/SignIn')
+            navigate('/signin')
         }
         if (response.error) {
             toast.error(response.error.data.message, { id: loadingToastId });

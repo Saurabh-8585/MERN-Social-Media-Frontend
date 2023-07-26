@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+
+.typing-indicator {
+    
+    padding: 10px;
+}
+
+.dot {
+    height: 4px;
+    width: 4px;
+   
+}

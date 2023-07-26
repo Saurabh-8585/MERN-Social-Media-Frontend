@@ -91,7 +91,7 @@ const Navbar = ({ handleSignOut }) => {
                         Sign Out
                     </button>
                 ) : (
-                    <Link to="/SignIn">
+                    <Link to="/signin">
                             <button className="md:flex items-center justify-center px-4 py-2  font-medium rounded-md bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500  ease-linear transition-all duration-150 focus:outline-none hidden mr-10 ">
                             <AiOutlineLogin className="mr-2 font-bold" />
                             Sign In
