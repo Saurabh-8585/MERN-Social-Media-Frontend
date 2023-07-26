@@ -40,8 +40,8 @@ const HomePage = () => {
         const code = urlParams.get('code');
         if (code) {
             getGoogleProfile(code);
-            const newUrl = window.location.origin + window.location.pathname;
-            window.history.pushState({}, '', newUrl);
+            // const newUrl = window.location.origin + window.location.pathname;
+            // window.history.pushState({}, '', newUrl);
         }
 
     }, []);
