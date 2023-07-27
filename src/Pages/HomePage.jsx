@@ -24,13 +24,13 @@ const HomePage = () => {
                 },
             });
 
+            if (userInfo.ok) {
+                const data = await userInfo.json();
+                console.log(data);
+                toast.success(data.user.message)
+                sessionStorage.setItem('user', data.user.token);
 
-            const data = await userInfo.json();
-            console.log({data});
-            toast.success(data.user.message)
-            sessionStorage.setItem('user', data.user.token);
-
-
+            }
 
         } catch (error) {
             console.log(error);
@@ -41,9 +41,9 @@ const HomePage = () => {
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
         if (code) {
-            getGoogleProfile(code);
-            // const newUrl = window.location.origin + window.location.pathname;
-            // window.history.pushState({}, '', newUrl);
+            getGoogleProfile();
+            const newUrl = window.location.origin + window.location.pathname;
+            window.history.pushState({}, '', newUrl);
         }
 
     }, []);
