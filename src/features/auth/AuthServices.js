@@ -6,6 +6,11 @@ export const AuthApi = createApi({
 
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.REACT_APP_AUTH,
+        credentials: 'include',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
     }),
 
     endpoints: (builder) => ({
@@ -25,6 +30,19 @@ export const AuthApi = createApi({
                 method: 'POST',
                 body: credentials,
             }),
+        }),
+
+        googleAuth: builder.query({
+            query: (code) => ({
+                url: `/login/success?code=${code}`,
+                method: 'GET',
+                credentials: "include",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Credentials": true,
+                },
+            })
         }),
 
         resetPassword: builder.mutation({
@@ -63,5 +81,6 @@ export const {
     useUserSignUpMutation,
     useResetPasswordMutation,
     useForgotPasswordMutation,
-    useAddNewPasswordMutation
+    useAddNewPasswordMutation,
+    useGoogleAuthQuery
 } = AuthApi;
