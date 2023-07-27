@@ -38,7 +38,9 @@ const SinglePost = () => {
         }
         console.log(12);
     }, [newData.post?.comments]);
-
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     return (
         <div className="flex justify-center items-center flex-col mt-10">
             {isLoading ?
@@ -63,6 +65,7 @@ const SinglePost = () => {
                                     createdAt={newData.post?.createdAt}
                                     likes={newData.post?.likes}
                                     comments={newData.post?.comments}
+                                    postImage={newData.post?.postImage?.url}
                                     updatedAt={newData.post?.updatedAt}
                                     postId={newData.post?._id}
 
@@ -74,7 +77,7 @@ const SinglePost = () => {
                                     <>
                                         <div className="flex items-center justify-around mt-6 w-full max-w-xl  ">
                                             <label htmlFor="sort-comment" className="mr-2 text-gray-700 font-medium">
-                                               Filter
+                                                Filter
                                             </label>
                                             <select
                                                 id="sort-comment"

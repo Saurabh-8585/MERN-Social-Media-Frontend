@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import getCurrentUser from '../utils/CurrentUser';
 import PostNotFound from '../Components/Card/PostNotFound';
 import { useGetProfileQuery } from '../features/user/UserServices';
@@ -20,7 +20,10 @@ const Message = () => {
   const combinedUsersArray = [...userFollowers, ...userFollowings];
   const uniqueUsersSet = new Set();
   const uniqueUsersArray = [];
-
+  
+  useEffect(() => {
+    window.scroll(0, 0)
+  }, [])
   const isFollowing = (user, follower) => {
     return (
       user.following &&
@@ -126,7 +129,7 @@ const Message = () => {
             </Link>
 
           ))
-            : <PostNotFound message='Make new friends' icon={<AiOutlineUserAdd className='text-2xl'/>} handleClick={() => navigate('/')} />
+            : <PostNotFound message='Make new friends' icon={<AiOutlineUserAdd className='text-2xl' />} handleClick={() => navigate('/')} />
         }
       </div>
 

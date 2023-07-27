@@ -10,6 +10,7 @@ import Slider from '../Components/Slider/Slider';
 import getCurrentUser from '../utils/CurrentUser';
 import CreateNewPost from '../Components/Card/CreateNewPost'
 import { MdOutlinePostAdd } from 'react-icons/md';
+import { useEffect } from 'react';
 const Profile = () => {
 
   const user = getCurrentUser(sessionStorage.getItem('user'))
@@ -21,7 +22,9 @@ const Profile = () => {
   const { data: userPosts, isLoading: postLoading } = useGetSingleUserPostsQuery(userId)
 
   const userInfo = data?.userInfo;
-
+  useEffect(() => {
+    window.scroll(0, 0)
+  }, [])
 
   return (
 

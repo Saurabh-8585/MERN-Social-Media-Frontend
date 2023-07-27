@@ -1,9 +1,9 @@
-import React from 'react'
+import  { useEffect } from 'react'
 import PostCard from '../Components/Card/PostCard'
 import PostLoader from '../Components/Loader/PostLoader'
 import { useGetAllBookMarksQuery } from '../features/bookmark/BookMarkServices'
 import { BsBookmarkPlus } from 'react-icons/bs'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import useHandlePostActions from '../hooks/useHandlePostActions'
 import PostNotFound from '../Components/Card/PostNotFound'
 const Bookmark = () => {
@@ -12,8 +12,9 @@ const Bookmark = () => {
   const { removeFromBookmark } = useHandlePostActions()
   const navigate = useNavigate()
 
-  console.log({ data });
-
+  useEffect(() => {
+    window.scroll(0, 0)
+  }, [])
   return (
 
     <div className="flex justify-center items-center flex-col">

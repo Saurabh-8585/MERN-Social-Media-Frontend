@@ -29,15 +29,16 @@ const HomePage = () => {
                 console.log({ response });
                 toast.success(response.user.message)
                 sessionStorage.setItem('user', response.user.token);
-                
+
             }
-            
+
         } catch (error) {
-            console.log({error});
+            console.log({ error });
             toast.error('Something went wrong')
         }
     };
     useEffect(() => {
+        window.scroll(0, 0)
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
         if (code) {
