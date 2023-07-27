@@ -24,14 +24,16 @@ const HomePage = () => {
                 },
             });
 
-            if (userInfo.ok) {
-                const data = await userInfo.json();
-                toast.success(data.user.message)
-                sessionStorage.setItem('user', data.user.token);
 
-            }
+            const data = await userInfo.json();
+            console.log({data});
+            toast.success(data.user.message)
+            sessionStorage.setItem('user', data.user.token);
+
+
 
         } catch (error) {
+            console.log(error);
             toast.error('Something went wrong')
         }
     };
