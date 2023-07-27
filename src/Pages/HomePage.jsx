@@ -41,7 +41,7 @@ const HomePage = () => {
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
         if (code) {
-            getGoogleProfile();
+            getGoogleProfile(code);
             const newUrl = window.location.origin + window.location.pathname;
             window.history.pushState({}, '', newUrl);
         }
