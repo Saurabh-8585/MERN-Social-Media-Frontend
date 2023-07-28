@@ -49,7 +49,7 @@ const SinglePost = () => {
                 <>
                     {
                         data?.post == null ? <PostNotFound
-                            message='Create New Post'
+                            message='Post Not Found'
                             icon={<MdOutlinePostAdd className="text-white font-extrabold text-2xl cursor-pointer" />}
                             handleClick={() => {
                                 window.scroll(0, 0)
@@ -65,7 +65,7 @@ const SinglePost = () => {
                                     createdAt={newData.post?.createdAt}
                                     likes={newData.post?.likes}
                                     comments={newData.post?.comments}
-                                    postImage={newData.post?.postImage?.url}
+                                    postImage={newData.post?.postImage}
                                     updatedAt={newData.post?.updatedAt}
                                     postId={newData.post?._id}
 

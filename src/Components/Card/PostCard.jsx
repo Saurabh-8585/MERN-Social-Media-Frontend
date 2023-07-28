@@ -73,12 +73,17 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
     };
 
     const handleSharePost = async (PostID) => {
+
         const data = {
             text: `${author.username} on snapia shared a post about ${content}`,
             title: 'snapia',
-            url: `http://localhost:3000/post/${PostID}`,
-            imageUrl: 'https://img.freepik.com/free-vector/computer-user-human-character-program-windows_1284-63445.jpg?w=740&t=st=1687531407~exp=1687532007~hmac=4fca4b34f720e749446eecb9e436ced9666cb4c83f5f005d43b364a15fd713f8'
+            url: `${process.env.REACT_APP_URL}/post/${PostID}`,
         };
+        if (postImage.url) {
+            const imageBlob = await fetch(postImage.url).then((response) => response.blob());
+            data.files = [new File([imageBlob], 'post_image.jpg', { type: 'image/jpeg' })];
+
+        }
 
         if (navigator.share && navigator.canShare(data)) {
             navigator.share(data);
@@ -112,6 +117,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                             <img
                                 className="h-11 w-11 rounded-full border"
                                 src={author?.userImage?.url ? author?.userImage?.url : Avatar}
+                               
                                 alt=''
                             />
                             <div className="ml-1.5 text-sm leading-tight">
@@ -260,7 +266,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                         handleClick={() => removeFromBookMark(bookmarkID)}
                         btnMessage='Delete'
                         btnColor='red'
-                        
+
                         message='Are you sure you want to delete this bookmark?'
                         icon={<FaTrash className="w-16 h-16 rounded-2xl p-3 border border-blue-100 text-blue-400 bg-blue-50 mt-4" />}
                     />
