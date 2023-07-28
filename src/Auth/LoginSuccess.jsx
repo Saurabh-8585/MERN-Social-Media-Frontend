@@ -16,9 +16,9 @@ const LoginSuccess = () => {
 
         if (!isLoading ) {
             console.log({data});
-            // toast.success(data.user.message);
-            // sessionStorage.setItem('user', data.user.token);
-            // navigate('/');
+            toast.success(data.user.message);
+            sessionStorage.setItem('user', data.user.token);
+            navigate('/');
         }
         if (isError) {
             console.log({ error, isError });
