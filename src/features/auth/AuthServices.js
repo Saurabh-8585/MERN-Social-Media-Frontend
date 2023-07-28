@@ -33,8 +33,8 @@ export const AuthApi = createApi({
         }),
 
         googleAuth: builder.query({
-            query: (code) => ({
-                url: `/login/success?code=${code}`,
+            query: () => ({
+                url: '/login/success',
                 method: 'GET',
                 credentials: "include",
                 headers: {

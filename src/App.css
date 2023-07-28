@@ -113,5 +113,6 @@ body{
     border-radius: 18px;
   
 }
-
-
+.login_loading{
+    animation: spin 2s linear infinite;
+}
