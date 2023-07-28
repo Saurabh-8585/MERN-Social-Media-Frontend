@@ -24,7 +24,7 @@ const LoginSuccess = () => {
                 if (response.user.token) {
                     toast.success(response.user.message)
                     sessionStorage.setItem('user', response.user.token);
-                    // navigate('/')
+                    navigate('/')
                 }
             }
 
