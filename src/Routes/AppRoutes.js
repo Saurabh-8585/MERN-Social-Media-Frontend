@@ -1,16 +1,16 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react'
-import toast, { Toaster } from 'react-hot-toast'
+import React, { lazy, Suspense } from 'react'
+import { Toaster } from 'react-hot-toast'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute'
 import HomePage from '../Pages/HomePage'
-import Explore from '../Pages/Explore'
 import Login from '../Auth/Login'
 import Register from '../Auth/Register'
 import LoadingSpinner from '../Components/Loader/LoadingSpinner'
 import Sidebar from '../Navigation/SideBar'
 import ForgotPassword from '../Auth/ForgotPassword'
+import LoginSuccess from '../Auth/LoginSuccess'
+
 const NewPassword = lazy(() => import('../Auth/NewPassword'));
-const LazyNotification = lazy(() => import('../Pages/Notification'));
 const LazyMessage = lazy(() => import('../Pages/Message'));
 const SingleChat = lazy(() => import('../Pages/SingleChat'));
 const LazyBookmark = lazy(() => import('../Pages/Bookmark'));
@@ -20,7 +20,7 @@ const SinglePost = lazy(() => import('../Pages/SinglePost'))
 const Settings = lazy(() => import('../Pages/Settings'))
 
 const AppRoutes = () => {
-       
+
     return (
         <>
             <Toaster position="top-center" reverseOrder={false} />
@@ -32,8 +32,9 @@ const AppRoutes = () => {
                             <Route index path="/" element={<HomePage />} />
                             <Route path="/signin" element={<Login />} />
                             <Route path="/signup" element={<Register />} />
-                            <Route path="/explore" element={<Explore />} />
-
+        
+                            <Route path="/login/success" element={<LoginSuccess />} />
+        
                             {/* lazy loaded components */}
 
                             <Route path="/post/:id" element={
@@ -46,17 +47,6 @@ const AppRoutes = () => {
                                     <ForgotPassword />
                                 </Suspense>
                             } />
-
-                            <Route
-                                path="/notifications"
-                                element={
-                                    <ProtectedRoute>
-                                        <Suspense fallback={<LoadingSpinner />}>
-                                            <LazyNotification />
-                                        </Suspense>
-                                    </ProtectedRoute>
-                                }
-                            />
 
                             <Route
                                 path="/messages"
