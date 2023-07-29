@@ -121,6 +121,7 @@ const SingleChat = () => {
     };
 
     const handleOnChange = (e) => {
+       
         const messageText = e.target.value;
         setSendingMessage(messageText);
         if (messageText.trim() !== '' && !isTyping) {
@@ -135,9 +136,7 @@ const SingleChat = () => {
 
 
     return (
-        <div className="flex justify-center items-center flex-col md:max-w-3xl w-full m-auto "
-        // 
-        >
+        <div className="flex justify-center items-center flex-col md:max-w-3xl w-full m-auto ">
             <div className="flex justify-between items-center gap-5 px-5 py-2 w-full border">
                 <Link to="/messages">
                     <FaArrowLeft className="text-xl text-purple-600" />
@@ -155,7 +154,7 @@ const SingleChat = () => {
                     </span>
                 </Link>
             </div>
-            <div id="message-container" className="flex flex-col p-5 w-full  border h-[50vh] overflow-y-auto">
+            <div className="flex flex-col p-5 w-full    overflow-y-auto">
                 {!isMessageLoading &&
                     messages &&
                     messages.map((messageItem) => (
@@ -178,7 +177,7 @@ const SingleChat = () => {
                         </React.Fragment>
                     ))}
             </div>
-            <div className="flex gap-3 py-5 w-full max-w-3xl border px-2 items-center relative" >
+            <div className="flex gap-3 py-5 w-full max-w-3xl border px-2 items-center bg-white fixed bottom-0 md:bottom-5" >
                 <div className=" flex-grow " onClick={() => pickerVisible && setPickerVisible(false)}>
                     <input
                         type="text"
@@ -190,7 +189,7 @@ const SingleChat = () => {
                         className="border-primary text-body-color placeholder-body-color focus:border-purple-500 active:border-purple-500 w-full rounded-lg border-[1.5px] py-3 px-5 font-medium outline-none transition disabled:cursor-default disabled:bg-[#F5F7FD]  z-0"
                     />
                 </div>
-                {pickerVisible && (
+                {/* {pickerVisible && (
                     <div className="absolute right-0 bottom-20 mt-12 bg-white z-50 w-fit h-fit">
                         <EmojiPicker emojiStyle={EmojiStyle.NATIVE} onEmojiClick={handleEmojiClick} />
                     </div>
@@ -200,7 +199,7 @@ const SingleChat = () => {
                     onClick={() => setPickerVisible(true)}
                 >
                     <MdOutlineEmojiEmotions className="text-3xl" />
-                </button>
+                </button> */}
                 <button
                     className="bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500 font-bold rounded-full w-fit h-fit py-3 px-3 shadow-md ease-linear transition-all duration-150 disabled:border-gray-300 disabled:text-gray-400 disabled:bg-white"
                     onClick={sendMessage}
