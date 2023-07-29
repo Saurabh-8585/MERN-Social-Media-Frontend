@@ -136,8 +136,8 @@ const SingleChat = () => {
 
 
     return (
-        <div className="flex justify-center items-center flex-col md:max-w-3xl w-full m-auto ">
-            <div className="flex justify-between items-center gap-5 px-5 py-2 w-full border">
+        <div className="flex justify-center items-center flex-col md:max-w-3xl border h-[80vh] w-full m-auto ">
+            <div className="flex justify-between items-center gap-5 px-5 py-2  border z-10 bg-white fixed top-10 md:max-w-3xl w-full">
                 <Link to="/messages">
                     <FaArrowLeft className="text-xl text-purple-600" />
                 </Link>
@@ -149,18 +149,18 @@ const SingleChat = () => {
                 </Link>
                 <Link to={`/profile/${id}`} className='flex flex-col items-center justify-center gap-3'>
                     <img className="w-12 h-12 rounded-full mr-4" src={userProfile?.userInfo?.userImage?.url ? userProfile?.userInfo?.userImage?.url : Avatar} alt="Post_Photo" />
-                    <span class={`px-3 py-1  text-base rounded-3xl ${onlineUsers.includes(id) ? 'text-green-600' : 'text-red-600  '}  mr-3`}>
+                    <span className={`px-3 py-1  text-base rounded-3xl ${onlineUsers.includes(id) ? 'text-green-600' : 'text-red-600  '}  mr-3`}>
                         {onlineUsers.includes(id) ? 'Online' : 'Offline'}
                     </span>
                 </Link>
             </div>
-            <div className="flex flex-col p-5 w-full    overflow-y-auto">
+            <div className="flex flex-col p-5 md:max-w-3xl w-full mb-20  sticky bottom-10 justify-center items-center overflow-y-scroll">
                 {!isMessageLoading &&
                     messages &&
                     messages.map((messageItem) => (
                         <React.Fragment key={messageItem._id}>
                             <div
-                                className={`rounded-lg p-2 mt-2 max-w-[200px] break-words ${messageItem.sender === currentUser
+                                className={`rounded-lg p-2  mt-2 max-w-[200px] break-words ${messageItem.sender === currentUser
                                     ? 'bg-purple-500 text-white self-end'
                                     : 'bg-gray-200 text-black self-start'
                                     }`}
@@ -170,14 +170,14 @@ const SingleChat = () => {
                             <span
                                 ref={scrollRef}
                                 className={` ${messageItem.sender === currentUser ? 'self-end' : 'self-start'
-                                    }  text-gray-800`}
+                                    }  text-gray-800 mb-5`}
                             >
                                 {getTimeAgo(messageItem.createdAt)}
                             </span>
                         </React.Fragment>
                     ))}
             </div>
-            <div className="flex gap-3 py-5 w-full max-w-3xl border px-2 items-center bg-white fixed bottom-0 md:bottom-5" >
+            <div id='message' className="flex gap-3 py-5 w-full max-w-3xl border px-2 items-center bg-white fixed bottom-0 md:bottom-5" >
                 <div className=" flex-grow " onClick={() => pickerVisible && setPickerVisible(false)}>
                     <input
                         type="text"

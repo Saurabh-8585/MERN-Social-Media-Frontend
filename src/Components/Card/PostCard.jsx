@@ -82,11 +82,11 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
         if (postImage.url) {
             const imageBlob = await fetch(postImage.url).then((response) => response.blob());
             data.files = [new File([imageBlob], 'post_image.jpg', { type: 'image/jpeg' })];
-
         }
 
         if (navigator.share && navigator.canShare(data)) {
             navigator.share(data);
+          
         } else {
             toast.error("Browser does not support sharing");
         }
