@@ -93,7 +93,7 @@ const UpdateInfo = () => {
                         toast.error('Error fetching location');
                     }
                     const data = await response.json();
-                    console.log({data});
+                    console.log({ data });
                     const location = `${data?.address?.['ISO3166-2-lvl4'].toUpperCase()} ,${data?.address?.state_district}`;
                     setUserData({ ...userData, location });
                     toast.success(`Location fetched successfully! `, { id: loadingToastId });
@@ -169,7 +169,7 @@ const UpdateInfo = () => {
                     <input
                         type="text"
                         name="username"
-                        
+
                         className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer'
                         value={userData.username}
                         onChange={handleOnchange}
@@ -188,7 +188,7 @@ const UpdateInfo = () => {
                         type="email"
                         name="email"
 
-                        
+
                         className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer'
                         value={userData.email}
                         onChange={handleOnchange}
@@ -209,7 +209,7 @@ const UpdateInfo = () => {
 
                         className="block pt-2 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer resize"
                         placeholder=" "
-                        value={userData?.about}
+                        value={userData?.about || ''}
                         onChange={handleOnchange}
                     />
                     <label
@@ -225,7 +225,7 @@ const UpdateInfo = () => {
                         name="location"
                         placeholder='Country, City'
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer"
-                        value={userData?.location}
+                        value={userData?.location || ''}
                         onChange={handleOnchange}
                     />
 
@@ -243,10 +243,9 @@ const UpdateInfo = () => {
                         name="website"
 
                         className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-purple-500 focus:outline-none focus:ring-0 focus:border-purple-500 peer'
-                        value={userData.website}
+                        value={userData?.website || ''}
                         onChange={handleOnchange}
 
-                        autoComplete="email"
                     />
                     <label
                         htmlFor="email"

@@ -49,20 +49,23 @@ const Profile = () => {
                   }
                 />
               }
-              {
-                userPosts?.post?.map(postData =>
-                  <PostCard
-                    key={postData._id}
-                    author={postData.author}
-                    content={postData.content}
-                    createdAt={postData.createdAt}
-                    updatedAt={postData.updatedAt}
-                    postId={postData._id}
-                    postImage={postData.postImage}
-                    likes={postData.likes}
-                    comments={postData.comments}
-                  />)
-              }
+              <div id='post'>
+                {
+                  userPosts?.post?.map(postData =>
+                    <PostCard
+                      key={postData._id}
+                      author={postData.author}
+                      content={postData.content}
+                      createdAt={postData.createdAt}
+                      updatedAt={postData.updatedAt}
+                      postId={postData._id}
+                      postImage={postData.postImage}
+                      likes={postData.likes}
+                      comments={postData.comments}
+
+                    />)
+                }
+              </div>
               <Slider />
 
             </>}

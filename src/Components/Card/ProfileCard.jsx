@@ -63,7 +63,7 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                                 }
                             </div>
                         </div>
-                        <div className=" flex justify-end   items-end md:mt-4   md:ml-0 ">
+                        <div className=" flex justify-end mt-3  items-end md:mt-4   md:ml-0 ">
                             {user === userInfo?._id ?
                                 <Link to='/settings' className="text-purple-500 hover:text-purple-300 font-medium border-purple-500 border-2 rounded-xl px-3 mt-3 flex justify-around items-center gap-2 py-1">
                                     Edit
@@ -97,10 +97,10 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                             <span className="font-medium">{userInfo?.following.length}</span>
                             <span className="ml-1">Following</span>
                         </div>
-                        <div className="flex items-center cursor-pointer hover:text-purple-500">
-                            <span className="font-medium">{totalPosts || 0}</span>
+                        <a href='#post' className="flex items-center cursor-pointer hover:text-purple-500">
+                            <span className="font-medium">{totalPosts }</span>
                             <span className="ml-1">Posts</span>
-                        </div>
+                        </a>
 
                         {user !== userInfo?._id &&
                             <Link to={`/messages/${userInfo?._id}`} className="flex items-center cursor-pointer hover:text-purple-500">

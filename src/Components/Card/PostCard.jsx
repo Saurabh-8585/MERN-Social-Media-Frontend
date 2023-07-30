@@ -72,21 +72,21 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
         }
     };
 
-    const handleSharePost = async (PostID) => {
-
+    const handleSharePost = async (PostID) => { 
         const data = {
             text: `${author.username} on snapia shared a post about ${content}`,
             title: 'snapia',
             url: `${process.env.REACT_APP_URL}/post/${PostID}`,
         };
-        if (postImage.url) {
+        if (postImage?.url !== undefined) {
+           
             const imageBlob = await fetch(postImage.url).then((response) => response.blob());
             data.files = [new File([imageBlob], 'post_image.jpg', { type: 'image/jpeg' })];
         }
 
         if (navigator.share && navigator.canShare(data)) {
             navigator.share(data);
-          
+
         } else {
             toast.error("Browser does not support sharing");
         }
@@ -117,7 +117,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                             <img
                                 className="h-11 w-11 rounded-full border"
                                 src={author?.userImage?.url ? author?.userImage?.url : Avatar}
-                               
+
                                 alt=''
                             />
                             <div className="ml-1.5 text-sm leading-tight">
