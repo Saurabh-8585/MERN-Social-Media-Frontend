@@ -137,7 +137,7 @@ const SingleChat = () => {
 
     return (
         <div className="flex justify-center items-center flex-col md:max-w-3xl border h-[80vh] w-full m-auto ">
-            <div className="flex justify-between items-center gap-5 px-5 py-2  border z-10 bg-white fixed top-10 md:max-w-3xl w-full">
+            <div className="flex justify-between items-center gap-5 px-5 py-2  border z-10 bg-white fixed top-20 md:max-w-3xl w-full">
                 <Link to="/messages">
                     <FaArrowLeft className="text-xl text-purple-600" />
                 </Link>
@@ -177,7 +177,7 @@ const SingleChat = () => {
                         </React.Fragment>
                     ))}
             </div>
-            <div id='message' className="flex gap-3 py-5 w-full max-w-3xl border px-2 items-center bg-white fixed bottom-0 md:bottom-5" >
+            <div id='message' className="flex gap-3 py-5 w-full max-w-3xl border px-2 items-center bg-white fixed bottom-0 md:bottom-5 z-20" >
                 <div className=" flex-grow " onClick={() => pickerVisible && setPickerVisible(false)}>
                     <input
                         type="text"
@@ -185,6 +185,7 @@ const SingleChat = () => {
                         ref={messageRef}
                         value={sendingMessage}
                         autoFocus
+                        onFocus={scrollToBottom}
                         onChange={handleOnChange}
                         className="border-primary text-body-color placeholder-body-color focus:border-purple-500 active:border-purple-500 w-full rounded-lg border-[1.5px] py-3 px-5 font-medium outline-none transition disabled:cursor-default disabled:bg-[#F5F7FD]  z-0"
                     />

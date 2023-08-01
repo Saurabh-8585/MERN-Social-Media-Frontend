@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { MdOutlineImage, MdOutlineImageNotSupported } from 'react-icons/md';
+import { RiMapPin2Line, RiCloseLine } from 'react-icons/ri';
 import { useCreatePostMutation } from '../../features/post/PostServices'
+import Location from '../Modal/Location';
 const CreateNewPost = () => {
-
+    const [showModal, setShowModal] = useState(false)
     const [selectedFile, setSelectedFile] = useState(null);
     const [image, setImage] = useState(null);
     const [content, setContent] = useState('');
     const [createPost] = useCreatePostMutation();
-
+    const [postLocation, setPostLocation] = useState('')
 
 
     const user = sessionStorage.getItem('user');
@@ -39,7 +41,7 @@ const CreateNewPost = () => {
 
         const createPostToast = toast.loading('Posting...');
         try {
-            const data = { content, image: selectedFile };
+            const data = { content, image: selectedFile,postLocation };
 
             const response = await createPost(data);
             if (response.error) {
@@ -48,15 +50,18 @@ const CreateNewPost = () => {
             else {
                 toast.success('Posted', { id: createPostToast });
             }
-            
+
             setContent('');
             setImage(null);
             setSelectedFile(null)
+            setPostLocation('')
         } catch (error) {
             console.log(error);
             toast.error('Failed to create post');
         }
     };
+
+
 
     return (
         <>
@@ -64,21 +69,29 @@ const CreateNewPost = () => {
                 <div className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-800 p-4 rounded-xl border w-full max-w-xl shadow-sm hover:shadow-md">
                     <form onSubmit={addPost}>
                         <div className="flex justify-between">
-                            <div className="flex items-center">
+                            <div className="flex items-start flex-col justify-start">
                                 <div className="flex-1 px-2 pt-2 my-4">
                                     <textarea
                                         className="bg-transparent text-gray-600 font-medium text-lg w-full outline-none"
-                                        rows={2}
+                                        rows={3}
                                         cols={50}
                                         placeholder="What's happening?"
                                         value={content}
                                         onChange={(e) => setContent(e.target.value)}
                                     />
                                 </div>
+
+                                {postLocation && <span className="px-4 py-2 w-fit flex items-center ml-5 text-base rounded-full text-white bg-purple-500">
+                                    <RiMapPin2Line size={20} className="mr-2" />
+                                    {postLocation}
+                                    <button className="bg-transparent hover" onClick={()=>setPostLocation('')}>
+                                        <RiCloseLine className="ml-4 text-lg" />
+                                    </button>
+                                </span>}
                             </div>
                         </div>
 
-                        <div className="flex">
+                        <div className="flex gap-2">
                             <div className="w-full lg:w-64 px-1">
                                 <div className="flex items-center">
                                     <div className="flex-1 text-center py-2 m-2">
@@ -113,13 +126,23 @@ const CreateNewPost = () => {
                             </div>
                             <div className="flex-1">
                                 <button
-                                    className="bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500 mt-5 font-bold py-2 px-5 md:px-8 rounded-full mr-8 float-right shadow-md  ease-linear transition-all duration-150"
+                                    className="bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500 mt-5 font-bold py-2 px-3 md:px-6 rounded-full   shadow-md  ease-linear transition-all duration-150 flex items-center justify-around gap-2"
+                                    type="button"
+                                    onClick={() => setShowModal(true)}
+                                >
+                                    Add
+                                    <RiMapPin2Line className='text-md font-semibold' />
+                                </button>
+                            </div>
+                            <div className="flex-1">
+                                <button
+                                    className="bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500 mt-5 font-bold py-2 px-5 md:px-8 rounded-full  shadow-md  ease-linear transition-all duration-150"
                                     type="submit"
-                                    onClick={addPost}
                                 >
                                     Post
                                 </button>
                             </div>
+
                         </div>
                     </form>
                     {image && (
@@ -131,7 +154,15 @@ const CreateNewPost = () => {
                     )}
                 </div>
             </div>
+            {
+                showModal &&
+                <Location
+                    onClose={() => setShowModal(false)}
+                    setPostLocation={setPostLocation}
+                    postLocation={postLocation}
+                />
 
+            }
         </>
     );
 };

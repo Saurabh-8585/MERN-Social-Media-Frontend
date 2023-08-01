@@ -17,18 +17,19 @@ const Slider = () => {
     const { data, isLoading } = useGetAllUsersQuery()
     const userID = getCurrentUser(sessionStorage.getItem('user'))
     const filterUser = data?.filter((user) => user._id !== userID).sort(() => Math.random() - 0.5)
-   
+
     return (
         isLoading ? <LoadingSpinner /> :
             <>
                 {/* for large screen */}
                 <span className='text-gray-600 text-md text-left font-semibold mt-2'>Suggested for you</span>
-                <div className="hidden lg:flex flex-col justify-center items-center my-10 ml-10 w-full max-w-4xl ">
+                <div className="hidden lg:flex flex-col justify-center items-center my-10 ml-10 w-full max-w-4xl z-10 ">
                     <Swiper
                         effect="coverflow"
                         grabCursor={true}
                         className="w-full max-w-4xl h-[450px] "
                         spaceBetween={50}
+                        loop={true}
                         slidesPerView={3}
                         navigation={true} modules={[Navigation]}
                     >

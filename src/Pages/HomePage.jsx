@@ -2,52 +2,14 @@ import PostCard from '../Components/Card/PostCard'
 import CreateNewPost from '../Components/Card/CreateNewPost'
 import PostLoader from '../Components/Loader/PostLoader'
 import { useGetAllPostsQuery } from '../features/post/PostServices'
-
 import Slider from '../Components/Slider/Slider'
-import { useEffect } from 'react'
-import toast from 'react-hot-toast'
 
 
 
 const HomePage = () => {
     const { data, isLoading } = useGetAllPostsQuery();
 
-    const getGoogleProfile = async (code) => {
-        try {
-            const userInfo = await fetch(`${process.env.REACT_APP_AUTH}/login/success?code=${code}`, {
-                method: "GET",
-                credentials: "include",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Credentials": true,
-                },
-            });
 
-            if (userInfo.ok) {
-                const response = await userInfo.json();
-                console.log({ response });
-                toast.success(response.user.message)
-                sessionStorage.setItem('user', response.user.token);
-
-            }
-
-        } catch (error) {
-            console.log({ error });
-            toast.error('Something went wrong')
-        }
-    };
-    useEffect(() => {
-        window.scroll(0, 0)
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get('code');
-        if (code) {
-            getGoogleProfile(code);
-            const newUrl = window.location.origin + window.location.pathname;
-            window.history.pushState({}, '', newUrl);
-        }
-
-    }, []);
     return (
         <>
             <div className="flex justify-center items-center flex-col">
@@ -64,6 +26,7 @@ const HomePage = () => {
                         postImage={postData.postImage}
                         likes={postData.likes}
                         comments={postData.comments}
+                        location={postData.location}
                     />)}
 
                 <Slider />

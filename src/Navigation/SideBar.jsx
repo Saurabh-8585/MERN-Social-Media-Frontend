@@ -32,7 +32,7 @@ const Sidebar = () => {
     return (
         <>
             <Navbar handleSignOut={handleSignOut} />
-            <aside className="fixed z-0 bottom-0 left-0 lg:fixed lg:top-10 lg:bottom-0 lg:w-1/4 lg:h-full lg:flex lg:flex-col bg-white dark:bg-gray-800 border-gray-300 lg:dark:border-white lg:border-r-2 border-t-2 w-full ">
+            <aside className="fixed z-20 bottom-0 left-0 lg:fixed lg:top-10 lg:bottom-0 lg:w-1/4 lg:h-full lg:flex lg:flex-col bg-white dark:bg-gray-800 border-gray-300 lg:dark:border-white lg:border-r-2 border-t-2 w-full ">
                 <ul className="flex justify-around py-4 lg:flex-col lg:justify-start lg:items-center lg:h-screen lg:gap-8 lg:py-2 lg:mt-10">
                     <li className='lg:w-3/4'>
                         <NavLink

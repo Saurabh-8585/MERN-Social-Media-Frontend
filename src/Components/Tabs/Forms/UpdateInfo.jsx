@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AiOutlineSave } from 'react-icons/ai';
 import { BiImageAdd } from 'react-icons/bi';
 import { MdOutlineHideImage, MdOutlineImage, MdOutlineLocationOn } from 'react-icons/md';
@@ -81,7 +81,6 @@ const UpdateInfo = () => {
 
     const getLocation = () => {
         const loadingToastId = toast.loading('Fetching location...');
-
         navigator.geolocation.getCurrentPosition(
             async (position) => {
                 const { latitude, longitude } = position.coords;
@@ -93,7 +92,6 @@ const UpdateInfo = () => {
                         toast.error('Error fetching location');
                     }
                     const data = await response.json();
-                    console.log({ data });
                     const location = `${data?.address?.['ISO3166-2-lvl4'].toUpperCase()} ,${data?.address?.state_district}`;
                     setUserData({ ...userData, location });
                     toast.success(`Location fetched successfully! `, { id: loadingToastId });

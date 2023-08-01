@@ -1,10 +1,10 @@
-import React, { useMemo, useState } from 'react'
+import  { useMemo, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { getTimeAgo } from '../../utils/DateFormatter'
 import { useEditPostMutation } from '../../features/post/PostServices'
 import { FaRegCommentAlt, FaTrash } from 'react-icons/fa'
 import { AiOutlineHeart, AiFillHeart, AiOutlineShareAlt, AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
-import { MdOutlineCancel, MdOutlineSaveAs, MdOutlineBookmarkAdd, MdBookmarkRemove } from 'react-icons/md'
+import { MdOutlineCancel, MdOutlineSaveAs, MdOutlineBookmarkAdd, MdBookmarkRemove, MdOutlineLocationOn } from 'react-icons/md'
 import getCurrentUser from '../../utils/CurrentUser';
 import useHandlePostActions from '../../hooks/useHandlePostActions';
 import { Link, useNavigate } from 'react-router-dom'
@@ -12,7 +12,7 @@ import Avatar from '../../assets/Avatar.png'
 import UserListPopUp from '../Modal/UserListPopUp'
 import PopUp from '../Modal/PopUp'
 
-const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBookMark, postImage, likes, comments }) => {
+const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBookMark, postImage, likes, comments, location }) => {
 
     const user = sessionStorage.getItem('user');
     const navigate = useNavigate()
@@ -127,6 +127,10 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                                 <span className="text-gray-500 dark:text-gray-400 font-normal block">
                                     @{author.username}
                                 </span>
+                                {location&&    <span className="text-gray-500 dark:text-gray-400 font-normal flex justify-center gap-1 items-center">
+                                    <MdOutlineLocationOn/>
+                                    {location}
+                                </span>}
                             </div>
                         </Link>
                     </div>

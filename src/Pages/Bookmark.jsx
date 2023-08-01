@@ -38,6 +38,7 @@ const Bookmark = () => {
             postId={bookmarks.post?._id}
             likes={bookmarks.post?.likes}
             bookmarkID={bookmarks._id}
+            location={bookmarks.post?.location}
             removeFromBookMark={removeFromBookmark}
           />
 

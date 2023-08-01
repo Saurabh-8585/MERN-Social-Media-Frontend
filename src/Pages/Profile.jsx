@@ -11,6 +11,7 @@ import getCurrentUser from '../utils/CurrentUser';
 import CreateNewPost from '../Components/Card/CreateNewPost'
 import { MdOutlinePostAdd } from 'react-icons/md';
 import { useEffect } from 'react';
+import { VscAccount } from 'react-icons/vsc';
 const Profile = () => {
 
   const user = getCurrentUser(sessionStorage.getItem('user'))
@@ -35,40 +36,51 @@ const Profile = () => {
           : postLoading ? <PostLoader />
 
             :
-            <>
-              <ProfileCard userInfo={userInfo} totalPosts={userPosts?.post?.length} />
+            !userInfo ?
+              <PostNotFound
+                message='User not Found'
+                icon={<VscAccount className="text-white font-extrabold text-2xl cursor-pointer" />}
+                
+                 />
+              :
+              <>
+                <ProfileCard userInfo={userInfo} totalPosts={userPosts?.post?.length} />
 
 
-              {((user === id) || (!id && user)) ?
+                {((user === id) || (!id && user)) ?
 
-                <CreateNewPost />
-                : userPosts?.post?.length === 0 &&
-                <PostNotFound
-                  message='Not Posted Yet'
-                  icon={<MdOutlinePostAdd className="text-white font-extrabold text-2xl cursor-pointer" />
-                  }
-                />
-              }
-              <div id='post'>
-                {
-                  userPosts?.post?.map(postData =>
-                    <PostCard
-                      key={postData._id}
-                      author={postData.author}
-                      content={postData.content}
-                      createdAt={postData.createdAt}
-                      updatedAt={postData.updatedAt}
-                      postId={postData._id}
-                      postImage={postData.postImage}
-                      likes={postData.likes}
-                      comments={postData.comments}
-
-                    />)
+                  <CreateNewPost />
+                  : userPosts?.post?.length === 0 &&
+                  <PostNotFound
+                    message='Not Posted Yet'
+                    icon={<MdOutlinePostAdd className="text-white font-extrabold text-2xl cursor-pointer" />
+                    }
+                  />
                 }
-              </div>
-              <Slider />
+                <div id='post' className='w-full'>
+                  {
+                    userPosts?.post?.map(postData =>
+                      <PostCard
 
-            </>}
+                        key={postData._id}
+                        author={postData.author}
+                        content={postData.content}
+                        createdAt={postData.createdAt}
+                        updatedAt={postData.updatedAt}
+                        postId={postData._id}
+                        postImage={postData.postImage}
+                        likes={postData.likes}
+                        comments={postData.comments}
+                        location={postData.location}
+
+
+                      />)
+                  }
+                </div>
+                <Slider />
+
+              </>
+      }
     </div>
 
 

@@ -33,9 +33,10 @@ export const PostApi = createApi({
         }),
 
         createPost: builder.mutation({
-            query: ({ content, image }) => {
+            query: ({ content, image, postLocation }) => {
                 const formData = new FormData();
                 formData.append('content', content);
+                formData.append('postLocation', postLocation);
                 formData.append('file', image);
 
                 return {
@@ -122,7 +123,7 @@ export const PostApi = createApi({
         }),
 
         editComment: builder.mutation({
-            query: ({ postId, commentId,  commentText }) => ({
+            query: ({ postId, commentId, commentText }) => ({
                 url: `/comment/edit/${postId}/${commentId}`,
                 method: 'PUT',
                 body: { content: commentText },
@@ -133,6 +134,7 @@ export const PostApi = createApi({
             invalidatesTags: ['SinglePost']
         }),
 
+       
 
     }),
 
@@ -149,5 +151,5 @@ export const {
     useDislikePostMutation,
     useAddCommentMutation,
     useDeleteCommentMutation,
-    useEditCommentMutation
+    useEditCommentMutation,
 } = PostApi;
