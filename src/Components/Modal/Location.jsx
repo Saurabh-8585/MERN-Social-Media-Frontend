@@ -42,7 +42,7 @@ const Location = ({ onClose, postLocation,  setPostLocation }) => {
                         ? 'fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center  bg-black bg-opacity-50 z-20'
                         : 'hidden'
                 }>
-                <div className="relative w-[15rem] md:w-[25rem] p-6 bg-white shadow-lg rounded-xl mb-20">
+                <div className="relative w-[17rem] md:w-[25rem] p-6 bg-white shadow-lg rounded-xl mb-20">
                     <div
                         onClick={closeModal}
                         className="absolute -top-1 -right-1 hover:top-0 hover:right-0 p-1.5 rounded-lg bg-white shadow-lg cursor-pointer duration-200">
@@ -79,7 +79,7 @@ const Location = ({ onClose, postLocation,  setPostLocation }) => {
                                 className='w-full bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500 mt-5 font-bold py-2 px-5  rounded-full  shadow-md  ease-linear transition-all duration-150' 
                                 onClick={closeModal}
                                 >
-                                Add
+                                {postLocation ? 'Add' : 'Close'}
                             </button>
                         </div>
 

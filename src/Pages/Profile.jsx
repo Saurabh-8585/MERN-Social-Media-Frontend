@@ -59,7 +59,7 @@ const Profile = () => {
                 }
                 <div id='post' className='w-full'>
                   {
-                    userPosts?.post?.map(postData =>
+                    userPosts.post.map(postData =>
                       <PostCard
 
                         key={postData._id}

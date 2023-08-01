@@ -118,7 +118,7 @@ const Message = () => {
           !isLoading && uniqueUsersArray.length > 0 ? uniqueUsersArray.map(userList => (
             <Link
               to={`/messages/${userList._id}`} key={userList._id}
-              class="flex items-center w-full py-2 text-sm transition duration-150 ease-in-out shadow-md mt-5 rounded-lg border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none justify-between px-5 md:px-10">
+              class="flex items-center w-full py-2 text-sm transition duration-150 ease-in-out shadow-md mt-5 rounded-lg border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none justify-between px-5 md:px-10 bg-gray-50">
               <img class="object-fill w-12 h-12 rounded-full"
                 src={userList?.userImage?.url ? userList?.userImage?.url : Avatar} alt="username" />
 

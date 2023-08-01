@@ -10,8 +10,6 @@ import { getTimeAgo } from '../utils/DateFormatter';
 import { io } from 'socket.io-client';
 import { toast } from 'react-hot-toast'
 import { useGetProfileQuery } from '../features/user/UserServices';
-import EmojiPicker, { EmojiStyle } from 'emoji-picker-react';
-import { MdOutlineEmojiEmotions } from 'react-icons/md'
 
 const SingleChat = () => {
     const { id } = useParams();
@@ -136,8 +134,8 @@ const SingleChat = () => {
 
 
     return (
-        <div className="flex justify-center items-center flex-col md:max-w-3xl border h-[80vh] w-full m-auto ">
-            <div className="flex justify-between items-center gap-5 px-5 py-2  border z-10 bg-white fixed top-20 md:max-w-3xl w-full">
+        <div className="flex justify-center items-center flex-col md:max-w-3xl border h-auto min-h-[80vh] max-h-full w-full m-auto ">
+            <div className="flex justify-between items-center gap-5 px-5 py-2 sticky top-16  border z-10 bg-gray-50  md:max-w-3xl w-full">
                 <Link to="/messages">
                     <FaArrowLeft className="text-xl text-purple-600" />
                 </Link>
@@ -154,7 +152,7 @@ const SingleChat = () => {
                     </span>
                 </Link>
             </div>
-            <div className="flex flex-col p-5 md:max-w-3xl w-full mb-20  sticky bottom-10 justify-center items-center overflow-y-scroll">
+            <div className="flex flex-col p-5 md:max-w-3xl w-full mb-20    justify-center items-center overflow-y-scroll">
                 {!isMessageLoading &&
                     messages &&
                     messages.map((messageItem) => (
@@ -177,7 +175,7 @@ const SingleChat = () => {
                         </React.Fragment>
                     ))}
             </div>
-            <div id='message' className="flex gap-3 py-5 w-full max-w-3xl border px-2 items-center bg-white fixed bottom-0 md:bottom-5 z-20" >
+            <div id='message' className="flex gap-3 py-5 w-full max-w-3xl border px-2 items-center bg-gray-50 fixed bottom-0  z-20" >
                 <div className=" flex-grow " onClick={() => pickerVisible && setPickerVisible(false)}>
                     <input
                         type="text"
@@ -190,17 +188,6 @@ const SingleChat = () => {
                         className="border-primary text-body-color placeholder-body-color focus:border-purple-500 active:border-purple-500 w-full rounded-lg border-[1.5px] py-3 px-5 font-medium outline-none transition disabled:cursor-default disabled:bg-[#F5F7FD]  z-0"
                     />
                 </div>
-                {/* {pickerVisible && (
-                    <div className="absolute right-0 bottom-20 mt-12 bg-white z-50 w-fit h-fit">
-                        <EmojiPicker emojiStyle={EmojiStyle.NATIVE} onEmojiClick={handleEmojiClick} />
-                    </div>
-                )}
-                <button
-                    className=" bg-transparent text-gray-400 hover:text-gray-600 focus:outline-none z-20 bg-white"
-                    onClick={() => setPickerVisible(true)}
-                >
-                    <MdOutlineEmojiEmotions className="text-3xl" />
-                </button> */}
                 <button
                     className="bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500 font-bold rounded-full w-fit h-fit py-3 px-3 shadow-md ease-linear transition-all duration-150 disabled:border-gray-300 disabled:text-gray-400 disabled:bg-white"
                     onClick={sendMessage}
