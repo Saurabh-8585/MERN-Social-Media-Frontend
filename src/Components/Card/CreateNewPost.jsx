@@ -41,7 +41,7 @@ const CreateNewPost = () => {
 
         const createPostToast = toast.loading('Posting...');
         try {
-            const data = { content, image: selectedFile,postLocation };
+            const data = { content, image: selectedFile, postLocation };
 
             const response = await createPost(data);
             if (response.error) {
@@ -61,7 +61,12 @@ const CreateNewPost = () => {
         }
     };
 
-
+    const addLocation = () => {
+        if (!user) {
+            return toast.error('Please login to add post');
+        }
+        setShowModal(true)
+    }
 
     return (
         <>
@@ -84,7 +89,7 @@ const CreateNewPost = () => {
                                 {postLocation && <span className="px-4 py-2 w-fit flex items-center ml-5 text-base rounded-full text-white bg-purple-500">
                                     <RiMapPin2Line size={20} className="mr-2" />
                                     {postLocation}
-                                    <button className="bg-transparent hover" onClick={()=>setPostLocation('')}>
+                                    <button className="bg-transparent hover" onClick={() => setPostLocation('')}>
                                         <RiCloseLine className="ml-4 text-lg" />
                                     </button>
                                 </span>}
@@ -128,7 +133,7 @@ const CreateNewPost = () => {
                                 <button
                                     className="bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500 mt-5 font-bold py-2 px-3 md:px-6 rounded-full   shadow-md  ease-linear transition-all duration-150 flex items-center justify-around gap-2"
                                     type="button"
-                                    onClick={() => setShowModal(true)}
+                                    onClick={addLocation}
                                 >
                                     Add
                                     <RiMapPin2Line className='text-md font-semibold' />

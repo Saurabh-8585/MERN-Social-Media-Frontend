@@ -33,9 +33,9 @@ const Register = () => {
 
   const password = watch('password');
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center mb-20">
       <div className="h-[90%] w-full md:w-3/4 m-4 dark:bg-gray-800 dark:text-white">
-        <div className="text-xl cursor-pointer flex flex-col justify-center items-center mt-5 md:mt-0">
+        <div className="text-xl cursor-pointer flex flex-col justify-center items-center md:mt-0">
           <h1 className="font-bold text-3xl text-purple-500 dark:text-purple-400 m-2">Sign Up</h1>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
