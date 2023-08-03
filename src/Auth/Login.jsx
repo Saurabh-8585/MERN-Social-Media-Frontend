@@ -6,8 +6,8 @@ import { useUserSignInMutation } from '../features/auth/AuthServices';
 
 
 export const handleLoginWithGoogle = () => {
-    window.open(`${process.env.REACT_APP_AUTH}/google/callback`, "_self")
-    // window.open(`${process.env.REACT_APP_AUTH}/google`, '_blank', 'noopener,noreferrer');
+    // window.open(`${process.env.REACT_APP_AUTH}/google/callback`, "_self")
+    window.open(`${process.env.REACT_APP_AUTH}/google/callback`, '_blank', 'noopener,noreferrer');
     
 }
 const Login = () => {
