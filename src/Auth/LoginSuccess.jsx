@@ -9,7 +9,7 @@ import { useGoogleAuthQuery } from '../features/auth/AuthServices';
 const LoginSuccess = () => {
     let navigate = useNavigate()
     const currentUser = getCurrentUser(sessionStorage.getItem('user'))
-    const { data, isLoading, isError, error } = useGoogleAuthQuery()
+    const { data, isLoading, isError } = useGoogleAuthQuery()
     useEffect(() => {
         if (currentUser) {
             navigate('/');
@@ -20,10 +20,8 @@ const LoginSuccess = () => {
             sessionStorage.setItem('user', data.user.token);
             navigate('/');
         }
-        if (isError) {
-            console.log({ error, isError });
-        }
-    }, [currentUser, data, isLoading, navigate, error, isError]);
+        
+    }, [currentUser, data, isLoading, navigate, isError]);
     return (
         <div className="min-h-screen flex items-center justify-center p-4">
 

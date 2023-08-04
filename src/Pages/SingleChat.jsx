@@ -99,28 +99,40 @@ const SingleChat = () => {
             if (response.error) {
                 toast.error('Something went wrong please try again')
             }
-
             setSendingMessage('');
         }
         setIsTyping(false);
     };
     const scrollToBottom = () => {
         if (scrollRef.current) {
-            scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            const inputBoxHeight = 15 + 3 * 2;
+            const scrollPosition = scrollRef.current.offsetTop - inputBoxHeight;
+
+            window.scrollTo({ top: scrollPosition, behavior: 'smooth' });
         }
     };
 
     useEffect(() => {
         scrollToBottom();
+       
+
+        const handleResize = () => {
+            scrollToBottom();
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
     }, [messages]);
 
-    const handleEmojiClick = (emojiObject) => {
-        setSendingMessage((prevMessage) => prevMessage + emojiObject.emoji);
+    const handleInputFocus = () => {
+        scrollToBottom();
     };
-
     const handleOnChange = (e) => {
-       
         const messageText = e.target.value;
+        scrollToBottom()
         setSendingMessage(messageText);
         if (messageText.trim() !== '' && !isTyping) {
             socketRef.current.emit('userTyping', { senderId: currentUser, isTyping: true });
@@ -130,12 +142,12 @@ const SingleChat = () => {
             setIsTyping(false);
         }
     };
-    
+
 
 
     return (
-        <div className="flex justify-center items-center flex-col md:max-w-3xl border h-auto min-h-[80vh] max-h-full w-full m-auto ">
-            <div className="flex justify-between items-center gap-5 px-5 py-2 sticky top-16  border z-10 bg-gray-50  md:max-w-3xl w-full">
+        <div className="flex justify-center items-center flex-col md:max-w-3xl border h-auto min-h-[80vh] max-h-full w-full m-auto relative">
+            <div className="flex justify-between items-center gap-5 px-5 py-2 fixed top-[75px] border z-10 bg-gray-50  md:max-w-3xl w-full">
                 <Link to="/messages">
                     <FaArrowLeft className="text-xl text-purple-600" />
                 </Link>
@@ -181,9 +193,9 @@ const SingleChat = () => {
                         type="text"
                         placeholder="Message..."
                         ref={messageRef}
-                        value={sendingMessage}
                         autoFocus
-                        onFocus={scrollToBottom}
+                        onFocus={handleInputFocus}
+                        value={sendingMessage}
                         onChange={handleOnChange}
                         className="border-primary text-body-color placeholder-body-color focus:border-purple-500 active:border-purple-500 w-full rounded-lg border-[1.5px] py-3 px-5 font-medium outline-none transition disabled:cursor-default disabled:bg-[#F5F7FD]  z-0"
                     />
