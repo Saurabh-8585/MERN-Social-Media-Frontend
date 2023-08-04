@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { RiMapPin2Line, RiCloseLine } from 'react-icons/ri';
 import toast from 'react-hot-toast';
 
-const Location = ({ onClose, postLocation,  setPostLocation }) => {
+const Location = ({ onClose, postLocation, setPostLocation }) => {
     const [isOpen, setIsOpen] = useState(true);
     const closeModal = () => {
         setIsOpen(false);
@@ -34,6 +34,7 @@ const Location = ({ onClose, postLocation,  setPostLocation }) => {
         );
     };
 
+  
     return (
         <> {isOpen &&
             <div
@@ -76,9 +77,9 @@ const Location = ({ onClose, postLocation,  setPostLocation }) => {
                                 <RiMapPin2Line className="text-md font-semibold" />
                             </button>}
                             <button
-                                className='w-full bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500 mt-5 font-bold py-2 px-5  rounded-full  shadow-md  ease-linear transition-all duration-150' 
+                                className='w-full bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500 mt-5 font-bold py-2 px-5  rounded-full  shadow-md  ease-linear transition-all duration-150'
                                 onClick={closeModal}
-                                >
+                            >
                                 {postLocation ? 'Add' : 'Close'}
                             </button>
                         </div>

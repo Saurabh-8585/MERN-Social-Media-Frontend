@@ -6,6 +6,7 @@ import { BookMarkApi } from '../features/bookmark/BookMarkServices';
 import { UserApi } from '../features/user/UserServices'
 import { ConversationApi } from '../features/conversation/ConversationService';
 import { MessageApi } from '../features/message/MessageService';
+import { NewsApi } from '../features/news/newsService';
 const store = configureStore({
   reducer: {
     [AuthApi.reducerPath]: AuthApi.reducer,
@@ -14,6 +15,7 @@ const store = configureStore({
     [UserApi.reducerPath]: UserApi.reducer,
     [ConversationApi.reducerPath]: ConversationApi.reducer,
     [MessageApi.reducerPath]: MessageApi.reducer,
+    [NewsApi.reducerPath]: NewsApi.reducer,
 
   },
   middleware:
@@ -24,6 +26,7 @@ const store = configureStore({
       .concat(UserApi.middleware)
       .concat(ConversationApi.middleware)
       .concat(MessageApi.middleware)
+      .concat(NewsApi.middleware)
 
 });
 

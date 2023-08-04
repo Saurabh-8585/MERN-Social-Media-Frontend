@@ -9,6 +9,7 @@ import LoadingSpinner from '../Components/Loader/LoadingSpinner'
 import Sidebar from '../Navigation/SideBar'
 import ForgotPassword from '../Auth/ForgotPassword'
 import LoginSuccess from '../Auth/LoginSuccess'
+import News from '../Pages/News'
 
 const NewPassword = lazy(() => import('../Auth/NewPassword'));
 const LazyMessage = lazy(() => import('../Pages/Message'));
@@ -32,6 +33,7 @@ const AppRoutes = () => {
                             <Route index path="/" element={<HomePage />} />
                             <Route path="/signin" element={<Login />} />
                             <Route path="/signup" element={<Register />} />
+                            <Route path="/news" element={<News />} />
         
                             <Route path="/login/success" element={<LoginSuccess />} />
         

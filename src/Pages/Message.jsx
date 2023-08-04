@@ -47,9 +47,8 @@ const Message = () => {
   const handleSearch = (e) => {
     setSearchTerm(e.target.value)
     let search = (e.target.value).toLowerCase().replace(/\s/g, '');
-    const newFilteredData = combinedUsersArray.filter((user) =>
-      user?.username.toLowerCase().replace(/\s/g, '').includes(search) ||
-      (user?.about && user?.about.toLowerCase().replace(/\s/g, '').includes(search))
+    const newFilteredData = combinedUsersArray.filter((friend) =>
+      friend?.username.toLowerCase().replace(/\s/g, '').includes(search) 
     );
 
     setFilteredData(newFilteredData)
@@ -58,7 +57,7 @@ const Message = () => {
 
 
   return (
-    <div className="flex justify-center items-center flex-col mt-10  w-full max-w-3xl m-auto ">
+    <div className="flex justify-center items-center flex-col mt-1  w-full max-w-3xl m-auto ">
       <div className="flex justify-between items-center gap-5 p-5 w-full">
         <div className="relative flex items-center  w-full">
           <input
@@ -73,16 +72,16 @@ const Message = () => {
           </div>
           {searchTerm && (
             <ul className="absolute top-12 w-full bg-white border border-gray-300 rounded-md shadow-md">
-              {filteredData.map((user) => (
-                <Link to={`/messages/${user._id}`} key={user._id} onClick={() => setSearchTerm('')}>
+              {filteredData.map((friend) => (
+                <Link to={`/messages/${friend._id}`} key={friend._id} onClick={() => setSearchTerm('')}>
                   <li className="md:px-10 px-2 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between" >
                     <img
                       className="h-10 w-10 rounded-full border"
-                      src={user?.userImage?.url ? user?.userImage?.url : Avatar}
+                      src={friend?.userImage?.url ? friend?.userImage?.url : Avatar}
                       alt="User_Profile"
                     />
                     <span className='text-gray-500 dark:text-gray-400 font-semibold text-start'>
-                      {user.username}
+                      {friend.username}
                     </span>
                   </li>
                 </Link>

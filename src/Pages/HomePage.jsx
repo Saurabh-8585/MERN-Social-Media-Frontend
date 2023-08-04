@@ -3,12 +3,13 @@ import CreateNewPost from '../Components/Card/CreateNewPost'
 import PostLoader from '../Components/Loader/PostLoader'
 import { useGetAllPostsQuery } from '../features/post/PostServices'
 import Slider from '../Components/Slider/Slider'
+import { useEffect } from 'react'
 
 
 
 const HomePage = () => {
     const { data, isLoading } = useGetAllPostsQuery();
-
+   
 
     return (
         <>
