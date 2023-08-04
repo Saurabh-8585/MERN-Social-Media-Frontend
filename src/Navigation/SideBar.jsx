@@ -44,16 +44,6 @@ const Sidebar = () => {
                             <FiHome className='dark:text-white lg:text-3xl text-xl lg:mr-10' />
                         </NavLink>
                     </li>
-
-                    <li className='lg:w-3/4'>
-                        <NavLink
-                            to="/bookmarks"
-                            className="text-gray-700 hover:text-purple-500 flex items-center w-full justify-between"
-                        >
-                            <span className="dark:text-white lg:text-xl lg:font-semibold text-start lg:mt-1 hidden lg:inline lg:ml-10 lg:text-left">Bookmarks</span>
-                            <FiBookmark className='lg:text-3xl text-xl lg:mr-10 dark:text-white' />
-                        </NavLink>
-                    </li>
                     <li className='lg:w-3/4'>
                         <NavLink
                             to="/news"
@@ -63,6 +53,16 @@ const Sidebar = () => {
                             <MdNewspaper className='lg:text-3xl text-xl lg:mr-10 dark:text-white' />
                         </NavLink>
                     </li>
+                    <li className='lg:w-3/4'>
+                        <NavLink
+                            to="/bookmarks"
+                            className="text-gray-700 hover:text-purple-500 flex items-center w-full justify-between"
+                        >
+                            <span className="dark:text-white lg:text-xl lg:font-semibold text-start lg:mt-1 hidden lg:inline lg:ml-10 lg:text-left">Bookmarks</span>
+                            <FiBookmark className='lg:text-3xl text-xl lg:mr-10 dark:text-white' />
+                        </NavLink>
+                    </li>
+                    
                     <li className='lg:w-3/4'>
                         <NavLink
                             to="/messages"
