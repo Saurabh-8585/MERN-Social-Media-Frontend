@@ -74,8 +74,8 @@ export default function TabsRender() {
                         </li>
                     </ul>
                     <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-2xl dark:bg-gray-800 h-auto mt-5">
-                        <div className="px-4 py-5 flex-auto">
-                            <div className="tab-content tab-space dark:bg-gray-800">
+                        <div className="px-4 py-5 flex-auto border rounded-xl">
+                            <div className="tab-content tab-space dark:bg-gray-800 ">
                                 <div className={openTab === 1 ? "block" : "hidden" }  id="link1">
                                     <UpdateInfo />
                                 </div>

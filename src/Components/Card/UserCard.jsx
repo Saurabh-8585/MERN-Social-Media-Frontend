@@ -2,7 +2,6 @@ import { HiOutlineUserCircle } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import Avatar from '../../assets/Avatar.png'
 const UserCard = ({ userData }) => {
-    console.log({userData});
     return (
         <div className="flex flex-col items-center rounded-2xl p-5 bg-white border shadow-md dark:bg-navy-800 dark:text-white dark:shadow-none w-fit h-fit">
             <img className="h-32 w-32 rounded-full" src={userData?.userImage ? userData.userImage : Avatar} alt="user" />

@@ -7,7 +7,7 @@ const News = () => {
 
     return (
         <div className="flex justify-center items-center flex-col mt-1 w-full max-w-3xl m-auto">
-            <h1 className="text-2xl font-bold mb-5 text-purple-500">Snpia News</h1>
+            <h1 className="text-3xl font-bold mb-5 text-purple-500">Snapia News</h1>
             <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-3 md:p-0 mb-20">
                 {isLoading ? (
                     <LoadingSpinner />
@@ -17,7 +17,7 @@ const News = () => {
                     </div>
                 ) : (
                     newsData.items.result.map((item) => (
-                        <div key={item.uuid} className="bg-white p-4 shadow-md rounded-md">
+                        <div key={item.uuid} className="bg-white p-4 shadow-md rounded-md w-full">
                             {item.main_image && (
                                 <img
                                     src={item.main_image.original_url}

@@ -31,12 +31,13 @@ const Slider = () => {
                         spaceBetween={50}
                         loop={true}
                         slidesPerView={3}
+                        slideToClickedSlide={true}
                         navigation={true} modules={[Navigation]}
                     >
                         {
                             filterUser?.map(userData => (
                                 <SwiperSlide key={userData._id}>
-                                    <Link to={`/profile/${userData._id}`} onClick={() => window.scroll(0, 0)} className="flex flex-col items-center rounded-2xl p-5 bg-white border shadow-md dark:bg-navy-800 dark:text-white dark:shadow-none w-fit h-fit">
+                                    <Link to={`/profile/${userData._id}`} onClick={() => window.scroll(0, 0)} className="flex flex-col items-center rounded-2xl p-5 bg-white border shadow-md dark:bg-gray-800 dark:text-white dark:shadow-none w-fit h-fit">
                                         <img className="h-32 w-32 rounded-full" src={userData?.userImage ? userData.userImage.url : Avatar} alt="user" />
                                         <div className="mt-10 flex flex-col items-center">
                                             <h4 className="text-xl font-bold text-navy-700 dark:text-white">

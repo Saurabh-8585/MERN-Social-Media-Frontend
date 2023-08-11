@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AiFillEdit, AiOutlineUserDelete, AiOutlineUserAdd, AiOutlineLink, AiOutlineInfoCircle } from 'react-icons/ai'
+import { AiFillEdit, AiOutlineUserDelete, AiOutlineUserAdd, AiOutlineLink, AiOutlineInfoCircle, AiOutlineShareAlt } from 'react-icons/ai'
 import getCurrentUser from '../../utils/CurrentUser';
 import { Link } from 'react-router-dom';
 import Avtar from '../../assets/Avatar.png';
@@ -8,7 +8,8 @@ import { MdLocationCity } from 'react-icons/md';
 import UserListPopUp from '../Modal/UserListPopUp';
 import PopUp from '../Modal/PopUp';
 import { FaUserTimes } from 'react-icons/fa';
-const ProfileCard = ({ userInfo, totalPosts }) => {
+import toast from 'react-hot-toast';
+const ProfileCard = ({ userInfo, totalPosts, userId }) => {
 
     const user = getCurrentUser(sessionStorage.getItem('user'))
     const { follow, isFollowing, unFollow } = useHandleUsersAction({ userInfo, user })
@@ -20,7 +21,25 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
     const [showUnFollowPopUp, setShowUnFollowPopUp] = useState(false);
 
 
+    const handleShareProfile = async () => {
+        const data = {
+            text: `${userInfo.username} on snapia`,
+            title: 'snapia',
+            url: `${process.env.REACT_APP_URL}/profile/${userId}`,
+        };
+        if (userInfo?.userImage?.url !== undefined) {
 
+            const imageBlob = await fetch(userInfo?.userImage?.urll).then((response) => response.blob());
+            data.files = [new File([imageBlob], 'post_image.jpg', { type: 'image/jpeg' })];
+        }
+
+        if (navigator.share && navigator.canShare(data)) {
+            navigator.share(data);
+
+        } else {
+            toast.error("Browser does not support sharing");
+        }
+    };
 
 
 
@@ -88,7 +107,7 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                         </div>
                     </div>
                     <div className="border-gray-200 dark:border-gray-600 border border-b-0 my-4" />
-                    <div className="text-gray-500 dark:text-gray-400 flex mt-3 justify-center md:gap-4 gap-1">
+                    <div className="text-gray-500 dark:text-gray-400 flex mt-3 justify-center  md:gap-4 gap-3">
                         <div className="flex items-center cursor-pointer hover:text-purple-500" onClick={() => setShowFollowerModal(true)}>
                             <span className="font-medium">{userInfo?.followers.length}</span>
                             <span className="ml-1">Followers</span>
@@ -98,15 +117,19 @@ const ProfileCard = ({ userInfo, totalPosts }) => {
                             <span className="ml-1">Following</span>
                         </div>
                         <a href='#post' className="flex items-center cursor-pointer hover:text-purple-500">
-                            <span className="font-medium">{totalPosts }</span>
+                            <span className="font-medium">{totalPosts}</span>
                             <span className="ml-1">Posts</span>
                         </a>
+                        <div className="flex items-center cursor-pointer hover:text-purple-500" onClick={handleShareProfile}>
+                            {/* <span className="font-medium">{totalPosts }</span> */}
+                            <span className="ml-1"><AiOutlineShareAlt className='text-lg' /></span>
+                        </div>
 
-                        {user !== userInfo?._id &&
+                        {/* {user !== userInfo?._id &&
                             <Link to={`/messages/${userInfo?._id}`} className="flex items-center cursor-pointer hover:text-purple-500">
                                 <span className="ml-1">Message</span>
                             </Link>
-                        }
+                        } */}
 
                     </div>
                 </div>

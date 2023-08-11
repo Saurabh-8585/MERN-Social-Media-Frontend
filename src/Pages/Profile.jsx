@@ -40,11 +40,11 @@ const Profile = () => {
               <PostNotFound
                 message='User not Found'
                 icon={<VscAccount className="text-white font-extrabold text-2xl cursor-pointer" />}
-                
-                 />
+
+              />
               :
               <>
-                <ProfileCard userInfo={userInfo} totalPosts={userPosts?.post?.length} />
+                <ProfileCard userInfo={userInfo} totalPosts={userPosts?.post?.length} userId={userId} />
 
 
                 {((user === id) || (!id && user)) ?

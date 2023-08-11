@@ -86,8 +86,8 @@ const CreateNewPost = () => {
                                     />
                                 </div>
 
-                                {postLocation && <span className="px-4 py-2 w-fit flex items-center ml-5 text-base rounded-full text-white bg-purple-500">
-                                    <RiMapPin2Line size={20} className="mr-2" />
+                                {postLocation && <span className="md:px-4 px-2 py-2 w-fit flex items-center ml-5 text-xs rounded-full text-white bg-purple-500">
+                                    <RiMapPin2Line size={20} className="mr-2 text-sm" />
                                     {postLocation}
                                     <button className="bg-transparent hover" onClick={() => setPostLocation('')}>
                                         <RiCloseLine className="ml-4 text-lg" />
