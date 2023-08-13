@@ -36,7 +36,6 @@ const SinglePost = () => {
             setSortedComments(newData.post.comments);
             handleSortComments({ target: { value: 'recent' } });
         }
-        console.log(12);
     }, [newData.post?.comments]);
     useEffect(() => {
         window.scroll(0, 0)

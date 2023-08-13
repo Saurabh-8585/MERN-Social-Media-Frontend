@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import {  useState } from 'react'
 import { RiMapPin2Line, RiCloseLine } from 'react-icons/ri';
 import toast from 'react-hot-toast';
 

@@ -91,11 +91,3 @@ const Profile = () => {
 export default Profile
 
 
-
-// < div className = 'flex justify-center items-center px-5' >
-//   <div className="flex items-center max-w-xl w-full">
-//     <hr className="flex-grow border border-gray-300" />
-//     <span className="mx-4 text-gray-500 font-medium">Posts</span>
-//     <hr className="flex-grow border border-gray-300" />
-//   </div>
-//         </ >
