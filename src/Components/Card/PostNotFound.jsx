@@ -1,4 +1,4 @@
-import PostImage from '../../assets/PostNotFound.png'
+import PostImage from '../../assets/PostSVG.svg'
 const PostNotFound = ({ message, icon, handleClick }) => {
 
     return (
@@ -6,7 +6,7 @@ const PostNotFound = ({ message, icon, handleClick }) => {
             <div className="text-lg  rounded-xl  w-full max-w-xl ">
                 <img
                     src={PostImage}
-                    alt="No bookmarks"
+                    alt="Not Found"
                     className="w-full h-auto mx-auto "
                     style={{ maxWidth: '100%' }}
                 />

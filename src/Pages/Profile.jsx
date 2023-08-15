@@ -10,7 +10,8 @@ import getCurrentUser from '../utils/CurrentUser';
 import CreateNewPost from '../Components/Card/CreateNewPost'
 import { useEffect } from 'react';
 import { VscAccount } from 'react-icons/vsc';
-import PostLikeTab from '../Components/Tabs/post&like/PostLikeTab';
+import PostLikeTab from '../Components/Tabs/PostLikeComment/PostLikeTab';
+
 const Profile = () => {
 
   const user = getCurrentUser(sessionStorage.getItem('user'))
@@ -18,7 +19,7 @@ const Profile = () => {
   const userId = id ? id : user
 
   const { data, isLoading: profileLoading } = useGetProfileQuery(userId)
-  const { data: allPostsData, isLoading: allPostLoading } = useGetAllPostsQuery();
+  const { data: allPostsData} = useGetAllPostsQuery();
   const { data: userPosts, isLoading: postLoading } = useGetSingleUserPostsQuery(userId)
 
   const userInfo = data?.userInfo;
@@ -32,7 +33,7 @@ const Profile = () => {
   }, [])
 
   const filteredLikedPost = allPostsData?.filter((posts) => posts?.likes?.find(likedUser => likedUser?._id === userId))
-
+  const filteredCommentedPost = allPostsData?.filter(post => post?.comments?.find(comment => comment?.user._id === userId));
   return (
 
     <div className="flex justify-center items-center flex-col ">
@@ -52,9 +53,9 @@ const Profile = () => {
                   <CreateNewPost />
                 }
                 <div id='post' className='flex justify-center items-center flex-col w-full'>
-                  <PostLikeTab userPosts={userPosts} filteredLikedPost={filteredLikedPost} allPostLoading={allPostLoading} />
+                  <PostLikeTab userPosts={userPosts} filteredLikedPost={filteredLikedPost} filteredCommentedPost={filteredCommentedPost} />
                 </div>
-                <Slider navigateToProfile={navigateToProfile}/>
+                <Slider navigateToProfile={navigateToProfile} />
               </>
       }
     </div>

@@ -108,7 +108,7 @@ export const PostApi = createApi({
                     Authorization: `Bearer ${sessionStorage.getItem('user')}`,
                 }
             }),
-            invalidatesTags: ['SinglePost']
+            invalidatesTags: ['SinglePost','Posts']
         }),
 
         deleteComment: builder.mutation({
@@ -119,7 +119,7 @@ export const PostApi = createApi({
                     Authorization: `Bearer ${sessionStorage.getItem('user')}`,
                 }
             }),
-            invalidatesTags: ['SinglePost']
+            invalidatesTags: ['SinglePost','Posts']
         }),
 
         editComment: builder.mutation({
@@ -131,11 +131,8 @@ export const PostApi = createApi({
                     Authorization: `Bearer ${sessionStorage.getItem('user')}`,
                 }
             }),
-            invalidatesTags: ['SinglePost']
+            invalidatesTags: ['SinglePost','Posts']
         }),
-
-       
-
     }),
 
 });

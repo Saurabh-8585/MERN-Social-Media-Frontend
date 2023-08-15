@@ -107,7 +107,7 @@ const UpdateInfo = () => {
 
     return (
         <>
-            <form className='flex flex-col justify-center ' onSubmit={onSubmit}>
+            <form className='flex flex-col justify-center px-5' onSubmit={onSubmit}>
 
                 <div className=" my-5 flex items-center justify-around flex-wrap gap-4 ">
                     {image ?

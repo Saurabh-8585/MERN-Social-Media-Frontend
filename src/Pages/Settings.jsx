@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import UserProfileTabs from '../Components/Tabs/profile/UserProfileTabs'
+import UserProfileTabs from '../Components/Tabs/ProfileSecurity/UserProfileTabs'
 
 const Settings = () => {
     useEffect(() => {

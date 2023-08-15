@@ -23,9 +23,9 @@ const ResetPassword = () => {
     }
     return (
         <>
-            <h1 className="text-4xl font-bold text-center mb-8 text-purple-500">Reset Password</h1>
+            <h1 className="text-4xl font-bold text-center mb-8 text-purple-500 ">Reset Password</h1>
 
-            <form className='flex flex-col justify-center' onSubmit={handleSubmit(onSubmit)}>
+            <form className='flex flex-col justify-center px-5  ' onSubmit={handleSubmit(onSubmit)}>
                 <div className="relative z-0 w-full mb-6 group">
                     <input
                         name="floating_password"

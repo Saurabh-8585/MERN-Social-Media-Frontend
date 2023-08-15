@@ -103,12 +103,18 @@ const SingleChat = () => {
         }
         setIsTyping(false);
     };
-    const scrollToBottom = () => {
-        if (scrollRef.current) {
-            const inputBoxHeight = 15 + 3 * 2;
-            const scrollPosition = scrollRef.current.offsetTop - inputBoxHeight;
+    // const scrollToBottom = () => {
+    //     if (scrollRef.current) {
+    //         const inputBoxHeight = 15 + 3 * 2;
+    //         const scrollPosition = scrollRef.current.offsetTop - inputBoxHeight;
 
-            window.scrollTo({ top: scrollPosition, behavior: 'smooth' });
+    //         window.scrollTo({ top: scrollPosition, behavior: 'smooth' });
+    //     }
+    // };
+      const scrollToBottom = () => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            
         }
     };
 
