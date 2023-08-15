@@ -7,17 +7,16 @@ import Avatar from '../../assets/Avatar.png'
 import { HiOutlineUserCircle } from 'react-icons/hi'
 import { useGetAllUsersQuery } from '../../features/user/UserServices';
 import LoadingSpinner from '../Loader/LoadingSpinner'
-import { Link, } from 'react-router-dom';
 import getCurrentUser from '../../utils/CurrentUser';
 
 
 
-
-const Slider = () => {
+const Slider = ({navigateToProfile}) => {
     const { data, isLoading } = useGetAllUsersQuery()
     const userID = getCurrentUser(sessionStorage.getItem('user'))
     const filterUser = data?.filter((user) => user._id !== userID).sort(() => Math.random() - 0.5)
 
+    
     return (
         isLoading ? <LoadingSpinner /> :
             <>
@@ -37,7 +36,7 @@ const Slider = () => {
                         {
                             filterUser?.map(userData => (
                                 <SwiperSlide key={userData._id}>
-                                    <Link to={`/profile/${userData._id}`} onClick={() => window.scroll(0, 0)} className="flex flex-col items-center rounded-2xl p-5 bg-white border shadow-md dark:bg-gray-800 dark:text-white dark:shadow-none w-fit h-fit">
+                                    <div onClick={() => navigateToProfile(userData._id)} className="flex flex-col items-center rounded-2xl p-5 bg-white border shadow-md dark:bg-gray-800 dark:text-white dark:shadow-none w-fit h-fit">
                                         <img className="h-32 w-32 rounded-full" src={userData?.userImage ? userData.userImage.url : Avatar} alt="user" />
                                         <div className="mt-10 flex flex-col items-center">
                                             <h4 className="text-xl font-bold text-navy-700 dark:text-white">
@@ -66,7 +65,7 @@ const Slider = () => {
                                                 <HiOutlineUserCircle className='text-xl font-bold' />
                                             </button>
                                         </div>
-                                    </Link>
+                                    </div>
                                 </SwiperSlide>
                             ))
                         }
@@ -86,7 +85,7 @@ const Slider = () => {
                         {
                             filterUser?.map(userData => (
                                 <SwiperSlide key={userData._id}>
-                                    <Link to={`/profile/${userData._id}`} onClick={() => window.scroll(0, 0)} className="flex flex-col items-center rounded-[18px] h-full p-5 
+                                    <div onClick={() => navigateToProfile(userData._id)} className="flex flex-col items-center rounded-[18px] h-full p-5 
                                       shadow-md dark:bg-navy-800 bg-white border dark:bg-gray-800 dark:text-white w-full">
                                         <img className="h-32 w-32 rounded-full" src={userData?.userImage ? userData.userImage.url : Avatar} alt="user" />
                                         <div className="mt-10 flex flex-col items-center">
@@ -116,7 +115,7 @@ const Slider = () => {
                                                 <HiOutlineUserCircle className='text-xl font-bold' />
                                             </button>
                                         </div>
-                                    </Link>
+                                    </div>
                                 </SwiperSlide>
                             ))
                         }

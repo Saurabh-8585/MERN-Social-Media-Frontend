@@ -136,7 +136,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                     </div>
                     {isEditing ? (
                         <textarea
-                            className="bg-transparent text-gray-800  text-lg w-full outline-none mt-2"
+                            className="bg-transparent text-gray-800  text-lg w-full outline-none mt-2 dark:text-gray-50"
                             rows={2}
                             cols={50}
                             value={editedContent}
@@ -163,7 +163,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                     </p>
 
                     <div className="border-gray-200 dark:border-gray-600 border border-b-0 my-1" />
-                    <div className="text-gray-500 dark:text-gray-400 flex mt-3 justify-center items-center">
+                    <div className="text-gray-500 dark:text-gray-400 flex mt-3 justify-center items-center gap-3 md:gap-5">
                         {
                             (removeFromBookMark && bookmarkID) &&
                             <div className="flex items-center mr-6 justify-center">
@@ -182,7 +182,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                         {(!removeFromBookMark && !bookmarkID) &&
                             !isEditing &&
                             <>
-                                <div className="flex items-center mr-4 cursor-pointer">
+                                <div className="flex items-center cursor-pointer">
                                     {isLikedPost ?
                                         <AiFillHeart className=' text-red-600 hover:text-red-500 text-xl'
                                             onClick={() => handleRemoveLike(postId)}
@@ -195,14 +195,14 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
 
                                     <span className="ml-2 font-medium" onClick={() => setShowModal(true)}>{likes.length} </span>
                                 </div>
-                                <div className="flex items-center mr-4 cursor-pointer">
+                                <div className="flex items-center cursor-pointer">
                                     {<FaRegCommentAlt className='text-purple-400 hover:text-purple-300 text-xl ' onClick={() => navigate(`/post/${postId}`)} />}
                                     <span className="ml-2 font-medium">{comments.length} </span>
                                 </div>
-                                <div className="flex items-center mr-4 justify-center">
+                                <div className="flex items-center justify-center">
                                     {<MdOutlineBookmarkAdd className='text-purple-400 hover:text-purple-300 text-2xl cursor-pointer' onClick={() => handleAddBookMark(postId)} />}
                                 </div>
-                                <div className="flex items-center mr-6 justify-center">
+                                <div className="flex items-center justify-center">
                                     {<AiOutlineShareAlt className='text-purple-400 hover:text-purple-300 text-xl cursor-pointer' onClick={() => handleSharePost(postId)} />}
                                 </div>
 
@@ -211,14 +211,14 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                             <>
                                 {isEditing ? (
                                     <>
-                                        <div className="flex items-center mr-6 justify-center">
+                                        <div className="flex items-center justify-center">
                                             <MdOutlineSaveAs
                                                 className="text-purple-400 hover:text-purple-300 font-bold text-2xl cursor-pointer"
                                                 onClick={() => setShowEditPopUp(true)}
                                             />
 
                                         </div>
-                                        <div className="flex items-center mr-6 justify-center">
+                                        <div className="flex items-center justify-center">
                                             <MdOutlineCancel
                                                 className="text-red-500 hover:text-red-300 text-xl cursor-pointer"
                                                 onClick={handleCancelEdit}
@@ -228,13 +228,13 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                                     </>
                                 ) : (
                                     <>
-                                        <div className="flex items-center mr-6 justify-center">
+                                        <div className="flex items-center justify-center">
                                             <AiOutlineEdit
                                                 className="text-purple-400 hover:text-purple-300 text-xl cursor-pointer"
                                                 onClick={handleEdit}
                                             />
                                         </div>
-                                        <div className="flex items-center mr-6 justify-center">
+                                        <div className="flex items-center justify-center">
                                             <AiOutlineDelete
                                                 className="text-purple-400 hover:text-red-500 text-xl cursor-pointer hover:"
                                                 onClick={() => setShowDeletePopUp(true)}

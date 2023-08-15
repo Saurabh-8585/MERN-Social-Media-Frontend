@@ -61,14 +61,14 @@ const Comments = ({ comment, postId, postAuthor }) => {
                     className="w-12 h-12 rounded-full mr-4"
                 />
                 <div>
-                    <div className="text-lg font-medium text-gray-800">{comment.user.username}</div>
-                    <div className="text-gray-500">Commented {getTimeAgo(comment.createdAt)}</div>
-                    {comment.createdAt !== comment.updatedAt && <span className="text-gray-500">(edited)</span>}
+                    <div className="text-lg font-medium text-gray-800 dark:text-gray-50">{comment.user.username}</div>
+                    <div className="text-gray-500 dark:text-gray-200">Commented {getTimeAgo(comment.createdAt)}</div>
+                    {comment.createdAt !== comment.updatedAt && <span className="text-gray-500 dark:text-gray-50">(edited)</span>}
                 </div>
             </Link>
             {isEditing ? (
                 <textarea
-                    className="bg-transparent text-gray-800  text-lg w-full outline-none mt-2"
+                    className="bg-transparent text-gray-800 dark:text-gray-50 text-lg w-full outline-none mt-2"
                     rows={2}
                     cols={50}
                     value={editedContent}
@@ -78,7 +78,7 @@ const Comments = ({ comment, postId, postAuthor }) => {
 
 
             ) : (
-                <p className="text-lg leading-relaxed mb-2 break-words">
+                    <p className="text-lg leading-relaxed mb-2 break-words dark:text-gray-50">
                     {comment.text}
                 </p>
             )}

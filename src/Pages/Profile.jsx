@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useGetProfileQuery } from '../features/user/UserServices';
 import PostLoader from '../Components/Loader/PostLoader';
 import ProfileLoader from '../Components/Loader/ProfileLoader'
@@ -22,6 +22,11 @@ const Profile = () => {
   const { data: userPosts, isLoading: postLoading } = useGetSingleUserPostsQuery(userId)
 
   const userInfo = data?.userInfo;
+  const navigate = useNavigate()
+  const navigateToProfile = (id) => {
+    navigate(`/profile/${id}`)
+    window.scroll(0, 0)
+  }
   useEffect(() => {
     window.scroll(0, 0)
   }, [])
@@ -49,7 +54,7 @@ const Profile = () => {
                 <div id='post' className='flex justify-center items-center flex-col w-full'>
                   <PostLikeTab userPosts={userPosts} filteredLikedPost={filteredLikedPost} allPostLoading={allPostLoading} />
                 </div>
-                <Slider />
+                <Slider navigateToProfile={navigateToProfile}/>
               </>
       }
     </div>

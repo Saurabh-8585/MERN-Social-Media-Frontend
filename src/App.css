@@ -71,6 +71,9 @@
         /* Only the color is applied for small screens */
         color: #a855f7;
     }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
     .mobile-active-icon.active {
         color: #a855f7;
         /* Purple color for active icon */

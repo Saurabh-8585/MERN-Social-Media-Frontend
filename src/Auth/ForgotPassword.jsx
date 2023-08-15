@@ -38,11 +38,11 @@ const ForgotPassword = () => {
                 </div>
                 :
 
-                <div className="h-[90%] w-full md:w-3/4 m-4 dark:bg-gray-800 dark:text-white ">
+                <div className="h-[90%] w-full md:w-3/4 m-4  dark:text-white ">
                     <div className="text-xl cursor-pointer flex flex-col justify-center items-center my-3 md:mt-0">
                         <h1 className="font-bold text-3xl text-purple-500 dark:text-purple-400 ">Forgot Password</h1>
                     </div>
-                    <h6 className="text-sm font-medium text-gray-600 dark:text-gray-400  m-1 text-center">
+                    <h6 className="text-sm font-medium text-gray-600 dark:text-gray-300  m-1 text-center">
                         Trouble Logging In?
                         <br />
                         <span>No problem, simply enter your email address</span>
@@ -66,7 +66,7 @@ const ForgotPassword = () => {
                                         },
                                     })}
                                     autoComplete="email"
-                                    className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-purple-500 focus:placeholder:text-purple-600 text-black dark:text-white dark:first-letter:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.email ? 'border-red-500 animate-shake' : ''}`}
+                                    className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2 focus:border focus:placeholder:text-purple-600 focus:outline-purple-500 text-black dark:text-white dark:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.email ? 'border-red-500 animate-shake' : ''}`}
                                 />
                                 <span className="text-red-500 ml-2 mt-1 text-xs">{errors.email && errors.email.message}</span>
                             </div>

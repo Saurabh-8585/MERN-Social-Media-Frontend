@@ -75,7 +75,7 @@ const SinglePost = () => {
                                 {sortedComments && sortedComments.length !== 0 ?
                                     <>
                                         <div className="flex items-center justify-around  w-full max-w-xl  ">
-                                            <label htmlFor="sort-comment" className="mr-2 text-gray-700 font-medium">
+                                            <label htmlFor="sort-comment" className="mr-2 text-gray-700 font-medium dark:text-gray-50">
                                                 Filter
                                             </label>
                                             <select

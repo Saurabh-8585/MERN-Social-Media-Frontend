@@ -1,4 +1,4 @@
-import PostImage from '../../assets/Posts.jpg'
+import PostImage from '../../assets/PostNotFound.png'
 const PostNotFound = ({ message, icon,handleClick }) => {
     
     return (
