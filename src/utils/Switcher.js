@@ -20,6 +20,9 @@ export default function Switcher() {
                 checked={darkSide}
                 onChange={toggleDarkMode}
                 className="ml-2"
+                moonColor="#a855f7"
+                sunColor="#a855f7"
+                
                 size={40}
             />
         </>

@@ -1,9 +1,9 @@
 import PostImage from '../../assets/PostNotFound.png'
-const PostNotFound = ({ message, icon,handleClick }) => {
-    
+const PostNotFound = ({ message, icon, handleClick }) => {
+
     return (
-        <div className="flex items-center justify-center w-full mb-16">
-            <div className="  text-lg  rounded-xl  w-full max-w-xl ">
+        <div className="flex items-center justify-center w-full mb-5">
+            <div className="text-lg  rounded-xl  w-full max-w-xl ">
                 <img
                     src={PostImage}
                     alt="No bookmarks"

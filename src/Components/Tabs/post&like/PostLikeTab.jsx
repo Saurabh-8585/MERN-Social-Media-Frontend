@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { RiStickyNoteFill } from 'react-icons/ri'
-import { AiOutlineForm, AiFillLike } from 'react-icons/ai';
+import { AiFillLike } from 'react-icons/ai';
 import PostCard from "../../Card/PostCard";
 import PostNotFound from "../../Card/PostNotFound";
 import { MdOutlinePostAdd } from "react-icons/md";
 
-export default function PostLikeTab({ userPosts, filteredLikedPost, allPostLoading }) {
+export default function PostLikeTab({ userPosts, filteredLikedPost }) {
     const [openTab, setOpenTab] = useState(1);
-    console.log( filteredLikedPost );
     return (
         <>
             <div className="flex flex-wrap w-full max-w-xl mb-10 p-4 md:p-0">
@@ -29,7 +28,7 @@ export default function PostLikeTab({ userPosts, filteredLikedPost, allPostLoadi
 
                                 role="tablist"
                             >
-                                <span className="hidden md:inline-block align-middle mr-5">Posts</span>
+                                <span className="inline-block align-middle mr-5">Posts</span>
                                 <RiStickyNoteFill className=" text-xl inline-block align-middle mr-1" />
                             </div>
                         </li>
@@ -49,7 +48,7 @@ export default function PostLikeTab({ userPosts, filteredLikedPost, allPostLoadi
                                 href="#link2"
                                 role="tablist"
                             >
-                                <span className="hidden md:inline-block align-middle mr-5">Likes</span>
+                                <span className=" inline-block align-middle mr-5">Likes</span>
                                 <AiFillLike className=" text-xl inline-block align-middle mr-1" />
                             </div>
                         </li>
@@ -90,6 +89,7 @@ export default function PostLikeTab({ userPosts, filteredLikedPost, allPostLoadi
                                             <PostNotFound
                                                 message='No Liked Posts Yet'
                                                 icon={<MdOutlinePostAdd className="text-white font-extrabold text-2xl cursor-pointer" />
+
                                                 }
                                             />
                                             : filteredLikedPost?.map(postData =>
