@@ -57,7 +57,7 @@ const Message = () => {
 
 
   return (
-    <div className="flex justify-center items-center flex-col mt-1  w-full max-w-3xl m-auto ">
+    <div className="flex justify-center items-center flex-col mt-1  w-full max-w-3xl m-auto  ">
       <div className="flex justify-between items-center gap-5 p-5 w-full">
         <div className="relative flex items-center  w-full">
           <input
@@ -71,10 +71,10 @@ const Message = () => {
             <FaSearch className="text-gray-500" />
           </div>
           {searchTerm && (
-            <ul className="absolute top-12 w-full bg-white border border-gray-300 rounded-md shadow-md">
+            <ul className="absolute top-12 w-full bg-white dark:bg-gray-800 border border-gray-300 rounded-md shadow-md">
               {filteredData.map((friend) => (
                 <Link to={`/messages/${friend._id}`} key={friend._id} onClick={() => setSearchTerm('')}>
-                  <li className="md:px-10 px-2 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between" >
+                  <li className="md:px-10 px-2 py-2 hover:bg-gray-100 hover:dark:bg-gray-500 cursor-pointer flex items-center justify-between" >
                     <img
                       className="h-10 w-10 rounded-full border"
                       src={friend?.userImage?.url ? friend?.userImage?.url : Avatar}
@@ -105,7 +105,7 @@ const Message = () => {
         <Link
           to={`/profile`}>
           <img
-            className="w-12 h-12 rounded-full mr-4"
+            className="w-12 h-12 rounded-full mr-4 border"
             src={userData?.userImage?.url ? userData.userImage.url : Avatar}
             alt='Post_Photo'
           />
@@ -117,11 +117,11 @@ const Message = () => {
           !isLoading && uniqueUsersArray.length > 0 ? uniqueUsersArray.map(userList => (
             <Link
               to={`/messages/${userList._id}`} key={userList._id}
-              className="flex items-center w-full py-2 text-sm transition duration-150 ease-in-out shadow-md mt-5 rounded-lg border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none justify-between px-5 md:px-10 bg-gray-50">
+              className="flex items-center w-full py-2 text-sm transition duration-150 ease-in-out shadow-md mt-5 rounded-lg border-gray-300 cursor-pointer dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900  focus:outline-none justify-between px-5 md:px-10 bg-gray-50">
               <img className="object-fill w-12 h-12 rounded-full"
                 src={userList?.userImage?.url ? userList?.userImage?.url : Avatar} alt="username" />
 
-              <span className="block ml-2 font-semibold text-gray-600">{userList.username}</span>
+              <span className="block ml-2 font-semibold text-gray-600 dark:text-gray-50">{userList.username}</span>
 
 
 

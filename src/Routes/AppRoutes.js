@@ -23,7 +23,7 @@ const Settings = lazy(() => import('../Pages/Settings'))
 const AppRoutes = () => {
 
     return (
-        <>
+        < >
             <Toaster position="top-center" reverseOrder={false} />
             <Router>
                 <div className="flex">

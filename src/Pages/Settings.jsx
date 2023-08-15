@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import TabsRender from '../Components/Tabs/UserTab'
+import UserProfileTabs from '../Components/Tabs/profile/UserProfileTabs'
 
 const Settings = () => {
     useEffect(() => {
@@ -7,7 +7,7 @@ const Settings = () => {
     }, [])
     return (
         <div className="flex justify-center items-center flex-col">
-            <TabsRender />
+            <UserProfileTabs />
         </div>
     )
 }

@@ -7,6 +7,7 @@ import { useGetAllUsersQuery } from '../features/user/UserServices'
 import Avatar from '../assets/Avatar.png';
 import getCurrentUser from '../utils/CurrentUser';
 import PopUp from '../Components/Modal/PopUp';
+import Switcher from '../utils/Switcher';
 const Navbar = ({ handleSignOut }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredData, setFilteredData] = useState([])
@@ -26,7 +27,7 @@ const Navbar = ({ handleSignOut }) => {
 
     return (
         <>
-            <nav className="fixed bg-white dark:bg-gray-800 border-gray-300 dark:border-white top-0 left-0 right-0  shadow-md  border-b  lg:shadow-none px-4 py-4 flex items-center justify-between z-50">
+            <nav className="fixed bg-white dark:bg-gray-800 border-gray-300 dark:border-white top-0 left-0 right-0  shadow-md  border-b  lg:shadow-none px-2 py-4 flex items-center justify-around z-50">
                 <div className="flex items-center">
                     <div className="justify-start mr-6 lg:ml-32">
                         <Link
@@ -46,14 +47,16 @@ const Navbar = ({ handleSignOut }) => {
                         value={searchTerm}
                         onChange={handleSearch}
                     />
+                
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <FaSearch className="text-gray-500" />
                     </div>
+                          
                     {searchTerm && (
-                        <ul className="absolute top-12 w-full bg-white border border-gray-300 rounded-md shadow-md">
+                        <ul className="absolute top-12 w-full bg-white border border-gray-300 dark:bg-gray-800 rounded-md shadow-md">
                             {filteredData.map((user) => (
                                 <Link to={`/profile/${user._id}`} key={user._id} onClick={() => setSearchTerm('')}>
-                                    <li className="md:px-10 px-2 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between" >
+                                    <li className="md:px-10 px-2 py-2 hover:bg-gray-100 hover:dark:bg-gray-500 cursor-pointer flex items-center justify-between" >
                                         <img
                                             className="h-10 w-10 rounded-full border"
                                             src={user?.userImage?.url ? user?.userImage?.url : Avatar}
@@ -79,12 +82,12 @@ const Navbar = ({ handleSignOut }) => {
                             }
                         </ul>
                     )}
-
                 </div>
 
+                <Switcher />
                 {isUser ? (
                     <button
-                        className="md:flex items-center justify-center px-4 py-2  font-medium rounded-md bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500  ease-linear transition-all duration-150 focus:outline-none hidden mr-10"
+                        className="md:flex items-center justify-center px-4 py-2  font-medium rounded-md bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500  ease-linear transition-all duration-150 focus:outline-none hidden"
                         onClick={() => setShowModal(true)}
                     >
                         <FiLogOut className="mr-2 font-bold " />
@@ -92,7 +95,7 @@ const Navbar = ({ handleSignOut }) => {
                     </button>
                 ) : (
                     <Link to="/signin">
-                            <button className="md:flex items-center justify-center px-4 py-2  font-medium rounded-md bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500  ease-linear transition-all duration-150 focus:outline-none hidden mr-10 ">
+                            <button className="md:flex items-center justify-center px-4 py-2  font-medium rounded-md bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500  ease-linear transition-all duration-150 focus:outline-none hidden  ">
                             <AiOutlineLogin className="mr-2 font-bold" />
                             Sign In
                         </button>

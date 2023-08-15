@@ -2,10 +2,12 @@ import {  useState } from 'react'
 import { RiMapPin2Line, RiCloseLine } from 'react-icons/ri';
 import toast from 'react-hot-toast';
 
-const Location = ({ onClose, postLocation, setPostLocation }) => {
+const Location = ({ onClose, setPostLocation }) => {
     const [isOpen, setIsOpen] = useState(true);
+    const [text,setText]=useState('')
     const closeModal = () => {
         setIsOpen(false);
+       
         onClose();
     };
 
@@ -22,7 +24,7 @@ const Location = ({ onClose, postLocation, setPostLocation }) => {
                     }
                     const data = await response.json();
                     const location = `${data?.address?.['ISO3166-2-lvl4'].toUpperCase()} ,${data?.address?.state_district}`;
-                    setPostLocation(location)
+                    setText(location)
                     toast.success(`Location fetched successfully! `, { id: loadingToastId });
                 } catch (error) {
                     toast.error('Error while fetching location', { id: loadingToastId });
@@ -43,14 +45,14 @@ const Location = ({ onClose, postLocation, setPostLocation }) => {
                         ? 'fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center  bg-black bg-opacity-50 z-20'
                         : 'hidden'
                 }>
-                <div className="relative w-[17rem] md:w-[25rem] p-6 bg-white shadow-lg rounded-xl mb-20">
+                <div className="relative w-[17rem] md:w-[25rem] p-6 bg-white shadow-lg rounded-xl mb-20 dark:bg-gray-800">
                     <div
                         onClick={closeModal}
-                        className="absolute -top-1 -right-1 hover:top-0 hover:right-0 p-1.5 rounded-lg bg-white shadow-lg cursor-pointer duration-200">
+                        className="absolute -top-1 -right-1 hover:top-0 hover:right-0 p-1.5 rounded-lg bg-white shadow-lg dark:bg-gray-400 cursor-pointer duration-200">
                         <RiCloseLine className="text-primary]" />
                     </div>
                     <div className="space-y-2 md:space-y-4">
-                        <h3 className="text-sm md:text-base font-semibold text-center">
+                        <h3 className="text-sm md:text-base font-semibold text-center dark:text-gray-50">
                             Add location
                         </h3>
                         <div className="relative flex items-center rounded-xl bg-gray-200 group">
@@ -58,9 +60,10 @@ const Location = ({ onClose, postLocation, setPostLocation }) => {
                                 id="location"
                                 className="outline-none flex flex-grow p-3 bg-transparent rounded-l-xl px-4 text-xs duration-300"
                                 type="text"
+
                                 placeholder="location"
-                                value={postLocation}
-                                onChange={(e) => setPostLocation(e.target.value)}
+                                value={text}
+                                onChange={(e)=>setText(e.target.value)}
                             />
                             <div className="absolute top-0 right-0 duration-300 rounded-xl bg-transparent p-2 group-focus-within:-top-2 group-focus-within:-right-2 group-focus-within:bg-purple-500">
                                 <RiMapPin2Line className="text-primary group-focus-within:text-white text-purple-500 text-lg" />
@@ -69,7 +72,7 @@ const Location = ({ onClose, postLocation, setPostLocation }) => {
 
 
                         <div className="flex justify-around items-center gap-2">
-                            {!postLocation && <button
+                            {!text && <button
                                 className='w-full bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500 mt-5 font-bold py-2 px-5  rounded-full   shadow-md  ease-linear transition-all duration-150 flex items-center justify-center gap-2'
                                 onClick={getLocation}
                             >
@@ -78,9 +81,12 @@ const Location = ({ onClose, postLocation, setPostLocation }) => {
                             </button>}
                             <button
                                 className='w-full bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500 mt-5 font-bold py-2 px-5  rounded-full  shadow-md  ease-linear transition-all duration-150'
-                                onClick={closeModal}
+                                onClick={()=>{
+                                    setPostLocation(text)
+                                    closeModal()
+                                }}
                             >
-                                {postLocation ? 'Add' : 'Close'}
+                                {text ? 'Add' : 'Close'}
                             </button>
                         </div>
 

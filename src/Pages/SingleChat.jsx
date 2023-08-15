@@ -147,12 +147,12 @@ const SingleChat = () => {
 
     return (
         <div className="flex justify-center items-center flex-col md:max-w-3xl border h-auto min-h-[80vh] max-h-full w-full m-auto relative">
-            <div className="flex justify-between items-center gap-5 px-5 py-2 fixed top-[75px] border z-10 bg-gray-50  md:max-w-3xl w-full">
+            <div className="flex justify-between items-center gap-5 px-5 py-2 fixed top-[75px] border z-10 bg-gray-50 dark:bg-gray-700  md:max-w-3xl w-full">
                 <Link to="/messages">
                     <FaArrowLeft className="text-xl text-purple-600" />
                 </Link>
                 <Link to={`/profile/${id}`} className='flex flex-col'>
-                    <span className="font-semibold text-gray-600 font-mono">{userProfile?.userInfo?.username} </span>
+                    <span className="font-semibold text-gray-600 font-mono dark:text-gray-50">{userProfile?.userInfo?.username} </span>
                     {isSenderTyping && <span className='text-purple-400 text-center font-semibold'>Typing...</span>}
 
 
@@ -180,14 +180,14 @@ const SingleChat = () => {
                             <span
                                 ref={scrollRef}
                                 className={` ${messageItem.sender === currentUser ? 'self-end' : 'self-start'
-                                    }  text-gray-800 mb-5`}
+                                    }  text-gray-800 mb-5 dark:text-gray-50`}
                             >
                                 {getTimeAgo(messageItem.createdAt)}
                             </span>
                         </React.Fragment>
                     ))}
             </div>
-            <div id='message' className="flex gap-3 py-5 w-full max-w-3xl border px-2 items-center bg-gray-50 fixed bottom-0  z-20" >
+            <div id='message' className="flex gap-3 py-5 w-full max-w-3xl border px-2 items-center bg-gray-50 dark:bg-gray-700 fixed bottom-0  z-20" >
                 <div className=" flex-grow " onClick={() => pickerVisible && setPickerVisible(false)}>
                     <input
                         type="text"

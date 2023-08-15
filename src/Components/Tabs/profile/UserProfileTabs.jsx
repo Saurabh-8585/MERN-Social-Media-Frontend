@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { BsShieldLockFill } from 'react-icons/bs'
 import { AiOutlineForm, AiOutlineUserDelete } from 'react-icons/ai';
-import UpdateInfo from "./Forms/UpdateInfo";
-import ResetPassword from "./Forms/ResetPassword";
-import DeleteAccount from "./Forms/DeleteAccount";
-export default function TabsRender() {
+import UpdateInfo from "../Forms/UpdateInfo";
+import ResetPassword from "../Forms/ResetPassword";
+import DeleteAccount from "../Forms/DeleteAccount";
+export default function UserProfileTabs() {
     const [openTab, setOpenTab] = useState(1);
 
     return (
@@ -76,7 +76,7 @@ export default function TabsRender() {
                     <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-2xl dark:bg-gray-800 h-auto mt-5">
                         <div className="px-4 py-5 flex-auto border rounded-xl">
                             <div className="tab-content tab-space dark:bg-gray-800 ">
-                                <div className={openTab === 1 ? "block" : "hidden" }  id="link1">
+                                <div className={openTab === 1 ? "block" : "hidden"} id="link1">
                                     <UpdateInfo />
                                 </div>
                                 <div className={openTab === 2 ? "block" : "hidden"} id="link2">

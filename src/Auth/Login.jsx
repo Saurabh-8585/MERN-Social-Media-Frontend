@@ -50,8 +50,8 @@ const Login = () => {
 
 
     return (
-        <div className="flex justify-center mb-10">
-            <div className="h-[90%] w-full md:w-3/4 m-4  dark:text-white">
+        <div className="flex justify-center mb-10 ">
+            <div className="h-[90%] w-full md:w-3/4 m-4  dark:text-white ">
                 <div className="text-xl cursor-pointer flex flex-col justify-center items-center mt-2 md:mt-0">
                     <h1 className="font-bold text-3xl text-purple-500 dark:text-purple-400">Sign In</h1>
                 </div>

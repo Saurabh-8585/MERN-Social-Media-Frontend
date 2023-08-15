@@ -17,6 +17,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.2",
     "react-scripts": "5.0.1",
+    "react-toggle-dark-mode": "^1.1.1",
     "socket.io-client": "^4.7.1",
     "swiper": "^10.0.2",
     "web-vitals": "^2.1.4"

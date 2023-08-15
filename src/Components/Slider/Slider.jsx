@@ -22,7 +22,7 @@ const Slider = () => {
         isLoading ? <LoadingSpinner /> :
             <>
                 {/* for large screen */}
-                <span className='text-gray-600 text-md text-left font-semibold mt-2'>Suggested for you</span>
+                <span className='text-gray-600 dark:text-gray-50 text-md text-left font-semibold mt-2'>Suggested for you</span>
                 <div className="hidden lg:flex flex-col justify-center items-center my-10 ml-10 w-full max-w-4xl z-10 ">
                     <Swiper
                         effect="coverflow"
@@ -47,15 +47,15 @@ const Slider = () => {
                                         <div className="mt-6 mb-3 flex gap-10">
                                             <div className="flex flex-col items-center justify-center">
                                                 <p className="text-2xl font-bold text-navy-700 dark:text-white">{userData?.postCount}</p>
-                                                <p className="text-sm font-normal text-gray-600">Posts</p>
+                                                <p className="text-sm font-normal text-gray-600 dark:text-gray-50">Posts</p>
                                             </div>
                                             <div className="flex flex-col items-center justify-center" >
                                                 <p className="text-2xl font-bold text-navy-700 dark:text-white">{userData?.followers?.length}</p>
-                                                <p className="text-sm font-normal text-gray-600">Followers</p>
+                                                <p className="text-sm font-normal text-gray-600 dark:text-gray-50">Followers</p>
                                             </div>
                                             <div className="flex flex-col items-center justify-center" >
                                                 <p className="text-2xl font-bold text-navy-700 dark:text-white">{userData?.following?.length}</p>
-                                                <p className="text-sm font-normal text-gray-600">Following</p>
+                                                <p className="text-sm font-normal text-gray-600 dark:text-gray-50">Following</p>
                                             </div>
                                         </div>
                                         <div>
@@ -86,8 +86,8 @@ const Slider = () => {
                         {
                             filterUser?.map(userData => (
                                 <SwiperSlide key={userData._id}>
-                                    <Link to={`/profile/${userData._id}`} onClick={() => window.scroll(0, 0)} className="flex flex-col items-center rounded-[18px] h-full p-5 bg-white border-2
-                                      shadow-md dark:bg-navy-800 dark:text-white dark:shadow-none w-full">
+                                    <Link to={`/profile/${userData._id}`} onClick={() => window.scroll(0, 0)} className="flex flex-col items-center rounded-[18px] h-full p-5 
+                                      shadow-md dark:bg-navy-800 bg-white border dark:bg-gray-800 dark:text-white w-full">
                                         <img className="h-32 w-32 rounded-full" src={userData?.userImage ? userData.userImage.url : Avatar} alt="user" />
                                         <div className="mt-10 flex flex-col items-center">
                                             <h4 className="text-xl font-bold text-navy-700 dark:text-white">
@@ -97,15 +97,15 @@ const Slider = () => {
                                         <div className="mt-6 mb-3 flex gap-14">
                                             <div className="flex flex-col items-center justify-center">
                                                 <p className="text-2xl font-bold text-navy-700 dark:text-white">{userData?.postCount}</p>
-                                                <p className="text-sm font-normal text-gray-600">Posts</p>
+                                                <p className="text-sm font-normal text-gray-600 dark:text-gray-50">Posts</p>
                                             </div>
                                             <div className="flex flex-col items-center justify-center" >
                                                 <p className="text-2xl font-bold text-navy-700 dark:text-white">{userData?.followers?.length}</p>
-                                                <p className="text-sm font-normal text-gray-600">Followers</p>
+                                                <p className="text-sm font-normal text-gray-600 dark:text-gray-50">Followers</p>
                                             </div>
                                             <div className="flex flex-col items-center justify-center" >
                                                 <p className="text-2xl font-bold text-navy-700 dark:text-white">{userData?.following?.length}</p>
-                                                <p className="text-sm font-normal text-gray-600">Following</p>
+                                                <p className="text-sm font-normal text-gray-600 dark:text-gray-50">Following</p>
                                             </div>
                                         </div>
                                         <div>

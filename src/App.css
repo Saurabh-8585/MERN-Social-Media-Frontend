@@ -35,6 +35,12 @@
 
 
 
+
+.active {
+    color: #a855f7;
+}
+
+/* Large screens */
 @media (min-width: 992px) {
     .active {
         background-color: #a855f7;
@@ -46,42 +52,28 @@
     .active:hover {
         color: white;
     }
-
-
-
 }
 
-@media (prefers-color-scheme: dark) {
-  
-body{
-    background-color: #27374D;
-}
+/* Medium screens */
+@media (min-width: 768px) and (max-width: 991px) {
 
-    /* Small screens */
-    @media (max-width: 767px) {
-        .active {
-            color: #a855f7;
-        }
-    }
-
-    /* Large screens */
-    @media (min-width: 768px) {
-        .active {
-            color: #a855f7;
-        }
+    /* No additional styles for medium screens */
+    /* The color and padding are not applied */
+    /* Only the common color from .active class is used */
+    .active:hover {
+        color: #a855f7;
     }
 }
 
-.active {
-    color: #a855f7;
-}
-
-@media (min-width: 768px) {
+/* Small screens */
+@media (max-width: 767px) {
     .active {
-        background-color: #a855f7;
-        color: white;
-        padding: 15px 0;
-        border-radius: 100px;
+        /* Only the color is applied for small screens */
+        color: #a855f7;
+    }
+    .mobile-active-icon.active {
+        color: #a855f7;
+        /* Purple color for active icon */
     }
 }
 

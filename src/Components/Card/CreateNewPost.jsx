@@ -77,7 +77,7 @@ const CreateNewPost = () => {
                             <div className="flex items-start flex-col justify-start">
                                 <div className="flex-1 px-2 pt-2 my-4">
                                     <textarea
-                                        className="bg-transparent text-gray-600 font-medium text-lg w-full outline-none"
+                                        className="bg-transparent text-gray-600 font-medium text-lg w-full outline-none dark:text-gray-50"
                                         rows={3}
                                         cols={50}
                                         placeholder="What's happening?"
