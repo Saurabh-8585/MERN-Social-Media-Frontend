@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { BsShieldLockFill } from 'react-icons/bs'
 import { AiOutlineForm, AiOutlineUserDelete } from 'react-icons/ai';
-import UpdateInfo from "../Forms/UpdateInfo";
-import ResetPassword from "../Forms/ResetPassword";
-import DeleteAccount from "../Forms/DeleteAccount";
+import UpdateInfo from "./Forms/UpdateInfo";
+import DeleteAccount from "./Forms/DeleteAccount";
+import ResetPassword from "./Forms/ResetPassword";
+
+
 export default function UserProfileTabs() {
     const [openTab, setOpenTab] = useState(1);
 

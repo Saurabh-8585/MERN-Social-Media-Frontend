@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { RiLockPasswordLine } from 'react-icons/ri'
-import { useResetPasswordMutation } from '../../../features/auth/AuthServices'
+import { useResetPasswordMutation } from '../../../../features/auth/AuthServices'
 import { toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 const ResetPassword = () => {

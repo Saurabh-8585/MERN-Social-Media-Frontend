@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FaTrash } from 'react-icons/fa'
 import { toast } from 'react-hot-toast';
-import PopUp from  '../../Modal/PopUp';
-import { useDeleteUserMutation } from '../../../features/user/UserServices';
+import PopUp from  '../../../Modal/PopUp';
+import { useDeleteUserMutation } from '../../../../features/user/UserServices';
 
 const DeleteAccount = () => {
     const [deleteUser] = useDeleteUserMutation();
