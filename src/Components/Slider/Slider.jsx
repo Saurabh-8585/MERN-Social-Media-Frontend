@@ -8,15 +8,22 @@ import { HiOutlineUserCircle } from 'react-icons/hi'
 import { useGetAllUsersQuery } from '../../features/user/UserServices';
 import LoadingSpinner from '../Loader/LoadingSpinner'
 import getCurrentUser from '../../utils/CurrentUser';
+import { useNavigate } from 'react-router-dom';
 
 
 
-const Slider = ({navigateToProfile}) => {
+const Slider = ({ }) => {
     const { data, isLoading } = useGetAllUsersQuery()
     const userID = getCurrentUser(sessionStorage.getItem('user'))
-    const filterUser = data?.filter((user) => user._id !== userID).sort(() => Math.random() - 0.5)
+    const filterUser = data?.filter((user) => user._id !== userID)
+    const navigate = useNavigate()
+    const navigateToProfile = (id) => {
+        navigate(`/profile/${id}`);
+        window.scrollTo(0, 0)
+        document.body.scrollIntoView({ behavior: "smooth" });
+    };
 
-    
+
     return (
         isLoading ? <LoadingSpinner /> :
             <>
@@ -29,14 +36,15 @@ const Slider = ({navigateToProfile}) => {
                         className="w-full max-w-4xl h-[450px] "
                         spaceBetween={50}
                         loop={true}
+
                         slidesPerView={3}
-                        slideToClickedSlide={true}
+                        // slideToClickedSlide={true}
                         navigation={true} modules={[Navigation]}
                     >
                         {
                             filterUser?.map(userData => (
-                                <SwiperSlide key={userData._id}>
-                                    <div onClick={() => navigateToProfile(userData._id)} className="flex flex-col items-center rounded-2xl p-5 bg-white border shadow-md dark:bg-gray-800 dark:text-white dark:shadow-none w-fit h-fit">
+                                <SwiperSlide key={userData._id} onClick={() => navigateToProfile(userData._id)}>
+                                    <div className="flex flex-col items-center rounded-2xl p-5 bg-white border shadow-md dark:bg-gray-800 dark:text-white dark:shadow-none w-fit h-fit">
                                         <img className="h-32 w-32 rounded-full" src={userData?.userImage ? userData.userImage.url : Avatar} alt="user" />
                                         <div className="mt-10 flex flex-col items-center">
                                             <h4 className="text-xl font-bold text-navy-700 dark:text-white">
@@ -84,8 +92,8 @@ const Slider = ({navigateToProfile}) => {
                     >
                         {
                             filterUser?.map(userData => (
-                                <SwiperSlide key={userData._id}>
-                                    <div onClick={() => navigateToProfile(userData._id)} className="flex flex-col items-center rounded-[18px] h-full p-5 
+                                <SwiperSlide key={userData._id} onClick={() => navigateToProfile(userData._id)}>
+                                    <div className="flex flex-col items-center rounded-[18px] h-full p-5 
                                       shadow-md dark:bg-navy-800 bg-white border dark:bg-gray-800 dark:text-white w-full">
                                         <img className="h-32 w-32 rounded-full" src={userData?.userImage ? userData.userImage.url : Avatar} alt="user" />
                                         <div className="mt-10 flex flex-col items-center">

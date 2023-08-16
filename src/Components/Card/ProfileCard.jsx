@@ -45,7 +45,7 @@ const ProfileCard = ({ userInfo, totalPosts, userId }) => {
 
     return (
         <>
-            <div className="p-5 flex items-center justify-center w-full">
+            <div className="p-5 flex items-center justify-center w-full" id='profile'>
                 <div className="bg-white dark:bg-gray-800 border-gray-300 p-4 rounded-xl border w-full max-w-xl shadow-sm">
                     <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-between">
                         <div className="flex items-center justify-start flex-col md:flex-row">

@@ -3,17 +3,12 @@ import CreateNewPost from '../Components/Card/CreateNewPost'
 import PostLoader from '../Components/Loader/PostLoader'
 import { useGetAllPostsQuery } from '../features/post/PostServices'
 import Slider from '../Components/Slider/Slider'
-import { useNavigate } from 'react-router-dom'
 
 
 
 const HomePage = () => {
     const { data, isLoading } = useGetAllPostsQuery();
-    const navigate = useNavigate()
-    const navigateToProfile = (id) => {
-        navigate(`/profile/${id}`)
-        window.scroll(0, 0)
-    }
+ 
 
     return (
         <>
@@ -34,7 +29,7 @@ const HomePage = () => {
                         location={postData.location}
                     />)}
 
-                <Slider navigateToProfile={navigateToProfile}/>
+                <Slider />
             </div>
         </>
     )

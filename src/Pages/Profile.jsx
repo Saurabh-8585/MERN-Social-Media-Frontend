@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useGetProfileQuery } from '../features/user/UserServices';
 import PostLoader from '../Components/Loader/PostLoader';
 import ProfileLoader from '../Components/Loader/ProfileLoader'
@@ -19,17 +19,14 @@ const Profile = () => {
   const userId = id ? id : user
 
   const { data, isLoading: profileLoading } = useGetProfileQuery(userId)
-  const { data: allPostsData} = useGetAllPostsQuery();
+  const { data: allPostsData } = useGetAllPostsQuery();
   const { data: userPosts, isLoading: postLoading } = useGetSingleUserPostsQuery(userId)
 
   const userInfo = data?.userInfo;
-  const navigate = useNavigate()
-  const navigateToProfile = (id) => {
-    navigate(`/profile/${id}`)
-    window.scroll(0, 0)
-  }
+
   useEffect(() => {
-    window.scroll(0, 0)
+    window.scrollTo(0, 0)
+  
   }, [])
 
   const filteredLikedPost = allPostsData?.filter((posts) => posts?.likes?.find(likedUser => likedUser?._id === userId))
@@ -48,14 +45,25 @@ const Profile = () => {
               />
               :
               <>
-                <ProfileCard userInfo={userInfo} totalPosts={userPosts?.post?.length} userId={userId} />
+                <ProfileCard
+                  userInfo={userInfo}
+                  totalPosts={userPosts?.post?.length}
+                  userId={userId}
+                />
+
                 {((user === id) || (!id && user)) &&
                   <CreateNewPost />
                 }
+
                 <div id='post' className='flex justify-center items-center flex-col w-full'>
-                  <PostLikeTab userPosts={userPosts} filteredLikedPost={filteredLikedPost} filteredCommentedPost={filteredCommentedPost} />
+                  <PostLikeTab
+                    userPosts={userPosts}
+                    filteredLikedPost={filteredLikedPost}
+                    filteredCommentedPost={filteredCommentedPost}
+                  />
                 </div>
-                <Slider navigateToProfile={navigateToProfile} />
+
+                <Slider />
               </>
       }
     </div>

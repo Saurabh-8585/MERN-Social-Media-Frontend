@@ -6,7 +6,9 @@
     scroll-behavior: smooth;
 
 }
-
+html {
+    scroll-behavior: smooth;
+}
 @keyframes shake {
     0% {
         transform: translateX(0);

@@ -19,10 +19,10 @@ const Tabs = ({ children }) => {
                         onClick={e => handleClick(e, child.props.label)}
                     >
                         <span
-                            className={` text-md inline-block align-middle mr-1 ${activeTab === child.props.label ? 'text-purple-500' : ''}`}> {child.props.label}
+                            className={` text-md inline-block align-middle mr-1 ${activeTab === child.props.label && 'text-purple-500'}`}> {child.props.label}
                         </span>
-                        <span c
-                            lassName={` text-xl inline-block align-middle mr-1 ${activeTab === child.props.label ? 'text-purple-500' : ''}`}>{child.props.icon}
+                        <span
+                            className={` text-xl inline-block align-middle mr-1 ${activeTab === child.props.label && 'text-purple-500'}`}>{child.props.icon}
                         </span>
 
                     </button>
