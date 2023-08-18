@@ -1,20 +1,18 @@
 import { useForm } from 'react-hook-form';
-import { FcGoogle } from 'react-icons/fc';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { useUserSignInMutation } from '../features/auth/AuthServices';
+import { useGenerateGoogleUserMutation, useUserSignInMutation } from '../features/auth/AuthServices';
+import { useEffect } from 'react';
+import jwtDecode from 'jwt-decode';
 
 
-export const handleLoginWithGoogle = () => {
-    // window.open(`${process.env.REACT_APP_AUTH}/google/callback`, "_self")
-    window.open(`${process.env.REACT_APP_AUTH}/google/callback`, '_blank', 'noopener,noreferrer');
-    
-}
+
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
     const location = useLocation();
     const [signInUser] = useUserSignInMutation()
+    const [signInGoogle] = useGenerateGoogleUserMutation()
 
     const onSubmit = async (info) => {
         try {
@@ -25,7 +23,6 @@ const Login = () => {
                 const { from } = location.state || { from: { pathname: '/' } };
                 navigate(from);
             }
-
             else {
                 toast.error('Something went wrong, try again');
             }
@@ -41,12 +38,42 @@ const Login = () => {
             }
         }
     };
+    const handleCallBackResponse = async (response) => {
+        try {
+            const { email, picture, name } = jwtDecode(response.credential)
+            let data = { email, picture, name };
+            const userData = await signInGoogle(data)
+            if (userData.error) {
+                console.log(userData.error);
+                toast.error('Something went wrong, try again');
+            }
+            sessionStorage.setItem('user', userData.data.token)
+            const { from } = location.state || { from: { pathname: '/' } };
+            navigate(from);
+            toast.success(userData.data.message)
+        } catch (error) {
+            console.log(error);
+            toast.error('Something went wrong, try again');
+        }
+
+    }
 
 
+    useEffect(() => {
+        /*global google */
+        if (typeof google !== 'undefined' && google.accounts) {
+            google.accounts.id.initialize({
+                client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+                callback: handleCallBackResponse
+            });
+            google.accounts.id.renderButton(
+                document.getElementById('singleDiv'),
+                { theme: 'outlined', size: 'large' }
+            );
+            google.accounts.id.prompt();
+        }
 
-
-
-
+    }, []);
 
 
     return (
@@ -58,7 +85,6 @@ const Login = () => {
                 <form onSubmit={handleSubmit(onSubmit)}>
 
                     <div className="flex flex-col justify-center items-center mt-10 md:mt-4 space-y-6 md:space-y-8">
-
                         <div className="flex flex-col">
                             <input
                                 type="text"
@@ -117,12 +143,13 @@ const Login = () => {
                 <div className="flex flex-col justify-center items-center mt-5 md:mt-4 space-y-3 md:space-y-3">
                     <div className="text-gray-700 font-semibold dark:text-gray-300">or</div>
                     <div className="flex gap-4">
-                        <button className="px-6 md:px-[45px] lg:px-[70px] py-1.5 rounded-md text-gray-500 dark:text-gray-900 dark:bg-white dark:hover:bg-gray-200 border flex items-center gap-6 hover:shadow-md shadow-sm " onClick={handleLoginWithGoogle}>
+                        {/* <button className="px-6 md:px-[45px] lg:px-[70px] py-1.5 rounded-md text-gray-500 dark:text-gray-900 dark:bg-white dark:hover:bg-gray-200 border flex items-center gap-6 hover:shadow-md shadow-sm " onClick={handleLoginWithGoogle}>
                             <span>
                                 <FcGoogle name="logo-google" className="text-3xl" />
                             </span>
                             <span className="font-semibold">Sign in with Google</span>
-                        </button>
+                        </button> */}
+                        <div id="singleDiv"></div>
                     </div>
                 </div>
                 <div className="text-center my-6 flex flex-col">

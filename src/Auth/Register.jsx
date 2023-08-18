@@ -1,14 +1,15 @@
 import { useForm } from 'react-hook-form';
-import { FcGoogle } from 'react-icons/fc';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { useUserSignUpMutation } from '../features/auth/AuthServices';
-import { handleLoginWithGoogle } from './Login'
+import { useUserSignUpMutation, useGenerateGoogleUserMutation } from '../features/auth/AuthServices';
+import { useEffect } from 'react';
+import jwtDecode from 'jwt-decode';
 const Register = () => {
 
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors }, watch } = useForm();
   const [signUpUser] = useUserSignUpMutation()
+  const [signInGoogle] = useGenerateGoogleUserMutation()
   const onSubmit = async (info) => {
     try {
       const data = await signUpUser({ username: info.username, email: info.email, password: info.password }).unwrap();
@@ -29,6 +30,42 @@ const Register = () => {
       }
     }
   };
+
+  const handleCallBackResponse = async (response) => {
+    try {
+      const { email, picture, name } = jwtDecode(response.credential)
+      let data = { email, picture, name };
+      const userData = await signInGoogle(data)
+      if (userData.error) {
+        console.log(userData.error);
+        toast.error('Something went wrong, try again');
+      }
+      sessionStorage.setItem('user', userData.data.token)
+      toast.success(userData.data.message)
+      navigate('/')
+    } catch (error) {
+      console.log(error);
+      toast.error('Something went wrong, try again');
+    }
+
+  }
+
+
+  useEffect(() => {
+    /*global google */
+    if (typeof google !== 'undefined' && google.accounts) {
+      google.accounts.id.initialize({
+        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+        callback: handleCallBackResponse
+      });
+      google.accounts.id.renderButton(
+        document.getElementById('singleDiv'),
+        { theme: 'outlined', size: 'large' }
+      );
+      google.accounts.id.prompt();
+    }
+
+  }, []);
 
 
   const password = watch('password');
@@ -129,14 +166,15 @@ const Register = () => {
         <div className="flex flex-col justify-center items-center mt-5 md:mt-4 space-y-3 md:space-y-3">
           <div className="text-gray-700 font-semibold dark:text-gray-300"> or </div>
           <div className="flex gap-4">
-            <button className="px-4 md:px-[45px] lg:px-[70px]  py-1.5 rounded-md text-gray-500 dark:text-gray-900 dark:bg-white dark:hover:bg-gray-200 border flex items-center gap-6 hover:shadow-md shadow-sm"
+            {/* <button className="px-4 md:px-[45px] lg:px-[70px]  py-1.5 rounded-md text-gray-500 dark:text-gray-900 dark:bg-white dark:hover:bg-gray-200 border flex items-center gap-6 hover:shadow-md shadow-sm"
               onClick={() => handleLoginWithGoogle()}
             >
               <span>
                 <FcGoogle name="logo-google" className="text-3xl" />
               </span>
               <span className="font-semibold">Sign Up with Google</span>
-            </button>
+            </button> */}
+            <div id="singleDiv"></div>
           </div>
         </div>
 
