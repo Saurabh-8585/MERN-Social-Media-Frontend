@@ -16,15 +16,15 @@ const Sidebar = () => {
     const navigate = useNavigate();
     const handleSignOut = async () => {
         try {
-            const userLogout = await fetch(`${process.env.REACT_APP_AUTH}/logout`);
-            if (userLogout.status === 200) {
+            // const userLogout = await fetch(`${process.env.REACT_APP_AUTH}/logout`);
+            // if (userLogout.status === 200) {
                 sessionStorage.removeItem('user');
                 toast.success('Sign out successfully');
                 navigate('/signin');
-            } else {
-                toast.error('Something went wrong')
-                throw new Error('Sign out failed');
-            }
+            // } else {
+            //     toast.error('Something went wrong')
+            //     throw new Error('Sign out failed');
+            // }
         } catch (error) {
 
             toast.error('Sign out failed');
