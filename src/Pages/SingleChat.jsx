@@ -58,7 +58,7 @@ const SingleChat = () => {
     }, [arrivalMessage]);
 
     const setupSocket = () => {
-        socketRef.current = io(process.env.REACT_APP_SOCKET_URL);
+        socketRef.current = io(process.env.REACT_APP_BACKEND_URL);
         socketRef.current.on('getMessage', ({ senderId, text }) => {
             setArrivalMessage({
                 sender: senderId,
