@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useAddNewPasswordMutation } from '../features/auth/AuthServices';
 import { useNavigate, useParams } from 'react-router-dom';
+import { FiLock } from 'react-icons/fi';
 const NewPassword = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { id, token } = useParams()
@@ -27,17 +28,19 @@ const NewPassword = () => {
                 <form onSubmit={handleSubmit(onSubmit)}>
 
                     <div className="flex flex-col justify-center items-center mt-10 md:mt-4 space-y-6 md:space-y-8">
-                        <div className="flex flex-col">
+                        <div className="relative flex  flex-col rounded-xl  group md:w-fit w-3/4">
                             <input
                                 type="password"
                                 placeholder="Password"
                                 autoComplete="current-password"
                                 id="password"
+                                className={`outline-none bg-white dark:bg-gray-700 border rounded-xl flex flex-grow p-3  rounded-l-xl px-4 text-xs duration-300  md:w-72 lg:w-[340px] w-full ${errors.password ? 'border-red-500 animate-shake' : ''}`}
                                 {...register('password', {
                                     required: 'Password is required',
                                     pattern: {
                                         value: /^(?=.*[!@#$%^&*()_\-+=<>?])(?=.*\d).+$/,
                                         message: 'Password must contain at least 1 special symbol and 1 digit',
+
                                     },
                                     maxLength: {
                                         value: 16,
@@ -48,9 +51,11 @@ const NewPassword = () => {
                                         message: 'Password must be at least 6 characters long',
                                     }
                                 })}
-                                className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-purple-500 focus:placeholder:text-purple-600 text-black dark:text-white dark:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.password ? 'border-red-500 animate-shake' : ''}`}
                             />
-                            <span className="text-red-500 text-xs ml-2 mt-1 lg:w-80 w-60 break-keep">{errors.password && errors.password.message}</span>
+                            <div className="absolute top-0  right-2 duration-300 rounded-xl bg-transparent p-2 group-focus-within:-top-2 group-focus-within:-right-2 group-focus-within:bg-purple-500">
+                                <FiLock className={`text-primary group-focus-within:text-white ${errors.password && 'text-red-500'}`} />
+                            </div>
+                            <span className="text-red-500 ml-2 mt-1 text-xs">{errors.password && errors.password.message}</span>
                         </div>
                     </div>
                     <div className="text-center mt-7">

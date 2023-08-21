@@ -1,9 +1,9 @@
-import { RiStickyNoteFill } from 'react-icons/ri'
-import { AiFillLike, AiOutlineComment } from 'react-icons/ai';
+import { Tab, Tabs } from "../Tabs";
 import PostCard from "../../Card/PostCard";
 import PostNotFound from "../../Card/PostNotFound";
+import { RiStickyNoteFill } from 'react-icons/ri'
+import { AiFillLike, AiOutlineComment } from 'react-icons/ai';
 import { MdOutlinePostAdd } from "react-icons/md";
-import { Tab, Tabs } from "../Tabs";
 
 export default function PostLikeTab({ userPosts, filteredLikedPost, filteredCommentedPost }) {
 

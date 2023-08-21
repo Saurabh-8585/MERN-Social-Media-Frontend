@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FaTrash } from 'react-icons/fa'
 import { toast } from 'react-hot-toast';
@@ -25,7 +25,7 @@ const DeleteAccount = () => {
     return (
         <>
             <div className="flex flex-col items-center px-5 mt-4 gap-3">
-                <h2 className="text-xl font-bold mb-2 dark:text-white">Do you want to delete account?</h2>
+                <h2 className="md:text-xl text-lg font-bold mb-2 dark:text-white">Do you want to delete account?</h2>
                 <button
                     className="border border-red-500 text-red-500 hover:bg-red-600 hover:text-white flex justify-around gap-3 items-center font-bold py-2 px-4 rounded ease-linear transition-all duration-150"
                     onClick={() => setShowModal(true)}

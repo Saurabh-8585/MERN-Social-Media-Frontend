@@ -5,7 +5,6 @@ import ProfileLoader from '../Components/Loader/ProfileLoader'
 import ProfileCard from '../Components/Card/ProfileCard';
 import PostNotFound from '../Components/Card/PostNotFound';
 import { useGetAllPostsQuery, useGetSingleUserPostsQuery } from '../features/post/PostServices';
-import Slider from '../Components/Slider/Slider';
 import getCurrentUser from '../utils/CurrentUser';
 import CreateNewPost from '../Components/Card/CreateNewPost'
 import { useEffect } from 'react';
@@ -63,7 +62,7 @@ const Profile = () => {
                   />
                 </div>
 
-                <Slider />
+             
               </>
       }
     </div>

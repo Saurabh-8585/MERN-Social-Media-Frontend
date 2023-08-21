@@ -32,20 +32,7 @@ export const AuthApi = createApi({
             }),
         }),
 
-        googleAuth: builder.query({
-            query: () => ({
-                url: '/login/success',
-                method: 'GET',
-                credentials: "include",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Credentials": true,
-                },
-            })
-        }),
-
-        generateGoogleUser: builder.mutation({
+        googleAuth: builder.mutation({
             query: (data) => ({
                 url: 'new/google',
                 method: 'POST',
@@ -90,6 +77,5 @@ export const {
     useResetPasswordMutation,
     useForgotPasswordMutation,
     useAddNewPasswordMutation,
-    useGoogleAuthQuery,
-    useGenerateGoogleUserMutation
+    useGoogleAuthMutation
 } = AuthApi;

@@ -6,6 +6,7 @@ import { BsBookmarkPlus } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
 import useHandlePostActions from '../hooks/useHandlePostActions'
 import PostNotFound from '../Components/Card/PostNotFound'
+import Slider from '../Components/Slider/Slider'
 const Bookmark = () => {
   const { data, isLoading, } = useGetAllBookMarksQuery()
 
@@ -45,7 +46,7 @@ const Bookmark = () => {
         )}
 
 
-
+   <Slider />
 
     </div>
   )

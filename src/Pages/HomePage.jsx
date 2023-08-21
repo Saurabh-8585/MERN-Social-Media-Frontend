@@ -8,8 +8,8 @@ import Slider from '../Components/Slider/Slider'
 
 const HomePage = () => {
     const { data, isLoading } = useGetAllPostsQuery();
- 
-
+    let picture = 'https://lh3.googleusercontent.com/a/AAcHTtehBfE9I4H2PgFwx_GZKqUoaXYXpPYw-2EUOjnpFsNg=s96-c'
+    console.log();
     return (
         <>
             <div className="flex justify-center items-center flex-col">

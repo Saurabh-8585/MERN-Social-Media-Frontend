@@ -1,15 +1,16 @@
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { useUserSignUpMutation, useGenerateGoogleUserMutation } from '../features/auth/AuthServices';
+import { useUserSignUpMutation, useGoogleAuthMutation } from '../features/auth/AuthServices';
 import { useEffect } from 'react';
 import jwtDecode from 'jwt-decode';
+import { FiMail, FiUser, FiLock } from 'react-icons/fi';
 const Register = () => {
 
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors }, watch } = useForm();
   const [signUpUser] = useUserSignUpMutation()
-  const [signInGoogle] = useGenerateGoogleUserMutation()
+  const [signInGoogle] = useGoogleAuthMutation()
   const onSubmit = async (info) => {
     try {
       const data = await signUpUser({ username: info.username, email: info.email, password: info.password }).unwrap();
@@ -32,20 +33,20 @@ const Register = () => {
   };
 
   const handleCallBackResponse = async (response) => {
+    const googleSignInToast = toast.loading('Signing in ...');
     try {
       const { email, picture, name } = jwtDecode(response.credential)
       let data = { email, picture, name };
       const userData = await signInGoogle(data)
       if (userData.error) {
-        console.log(userData.error);
-        toast.error('Something went wrong, try again');
+        toast.error('Something went wrong, try again', { id: googleSignInToast });
       }
       sessionStorage.setItem('user', userData.data.token)
-      toast.success(userData.data.message)
+      toast.success(userData.data.message, { id: googleSignInToast })
       navigate('/')
     } catch (error) {
       console.log(error);
-      toast.error('Something went wrong, try again');
+      toast.error('Something went wrong, try again', { id: googleSignInToast });
     }
 
   }
@@ -77,7 +78,8 @@ const Register = () => {
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col justify-center items-center mt-10 md:mt-4 space-y-6 md:space-y-8">
-            <div className="flex flex-col">
+
+            <div className="relative flex  flex-col rounded-xl  group md:w-fit w-3/4">
               <input
                 type="text"
                 autoFocus
@@ -90,40 +92,50 @@ const Register = () => {
                     message: 'Username must be at least 6 characters long',
                   },
                 })}
-                className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-purple-500 focus:placeholder:text-purple-600 text-black dark:text-white dark:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.username ? 'border-red-500 animate-shake' : ''}`}
+                className={`outline-none bg-white dark:bg-gray-700 border rounded-xl flex flex-grow p-3  rounded-l-xl px-4 text-xs duration-300  md:w-72 lg:w-[340px] w-full ${errors.email ? 'border-red-500 animate-shake' : ''}`}
+             
               />
+              <div className="absolute top-0  right-2 duration-300 rounded-xl bg-transparent p-2 group-focus-within:-top-2 group-focus-within:-right-2 group-focus-within:bg-purple-500">
+                <FiUser className={`text-primary group-focus-within:text-white ${errors.username && 'text-red-500'}`} />
+              </div>
               <span className="text-red-500 text-xs ml-2 mt-1">
                 {errors.username && errors.username.message}
               </span>
             </div>
-            <div className="flex flex-col">
+            <div className="relative flex  flex-col rounded-xl  group md:w-fit w-3/4">
               <input
                 type="text"
                 placeholder="Email"
                 id="email"
+              
+                autoComplete="email"
+                className={`outline-none bg-white dark:bg-gray-700 border rounded-xl flex flex-grow p-3  rounded-l-xl px-4 text-xs duration-300  md:w-72 lg:w-[340px] w-full ${errors.email ? 'border-red-500 animate-shake' : ''}`}
                 {...register('email', {
                   required: 'Email is required',
                   pattern: {
-                    value: /^\S+@\S+$/i,
+                    value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                     message: 'Invalid email',
                   },
                 })}
-                autoComplete="email"
-                className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-purple-500 focus:placeholder:text-purple-600 text-black dark:text-white dark:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.email ? 'border-red-500 animate-shake' : ''}`}
               />
+              <div className="absolute top-0  right-2 duration-300 rounded-xl bg-transparent p-2 group-focus-within:-top-2 group-focus-within:-right-2 group-focus-within:bg-purple-500">
+                <FiMail className={`text-primary group-focus-within:text-white ${errors.email && 'text-red-500'}`} />
+              </div>
               <span className="text-red-500 ml-2 mt-1 text-xs">{errors.email && errors.email.message}</span>
             </div>
-            <div className="flex flex-col">
+            <div className="relative flex  flex-col rounded-xl  group md:w-fit w-3/4">
               <input
                 type="password"
                 placeholder="Password"
-                autoComplete='new-password'
+                autoComplete="current-password"
                 id="password"
+                className={`outline-none bg-white dark:bg-gray-700 border rounded-xl flex flex-grow p-3  rounded-l-xl px-4 text-xs duration-300  md:w-72 lg:w-[340px] w-full ${errors.password ? 'border-red-500 animate-shake' : ''}`}
                 {...register('password', {
                   required: 'Password is required',
                   pattern: {
                     value: /^(?=.*[!@#$%^&*()_\-+=<>?])(?=.*\d).+$/,
                     message: 'Password must contain at least 1 special symbol and 1 digit',
+
                   },
                   maxLength: {
                     value: 16,
@@ -134,13 +146,13 @@ const Register = () => {
                     message: 'Password must be at least 6 characters long',
                   }
                 })}
-                className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-purple-500 focus:placeholder:text-purple-600 text-black dark:text-white dark:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.password ? 'border-red-500 animate-shake' : ''}`}
               />
-              <span className="text-red-500 text-xs ml-2 mt-1 lg:w-80 w-60 break-keep">
-                {errors.password && errors.password.message}
-              </span>
+              <div className="absolute top-0  right-2 duration-300 rounded-xl bg-transparent p-2 group-focus-within:-top-2 group-focus-within:-right-2 group-focus-within:bg-purple-500">
+                <FiLock className={`text-primary group-focus-within:text-white ${errors.password && 'text-red-500'}`} />
+              </div>
+              <span className="text-red-500 ml-2 mt-1 text-xs">{errors.password && errors.password.message}</span>
             </div>
-            <div className="flex flex-col">
+            <div className="relative flex  flex-col rounded-xl  group md:w-fit w-3/4">
               <input
                 type="password"
                 placeholder="Confirm Password"
@@ -148,14 +160,20 @@ const Register = () => {
                 {...register('confirmPassword', {
                   validate: (value) => value === password || 'Passwords do not match',
                 })}
-                className={`bg-white dark:bg-gray-700 border rounded-lg px-7 md:px-5 py-2 focus:border focus:outline-purple-500 focus:placeholder:text-purple-600 text-black dark:text-white dark:placeholder:text-gray-300 placeholder:opacity-50 font-semibold md:w-72 lg:w-[340px] ${errors.confirmPassword ? 'border-red-500 animate-shake' : ''}`}
+                className={`outline-none bg-white dark:bg-gray-700 border rounded-xl flex flex-grow p-3  rounded-l-xl px-4 text-xs duration-300  md:w-72 lg:w-[340px] w-full ${errors.password ? 'border-red-500 animate-shake' : ''}`}
+          
               />
+              <div className="absolute top-0  right-2 duration-300 rounded-xl bg-transparent p-2 group-focus-within:-top-2 group-focus-within:-right-2 group-focus-within:bg-purple-500">
+                <FiLock className={`text-primary group-focus-within:text-white ${errors.confirmPassword && 'text-red-500'}`} />
+              </div>
               {errors.confirmPassword && (
                 <span className="text-red-500 text-xs ml-2 mt-1">
                   {errors.confirmPassword.message}
                 </span>
               )}
             </div>
+          
+          
           </div>
           <div className="text-center mt-7">
             <button className="uppercase px-[5.4rem] md:w-72 lg:w-[340px] py-2 rounded-md bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500  ease-linear transition-all duration-150font-medium shadow-md hover:shadow-lg" type='submit'>
@@ -166,14 +184,6 @@ const Register = () => {
         <div className="flex flex-col justify-center items-center mt-5 md:mt-4 space-y-3 md:space-y-3">
           <div className="text-gray-700 font-semibold dark:text-gray-300"> or </div>
           <div className="flex gap-4">
-            {/* <button className="px-4 md:px-[45px] lg:px-[70px]  py-1.5 rounded-md text-gray-500 dark:text-gray-900 dark:bg-white dark:hover:bg-gray-200 border flex items-center gap-6 hover:shadow-md shadow-sm"
-              onClick={() => handleLoginWithGoogle()}
-            >
-              <span>
-                <FcGoogle name="logo-google" className="text-3xl" />
-              </span>
-              <span className="font-semibold">Sign Up with Google</span>
-            </button> */}
             <div id="singleDiv"></div>
           </div>
         </div>

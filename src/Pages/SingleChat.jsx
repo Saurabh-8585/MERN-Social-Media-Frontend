@@ -33,9 +33,9 @@ const SingleChat = () => {
 
     useEffect(() => {
         setupSocket();
-        return () => {
-            socketRef.current.disconnect();
-        };
+        // return () => {
+        //     socketRef.current.disconnect();
+        // };
     }, []);
 
     useEffect(() => {
@@ -58,7 +58,9 @@ const SingleChat = () => {
     }, [arrivalMessage]);
 
     const setupSocket = () => {
-        socketRef.current = io(process.env.REACT_APP_BACKEND_URL);
+        // socketRef.current = io(process.env.REACT_APP_BACKEND_URL);   
+        // socketRef.current = io('ws://localhost:5000');
+        socketRef.current = io('ws://snapia-backend.vercel.app');
         socketRef.current.on('getMessage', ({ senderId, text }) => {
             setArrivalMessage({
                 sender: senderId,
@@ -111,16 +113,16 @@ const SingleChat = () => {
     //         window.scrollTo({ top: scrollPosition, behavior: 'smooth' });
     //     }
     // };
-      const scrollToBottom = () => {
+    const scrollToBottom = () => {
         if (scrollRef.current) {
             scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-            
+
         }
     };
 
     useEffect(() => {
         scrollToBottom();
-       
+
 
         const handleResize = () => {
             scrollToBottom();

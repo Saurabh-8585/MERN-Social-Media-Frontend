@@ -8,6 +8,7 @@ import AddComment from '../Components/Card/AddComment';
 import PostNotFound from '../Components/Card/PostNotFound';
 import { MdOutlinePostAdd } from 'react-icons/md';
 import Comments from '../Components/Card/Comments';
+import Slider from '../Components/Slider/Slider';
 const SinglePost = () => {
     const { id } = useParams()
     const { data, isLoading } = useGetSinglePostQuery(id)
@@ -108,7 +109,7 @@ const SinglePost = () => {
                     }
                 </>
             }
-
+            <Slider />
         </div >
     )
 }
