@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { MdOutlineImage, MdOutlineImageNotSupported } from 'react-icons/md';
 import { RiMapPin2Line, RiCloseLine } from 'react-icons/ri';
-import { FiSend } from 'react-icons/fi'; 
+import { FiSend } from 'react-icons/fi';
 import { useCreatePostMutation } from '../../features/post/PostServices';
 import Location from '../Modal/Location';
 import { RiGeminiFill } from "react-icons/ri";
@@ -176,6 +176,9 @@ const CreateNewPost = () => {
     };
 
     const handleGeneratePost = async (style, tone, length, shortIdea) => {
+        if (!user) {
+            return toast.error('Please login to add a post');
+        }
         const createAICaptionToast = toast.loading('Generating...');
 
         const reqData = {
