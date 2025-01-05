@@ -1,4 +1,4 @@
-import  { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { getTimeAgo } from '../../utils/DateFormatter'
 import { useEditPostMutation } from '../../features/post/PostServices'
@@ -72,14 +72,14 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
         }
     };
 
-    const handleSharePost = async (PostID) => { 
+    const handleSharePost = async (PostID) => {
         const data = {
             text: `${author.username} on snapia shared a post about ${content}`,
             title: 'snapia',
             url: `${process.env.REACT_APP_URL}/post/${PostID}`,
         };
         if (postImage?.url !== undefined) {
-           
+
             const imageBlob = await fetch(postImage.url).then((response) => response.blob());
             data.files = [new File([imageBlob], 'post_image.jpg', { type: 'image/jpeg' })];
         }
@@ -110,7 +110,7 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
     }, [likes, user]);
     return (
         <>
-            <div className="p-5 flex items-center justify-center w-[99%]">
+            <div className="p-2 flex items-center justify-center w-[99%]">
                 <div className="bg-white dark:bg-gray-800 border-gray-300  p-4 rounded-xl border w-full max-w-xl shadow-sm hover:shadow-md">
                     <div className="flex justify-between">
                         <Link to={`/profile/${author._id}`} className="flex items-center">
@@ -127,8 +127,8 @@ const PostCard = ({ author, content, createdAt, postId, bookmarkID, removeFromBo
                                 <span className="text-gray-500 dark:text-gray-400 font-normal block">
                                     @{author.username}
                                 </span>
-                                {location&&    <span className="text-gray-500 dark:text-gray-400 font-normal flex justify-center gap-1 items-center">
-                                    <MdOutlineLocationOn/>
+                                {location && <span className="text-gray-500 dark:text-gray-400 font-normal flex justify-center gap-1 items-center">
+                                    <MdOutlineLocationOn />
                                     {location}
                                 </span>}
                             </div>

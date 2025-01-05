@@ -222,7 +222,7 @@ const CreateNewPost = () => {
 
     return (
         <>
-            <div className="p-5 flex items-center justify-center w-full">
+            <div className="p-2 flex items-center justify-center w-full">
                 <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-800 p-4 rounded-xl w-full max-w-xl shadow-sm hover:shadow-md">
                     <form onSubmit={addPost}>
                         <div className="flex flex-col">
