@@ -8,13 +8,16 @@ import Location from '../Modal/Location';
 import { RiGeminiFill } from "react-icons/ri";
 import { lengths, styles, tones } from '../../Constants/AIPostWriter';
 
-const AIGenerationModal = ({ onClose, onGeneratePost }) => {
+const AIGenerationModal = ({ onClose, onGeneratePost, user }) => {
     const [selectedStyle, setSelectedStyle] = useState('');
     const [selectedTone, setSelectedTone] = useState('');
     const [selectedLength, setSelectedLength] = useState('');
     const [shortIdea, setShortIdea] = useState('');
 
     const handleGeneratePost = () => {
+        if (!user) {
+            return toast.error('Please login to add a post');
+        }
         if (!selectedStyle || !selectedTone || !selectedLength || !shortIdea) {
             toast.error('Please select all options and provide a short idea');
             return;
@@ -179,6 +182,7 @@ const CreateNewPost = () => {
         if (!user) {
             return toast.error('Please login to add a post');
         }
+
         const createAICaptionToast = toast.loading('Generating...');
 
         const reqData = {
@@ -317,6 +321,7 @@ const CreateNewPost = () => {
                 <AIGenerationModal
                     onClose={() => setShowAIModal(false)}
                     onGeneratePost={handleGeneratePost}
+                    user={user}
                 />
             )}
 
