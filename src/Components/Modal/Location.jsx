@@ -1,13 +1,13 @@
-import {  useState } from 'react'
+import { useState } from 'react'
 import { RiMapPin2Line, RiCloseLine } from 'react-icons/ri';
 import toast from 'react-hot-toast';
 
 const Location = ({ onClose, setPostLocation }) => {
     const [isOpen, setIsOpen] = useState(true);
-    const [text,setText]=useState('')
+    const [text, setText] = useState('')
     const closeModal = () => {
         setIsOpen(false);
-       
+
         onClose();
     };
 
@@ -36,13 +36,13 @@ const Location = ({ onClose, setPostLocation }) => {
         );
     };
 
-  
+
     return (
         <> {isOpen &&
             <div
                 className={
                     isOpen
-                        ? 'fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center  bg-black bg-opacity-50 z-20'
+                        ? 'fixed inset-0 top-0 left-0 right-0 bottom-0 flex items-center justify-center  bg-black bg-opacity-10 z-20000'
                         : 'hidden'
                 }>
                 <div className="relative w-[17rem] md:w-[25rem] p-6 bg-white shadow-lg rounded-xl mb-20 dark:bg-gray-800">
@@ -63,7 +63,7 @@ const Location = ({ onClose, setPostLocation }) => {
 
                                 placeholder="location"
                                 value={text}
-                                onChange={(e)=>setText(e.target.value)}
+                                onChange={(e) => setText(e.target.value)}
                             />
                             <div className="absolute top-0 right-0 duration-300 rounded-xl bg-transparent p-2 group-focus-within:-top-2 group-focus-within:-right-2 group-focus-within:bg-purple-500">
                                 <RiMapPin2Line className="text-primary group-focus-within:text-white text-purple-500 text-lg" />
@@ -81,7 +81,7 @@ const Location = ({ onClose, setPostLocation }) => {
                             </button>}
                             <button
                                 className='w-full bg-purple-500 text-white hover:bg-white hover:text-purple-500 border border-purple-500 mt-5 font-bold py-2 px-5  rounded-full  shadow-md  ease-linear transition-all duration-150'
-                                onClick={()=>{
+                                onClick={() => {
                                     setPostLocation(text)
                                     closeModal()
                                 }}
